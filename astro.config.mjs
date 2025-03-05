@@ -10,6 +10,6 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()]
   },
-
+  site: 'https://179.jp',
   integrations: [mdx()]
 });
