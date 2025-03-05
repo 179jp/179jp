@@ -5085,6 +5085,12 @@
 .-fs_xl {
   font-size: 1.875rem;
 }
+.-fs_xxl {
+  font-size: 3em;
+}
+.-fs_huge {
+  font-size: 10em;
+}
 
 .-fcs {
   container-type: inline-size;
