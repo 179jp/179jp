@@ -1,3 +1,55 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --accent: #2337ff;
+  --accent-dark: #000d8a;
+
+  --black: 51, 50, 49;
+  --black-darker: 31, 30, 29;
+  --gray: 145, 144, 143;
+  --gray-light: 225, 220, 217;
+  --gray-dark: 34, 41, 57;
+  --gray-gradient: rgba(var(--gray-light), 50%), #fff;
+
+  --box-shadow: 0 2px 6px rgba(var(--gray), 25%),
+    0 8px 24px rgba(var(--gray), 33%), 0 16px 32px rgba(var(--gray), 33%);
+
+  --background-color: #eae7e5;
+
+  /*
+	--base-font: "fot-tsukumin-pr6n", sans-serif;
+  --base-font-weight: 300;
+  --base-font-style: normal;
+	*/
+  --base-font: "fot-tsukumin-pr6n", sans-serif;
+  --base-font-weight: 400;
+  --base-font-style: normal;
+
+  --device-font: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN",
+    "Hiragino Sans", Meiryo, sans-serif;
+}
+@media all and (width < 900px) {
+  :root {
+  }
+}
+
+body {
+  font-family: var(--base-font);
+  font-weight: var(--base-font-weight);
+  font-variation-settings: "wght" 500;
+  font-style: var(--base-font-style);
+
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  background: var(--background-color);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  color: rgb(var(--black));
+  font-size: 16px;
+  line-height: 1.6;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
