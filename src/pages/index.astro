@@ -1,16 +1,22 @@
 ---
-
+import BaseHead from "../components/BaseHead.astro";
+import VT from "../components/VerticalUprightText.astro";
 ---
 
 <html lang="ja">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>179</title>
-	</head>
-	<body>
-		<h1>179</h1>
-	</body>
+  <head>
+    <BaseHead title="179" description="179.jp is web design & engineer." />
+  </head>
+  <body>
+    <main class="-g">
+      <header class:list={["-g_head"]}>
+        <h1 class:list={["-fs_xs"]}>179.jp</h1>
+      </header>
+      <div class:list={["-g_u"]}>
+        <div class:list={["-c_full", "-h_10", "-vt"]}>
+          <p class:list={["-fs_huge"]}>一七九</p>
+        </div>
+      </div>
+    </main>
+  </body>
 </html>
