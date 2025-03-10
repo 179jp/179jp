@@ -85,90 +85,188 @@
     flex-direction: column;
     align-items: center;
     padding: 2rem;
+    animation: fadeIn 1s ease-out;
   }
   
   .certificate-content {
     background-color: #fff;
-    border: 4px double #4dabf7;
-    border-radius: 10px;
-    padding: 2rem;
+    background-image: linear-gradient(45deg, #f8f9fa 25%, transparent 25%, transparent 75%, #f8f9fa 75%, #f8f9fa), 
+                      linear-gradient(45deg, #f8f9fa 25%, transparent 25%, transparent 75%, #f8f9fa 75%, #f8f9fa);
+    background-size: 60px 60px;
+    background-position: 0 0, 30px 30px;
+    border: 8px double #4dabf7;
+    border-radius: 16px;
+    padding: 3rem;
     width: 100%;
-    max-width: 500px;
+    max-width: 600px;
     position: relative;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
   }
   
   .certificate-title {
     text-align: center;
-    font-size: 2rem;
+    font-size: 2.5rem;
     color: #1971c2;
-    margin-bottom: 2rem;
-    border-bottom: 2px solid #4dabf7;
-    padding-bottom: 0.5rem;
+    margin-bottom: 2.5rem;
+    border-bottom: 3px solid #4dabf7;
+    padding-bottom: 0.75rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
   }
   
   .certificate-details {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 2rem;
   }
   
   .certificate-date {
     text-align: right;
     font-weight: bold;
+    font-size: 1.2rem;
   }
   
   .certificate-info {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.75rem;
+    font-size: 1.2rem;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   }
   
   .certificate-message {
     text-align: center;
-    margin-top: 1.5rem;
+    margin-top: 2rem;
     font-weight: bold;
+    font-size: 1.3rem;
   }
   
   .certificate-grade {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     color: #1971c2;
-    margin-top: 0.5rem;
+    margin-top: 0.75rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 243, 148, 0.3);
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    border-radius: 50px;
   }
   
   .certificate-stamp {
     position: absolute;
-    bottom: 2rem;
-    right: 2rem;
+    bottom: 3rem;
+    right: 3rem;
   }
   
   .stamp-circle {
-    width: 4rem;
-    height: 4rem;
-    border: 2px solid #e03131;
+    width: 5rem;
+    height: 5rem;
+    border: 3px solid #e03131;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #e03131;
     font-weight: bold;
+    font-size: 1.2rem;
     transform: rotate(-15deg);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.7);
   }
   
   .new-game-button {
-    margin-top: 2rem;
-    padding: 0.75rem 1.5rem;
+    margin-top: 3rem;
+    padding: 1rem 2rem;
     background-color: #4dabf7;
     color: white;
     border: none;
-    border-radius: 8px;
-    font-size: 1rem;
+    border-radius: 50px;
+    font-size: 1.2rem;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
   
   .new-game-button:hover {
     background-color: #1971c2;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .new-game-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .certificate-content {
+      padding: 2rem;
+      border-width: 6px;
+    }
+    
+    .certificate-title {
+      font-size: 2rem;
+    }
+    
+    .certificate-info {
+      font-size: 1.1rem;
+    }
+    
+    .certificate-grade {
+      font-size: 1.3rem;
+    }
+    
+    .stamp-circle {
+      width: 4rem;
+      height: 4rem;
+      font-size: 1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .certificate-content {
+      padding: 1.5rem;
+      border-width: 4px;
+    }
+    
+    .certificate-title {
+      font-size: 1.8rem;
+    }
+    
+    .certificate-info {
+      font-size: 1rem;
+      padding: 1rem;
+    }
+    
+    .certificate-grade {
+      font-size: 1.2rem;
+    }
+    
+    .stamp-circle {
+      width: 3.5rem;
+      height: 3.5rem;
+      font-size: 0.9rem;
+      right: 1.5rem;
+      bottom: 1.5rem;
+    }
+    
+    .new-game-button {
+      font-size: 1rem;
+      padding: 0.75rem 1.5rem;
+    }
   }
 </style>
