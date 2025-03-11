@@ -4,6 +4,15 @@
   export let totalProblems;
   export let correctAnswers;
   export let onNewGame;
+  export let problemHistory = []; // 問題履歴を追加
+  
+  // 操作の表示名
+  const OPERATION_NAMES = {
+    'addition': '足し算',
+    'subtraction': '引き算',
+    'multiplication': '掛け算',
+    'division': '割り算'
+  };
   
   // 日付フォーマット関数
   function formatDate(date) {
@@ -33,12 +42,23 @@
     return Math.round((correctAnswers / totalProblems) * 100);
   }
   
+  // 問題履歴のフォーマット
+  function formatProblemHistory() {
+    if (!problemHistory || problemHistory.length === 0) return '';
+    
+    return problemHistory.map(item => {
+      const opName = OPERATION_NAMES[item.operation];
+      return `${opName} レベル${item.level} ${item.count}問`;
+    }).join('、');
+  }
+  
   // 日付、時間、学習時間
   const date = formatDate(endTime);
   const startTimeStr = formatTime(startTime);
   const endTimeStr = formatTime(endTime);
   const studyTime = calculateStudyTime();
   const accuracy = calculateAccuracy();
+  const historyText = formatProblemHistory();
 </script>
 
 <div class="flex flex-col items-center p-8 animate-[fadeIn_1s_ease-out]">
@@ -64,6 +84,11 @@
           
           <div class="text-amber-900 font-bold text-lg">正解数:</div>
           <div class="text-amber-900 text-2xl font-serif font-bold">{correctAnswers}問（{accuracy}%）</div>
+          
+          {#if problemHistory && problemHistory.length > 0}
+          <div class="text-amber-900 font-bold text-lg">学習内容:</div>
+          <div class="text-amber-900 text-xl font-serif">{historyText}</div>
+          {/if}
         </div>
       </div>
       

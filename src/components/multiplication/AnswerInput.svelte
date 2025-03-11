@@ -13,8 +13,8 @@
   
   // 数字キーを押した時の処理
   function handleNumKey(key) {
-    // 数字の追加（最大2桁まで）
-    if (userInput.length < 2) {
+    // 数字の追加（最大4桁まで）
+    if (userInput.length < 4) {
       userInput += key;
     }
     
