@@ -41,231 +41,58 @@
   const accuracy = calculateAccuracy();
 </script>
 
-<div class="certificate">
-  <div class="certificate-content">
-    <h1 class="certificate-title">修了証書</h1>
-    
-    <div class="certificate-details">
-      <p class="certificate-date">{date}</p>
+<style>
+  .writing-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+  }
+</style>
+
+<div class="flex flex-col items-center p-8 animate-[fadeIn_1s_ease-out]">
+  <div class="bg-gradient-to-b from-amber-50 to-amber-100 border-8 border-double border-amber-400 rounded-lg p-8 md:p-6 sm:p-4 w-full max-w-md h-[36rem] relative shadow-2xl flex flex-col items-center">
+    <!-- 縦書きの証明書 -->
+    <div class="writing-vertical h-full w-full flex flex-col items-center">
+      <!-- タイトル -->
+      <h1 class="text-4xl md:text-3xl sm:text-2xl text-amber-800 font-serif tracking-wider mb-8 border-b-2 border-amber-400 pb-2">修了証書</h1>
       
-      <div class="certificate-info">
-        <p>学習時間: {startTimeStr} 〜 {endTimeStr} （{studyTime}）</p>
-        <p>問題数: {totalProblems}問</p>
-        <p>正解数: {correctAnswers}問（{accuracy}%）</p>
-      </div>
+      <!-- 日付 -->
+      <p class="font-serif text-lg text-right self-start mt-4">{date}</p>
       
-      <div class="certificate-message">
-        <p>よくがんばりました！</p>
-        {#if accuracy >= 90}
-          <p class="certificate-grade">評価: とてもよくできました！</p>
-        {:else if accuracy >= 70}
-          <p class="certificate-grade">評価: よくできました！</p>
-        {:else}
-          <p class="certificate-grade">評価: がんばりました！</p>
-        {/if}
+      <!-- 内容 -->
+      <div class="flex flex-col items-center mt-8 space-y-8 font-serif">
+        <div class="writing-vertical text-xl md:text-lg sm:text-base space-y-6">
+          <p class="text-amber-900">学習時間: {startTimeStr} 〜 {endTimeStr}</p>
+          <p class="text-amber-900">学習時間: {studyTime}</p>
+          <p class="text-amber-900">問題数: {totalProblems}問</p>
+          <p class="text-amber-900">正解数: {correctAnswers}問（{accuracy}%）</p>
+        </div>
+        
+        <div class="writing-vertical text-center mt-8 space-y-4">
+          <p class="text-xl md:text-lg sm:text-base font-bold text-amber-900">よくがんばりました！</p>
+          {#if accuracy >= 90}
+            <p class="text-2xl md:text-xl sm:text-lg text-amber-800 mt-3 bg-amber-100/50 py-2 px-4">評価: とてもよくできました！</p>
+          {:else if accuracy >= 70}
+            <p class="text-2xl md:text-xl sm:text-lg text-amber-800 mt-3 bg-amber-100/50 py-2 px-4">評価: よくできました！</p>
+          {:else}
+            <p class="text-2xl md:text-xl sm:text-lg text-amber-800 mt-3 bg-amber-100/50 py-2 px-4">評価: がんばりました！</p>
+          {/if}
+        </div>
       </div>
     </div>
     
-    <div class="certificate-stamp">
-      <div class="stamp-circle">
-        <span>認定</span>
+    <!-- 認定印 -->
+    <div class="absolute bottom-8 right-8 md:bottom-6 md:right-6 sm:bottom-4 sm:right-4">
+      <div class="w-20 h-20 md:w-16 md:h-16 sm:w-14 sm:h-14 border-3 border-red-600 rounded-full flex justify-center items-center text-red-600 font-bold text-lg md:text-base sm:text-sm transform -rotate-12 shadow bg-white/70">
+        <span class="font-serif">認定</span>
       </div>
     </div>
   </div>
   
-  <button class="new-game-button" on:click={onNewGame}>
+  <!-- 再挑戦ボタン -->
+  <button 
+    class="mt-12 py-4 px-8 md:py-3 md:px-6 sm:py-2 sm:px-4 bg-amber-500 text-white border-none rounded-full text-xl md:text-lg sm:text-base font-bold cursor-pointer transition-all duration-300 shadow-md hover:bg-amber-600 hover:-translate-y-1 hover:shadow-lg active:translate-y-0.5 active:shadow" 
+    on:click={onNewGame}
+  >
     もう一度挑戦する
   </button>
 </div>
-
-<style>
-  .certificate {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem;
-    animation: fadeIn 1s ease-out;
-  }
-  
-  .certificate-content {
-    background-color: #fff;
-    background-image: linear-gradient(45deg, #f8f9fa 25%, transparent 25%, transparent 75%, #f8f9fa 75%, #f8f9fa), 
-                      linear-gradient(45deg, #f8f9fa 25%, transparent 25%, transparent 75%, #f8f9fa 75%, #f8f9fa);
-    background-size: 60px 60px;
-    background-position: 0 0, 30px 30px;
-    border: 8px double #4dabf7;
-    border-radius: 16px;
-    padding: 3rem;
-    width: 100%;
-    max-width: 600px;
-    position: relative;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-  }
-  
-  .certificate-title {
-    text-align: center;
-    font-size: 2.5rem;
-    color: #1971c2;
-    margin-bottom: 2.5rem;
-    border-bottom: 3px solid #4dabf7;
-    padding-bottom: 0.75rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .certificate-details {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-  
-  .certificate-date {
-    text-align: right;
-    font-weight: bold;
-    font-size: 1.2rem;
-  }
-  
-  .certificate-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    font-size: 1.2rem;
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-  }
-  
-  .certificate-message {
-    text-align: center;
-    margin-top: 2rem;
-    font-weight: bold;
-    font-size: 1.3rem;
-  }
-  
-  .certificate-grade {
-    font-size: 1.5rem;
-    color: #1971c2;
-    margin-top: 0.75rem;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-    background-color: rgba(255, 243, 148, 0.3);
-    display: inline-block;
-    padding: 0.5rem 1.5rem;
-    border-radius: 50px;
-  }
-  
-  .certificate-stamp {
-    position: absolute;
-    bottom: 3rem;
-    right: 3rem;
-  }
-  
-  .stamp-circle {
-    width: 5rem;
-    height: 5rem;
-    border: 3px solid #e03131;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #e03131;
-    font-weight: bold;
-    font-size: 1.2rem;
-    transform: rotate(-15deg);
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-    background-color: rgba(255, 255, 255, 0.7);
-  }
-  
-  .new-game-button {
-    margin-top: 3rem;
-    padding: 1rem 2rem;
-    background-color: #4dabf7;
-    color: white;
-    border: none;
-    border-radius: 50px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  .new-game-button:hover {
-    background-color: #1971c2;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-  }
-  
-  .new-game-button:active {
-    transform: translateY(1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .certificate-content {
-      padding: 2rem;
-      border-width: 6px;
-    }
-    
-    .certificate-title {
-      font-size: 2rem;
-    }
-    
-    .certificate-info {
-      font-size: 1.1rem;
-    }
-    
-    .certificate-grade {
-      font-size: 1.3rem;
-    }
-    
-    .stamp-circle {
-      width: 4rem;
-      height: 4rem;
-      font-size: 1rem;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .certificate-content {
-      padding: 1.5rem;
-      border-width: 4px;
-    }
-    
-    .certificate-title {
-      font-size: 1.8rem;
-    }
-    
-    .certificate-info {
-      font-size: 1rem;
-      padding: 1rem;
-    }
-    
-    .certificate-grade {
-      font-size: 1.2rem;
-    }
-    
-    .stamp-circle {
-      width: 3.5rem;
-      height: 3.5rem;
-      font-size: 0.9rem;
-      right: 1.5rem;
-      bottom: 1.5rem;
-    }
-    
-    .new-game-button {
-      font-size: 1rem;
-      padding: 0.75rem 1.5rem;
-    }
-  }
-</style>
