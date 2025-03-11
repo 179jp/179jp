@@ -23,7 +23,7 @@
       {num2}
     </span>
     <span class="text-gray-700">=</span>
-    <span class="inline-block min-w-20 md:min-w-16 sm:min-w-14 text-center border-2 border-gray-300 rounded-lg p-3 bg-white shadow-inner">
+    <span class="inline-block w-32 md:w-28 sm:w-24 text-center border-2 border-gray-300 rounded-lg p-3 bg-white shadow-inner">
       {userAnswer || '　'}
     </span>
   </div>
