@@ -1,0 +1,153 @@
+/* Multiplication App Styles */
+:root {
+  --primary-color: #4dabf7;
+  --primary-dark: #1971c2;
+  --secondary-color: #ffd43b;
+  --success-color: #40c057;
+  --error-color: #fa5252;
+  --text-color: #343a40;
+  --light-bg: #f8f9fa;
+  --border-color: #dee2e6;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --border-radius: 12px;
+}
+
+/* Common Styles */
+.multiplication-app {
+  font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', sans-serif;
+  color: var(--text-color);
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Start Screen */
+.start-screen {
+  text-align: center;
+  padding: 2rem;
+}
+
+.start-screen h1 {
+  font-size: 2.5rem;
+  color: var(--primary-dark);
+  margin-bottom: 1rem;
+}
+
+.start-screen p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.start-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 1rem 2rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+  box-shadow: var(--shadow);
+}
+
+.start-button:hover {
+  background-color: var(--primary-dark);
+  transform: scale(1.05);
+}
+
+/* Problem Screen */
+.problem-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+}
+
+/* Result Screen */
+.result-screen {
+  text-align: center;
+  padding: 2rem;
+}
+
+.result-screen h2 {
+  font-size: 2rem;
+  color: var(--primary-dark);
+  margin-bottom: 1rem;
+}
+
+.result-screen p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.result-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.more-button, .finish-button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+  box-shadow: var(--shadow);
+}
+
+.more-button {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+}
+
+.more-button:hover {
+  background-color: #fcc419;
+  transform: scale(1.05);
+}
+
+.finish-button {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.finish-button:hover {
+  background-color: var(--primary-dark);
+  transform: scale(1.05);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .multiplication-app {
+    padding: 1rem;
+  }
+  
+  .start-screen h1 {
+    font-size: 2rem;
+  }
+  
+  .start-button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.2rem;
+  }
+  
+  .result-screen h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .start-screen h1 {
+    font-size: 1.8rem;
+  }
+  
+  .result-buttons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
