@@ -51,8 +51,7 @@
       <div class="certificate-info">
         <p>学習時間: {startTimeStr} 〜 {endTimeStr} （{studyTime}）</p>
         <p>問題数: {totalProblems}問</p>
-        <p>正解数: {correctAnswers}問</p>
-        <p>正答率: {accuracy}%</p>
+        <p>正解数: {correctAnswers}問（{accuracy}%）</p>
       </div>
       
       <div class="certificate-message">
