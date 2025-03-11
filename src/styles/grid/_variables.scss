@@ -16,12 +16,4 @@ $MOBILE_WIDTH: 768px;
         var(--grid-gap) * (var(--grid-num) - 1)
         )
     ) / var(--grid-num));
-  
-
-  // Reset
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
 }
