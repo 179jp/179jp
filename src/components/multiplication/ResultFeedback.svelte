@@ -3,18 +3,18 @@
   export let correctAnswer;
 </script>
 
-<div class={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-10 md:p-8 sm:p-6 rounded-3xl shadow-2xl z-50 border-4 md:border-3 border-white ${isCorrect ? 'bg-green-600/95' : 'bg-red-600/95'} text-white`}>
+<div class={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-12 md:p-10 sm:p-8 rounded-3xl shadow-2xl z-50 border-4 md:border-3 border-white ${isCorrect ? 'bg-green-600/95' : 'bg-red-600/95'} text-white`}>
   {#if isCorrect}
-    <div class="flex flex-col items-center gap-4">
-      <div class="text-6xl md:text-5xl sm:text-4xl font-bold h-20 w-20 md:h-16 md:w-16 sm:h-14 sm:w-14 flex items-center justify-center bg-white/30 rounded-full animate-pulse">✓</div>
-      <div class="text-4xl md:text-3xl sm:text-2xl font-bold text-center">正解！</div>
+    <div class="flex flex-col items-center gap-6">
+      <div class="text-7xl md:text-6xl sm:text-5xl font-bold h-24 w-24 md:h-20 md:w-20 sm:h-16 sm:w-16 flex items-center justify-center bg-white/30 rounded-full animate-pulse shadow-inner">✓</div>
+      <div class="text-5xl md:text-4xl sm:text-3xl font-bold text-center">正解！</div>
     </div>
   {:else}
-    <div class="flex flex-col items-center gap-4">
-      <div class="text-6xl md:text-5xl sm:text-4xl font-bold h-20 w-20 md:h-16 md:w-16 sm:h-14 sm:w-14 flex items-center justify-center bg-white/30 rounded-full animate-pulse">✗</div>
-      <div class="flex flex-col text-4xl md:text-3xl sm:text-2xl font-bold text-center">
+    <div class="flex flex-col items-center gap-6">
+      <div class="text-7xl md:text-6xl sm:text-5xl font-bold h-24 w-24 md:h-20 md:w-20 sm:h-16 sm:w-16 flex items-center justify-center bg-white/30 rounded-full animate-pulse shadow-inner">✗</div>
+      <div class="flex flex-col text-5xl md:text-4xl sm:text-3xl font-bold text-center">
         <span>不正解</span>
-        <span class="text-xl md:text-lg sm:text-base mt-3 bg-white/20 py-2 px-4 rounded-2xl">正解は {correctAnswer} です</span>
+        <span class="text-2xl md:text-xl sm:text-lg mt-4 bg-white/20 py-3 px-6 rounded-2xl shadow-inner">正解は {correctAnswer} です</span>
       </div>
     </div>
   {/if}

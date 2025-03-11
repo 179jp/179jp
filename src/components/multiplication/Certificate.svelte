@@ -41,48 +41,47 @@
   const accuracy = calculateAccuracy();
 </script>
 
-<style>
-  .writing-vertical {
-    writing-mode: vertical-rl;
-    text-orientation: upright;
-  }
-</style>
-
 <div class="flex flex-col items-center p-8 animate-[fadeIn_1s_ease-out]">
-  <div class="bg-gradient-to-b from-amber-50 to-amber-100 border-8 border-double border-amber-400 rounded-lg p-8 md:p-6 sm:p-4 w-full max-w-md h-[36rem] relative shadow-2xl flex flex-col items-center">
-    <!-- 縦書きの証明書 -->
-    <div class="writing-vertical h-full w-full flex flex-col items-center">
-      <!-- タイトル -->
-      <h1 class="text-4xl md:text-3xl sm:text-2xl text-amber-800 font-serif tracking-wider mb-8 border-b-2 border-amber-400 pb-2">修了証書</h1>
-      
-      <!-- 日付 -->
-      <p class="font-serif text-lg text-right self-start mt-4">{date}</p>
-      
-      <!-- 内容 -->
-      <div class="flex flex-col items-center mt-8 space-y-8 font-serif">
-        <div class="writing-vertical text-xl md:text-lg sm:text-base space-y-6">
-          <p class="text-amber-900">学習時間: {startTimeStr} 〜 {endTimeStr}</p>
-          <p class="text-amber-900">学習時間: {studyTime}</p>
-          <p class="text-amber-900">問題数: {totalProblems}問</p>
-          <p class="text-amber-900">正解数: {correctAnswers}問（{accuracy}%）</p>
+  <div class="bg-gradient-to-b from-amber-50 to-amber-100 border-8 border-double border-amber-400 rounded-xl p-10 md:p-8 sm:p-6 w-full max-w-2xl relative shadow-2xl">
+    <!-- タイトル -->
+    <h1 class="text-5xl md:text-4xl sm:text-3xl text-amber-800 font-serif tracking-wider text-center mb-8 pb-4 border-b-4 border-amber-400">修了証書</h1>
+    
+    <!-- 日付 -->
+    <p class="font-serif text-xl text-right mb-8">{date}</p>
+    
+    <!-- 内容 -->
+    <div class="grid grid-cols-1 gap-6 mb-8">
+      <div class="bg-amber-50/70 rounded-lg p-6 shadow-inner">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="text-amber-900 font-bold text-lg">学習時間:</div>
+          <div class="text-amber-900 text-xl font-serif">{startTimeStr} 〜 {endTimeStr}</div>
+          
+          <div class="text-amber-900 font-bold text-lg">学習時間:</div>
+          <div class="text-amber-900 text-xl font-serif">{studyTime}</div>
+          
+          <div class="text-amber-900 font-bold text-lg">問題数:</div>
+          <div class="text-amber-900 text-2xl font-serif font-bold">{totalProblems}問</div>
+          
+          <div class="text-amber-900 font-bold text-lg">正解数:</div>
+          <div class="text-amber-900 text-2xl font-serif font-bold">{correctAnswers}問（{accuracy}%）</div>
         </div>
-        
-        <div class="writing-vertical text-center mt-8 space-y-4">
-          <p class="text-xl md:text-lg sm:text-base font-bold text-amber-900">よくがんばりました！</p>
-          {#if accuracy >= 90}
-            <p class="text-2xl md:text-xl sm:text-lg text-amber-800 mt-3 bg-amber-100/50 py-2 px-4">評価: とてもよくできました！</p>
-          {:else if accuracy >= 70}
-            <p class="text-2xl md:text-xl sm:text-lg text-amber-800 mt-3 bg-amber-100/50 py-2 px-4">評価: よくできました！</p>
-          {:else}
-            <p class="text-2xl md:text-xl sm:text-lg text-amber-800 mt-3 bg-amber-100/50 py-2 px-4">評価: がんばりました！</p>
-          {/if}
-        </div>
+      </div>
+      
+      <div class="text-center mt-4">
+        <p class="text-2xl font-bold text-amber-900 mb-4">よくがんばりました！</p>
+        {#if accuracy >= 90}
+          <p class="text-3xl text-amber-800 mt-3 bg-amber-100/80 py-3 px-6 rounded-lg inline-block shadow-md font-serif">評価: とてもよくできました！</p>
+        {:else if accuracy >= 70}
+          <p class="text-3xl text-amber-800 mt-3 bg-amber-100/80 py-3 px-6 rounded-lg inline-block shadow-md font-serif">評価: よくできました！</p>
+        {:else}
+          <p class="text-3xl text-amber-800 mt-3 bg-amber-100/80 py-3 px-6 rounded-lg inline-block shadow-md font-serif">評価: がんばりました！</p>
+        {/if}
       </div>
     </div>
     
     <!-- 認定印 -->
     <div class="absolute bottom-8 right-8 md:bottom-6 md:right-6 sm:bottom-4 sm:right-4">
-      <div class="w-20 h-20 md:w-16 md:h-16 sm:w-14 sm:h-14 border-3 border-red-600 rounded-full flex justify-center items-center text-red-600 font-bold text-lg md:text-base sm:text-sm transform -rotate-12 shadow bg-white/70">
+      <div class="w-24 h-24 md:w-20 md:h-20 sm:w-16 sm:h-16 border-4 border-red-600 rounded-full flex justify-center items-center text-red-600 font-bold text-xl md:text-lg sm:text-base transform -rotate-12 shadow-lg bg-white/80">
         <span class="font-serif">認定</span>
       </div>
     </div>
