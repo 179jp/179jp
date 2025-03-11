@@ -1,97 +1,67 @@
 <script>
   export let onAnswer;
+  export let updateUserAnswer;
   
-  let answers = [];
+  let userInput = '';
   
-  // 回答選択肢を生成（1〜81の範囲）
-  function generateAnswers() {
-    const options = [];
-    for (let i = 1; i <= 9; i++) {
-      for (let j = 1; j <= 9; j++) {
-        options.push(i * j);
+  // テンキー配列の定義
+  const numpadKeys = [
+    ['7', '8', '9'],
+    ['4', '5', '6'],
+    ['1', '2', '3'],
+    ['0', 'C', '⌫']
+  ];
+  
+  // 数字キーを押した時の処理
+  function handleNumKey(key) {
+    if (key === 'C') {
+      // クリア
+      userInput = '';
+    } else if (key === '⌫') {
+      // バックスペース
+      userInput = userInput.slice(0, -1);
+    } else {
+      // 数字の追加（最大2桁まで）
+      if (userInput.length < 2) {
+        userInput += key;
       }
     }
-    return [...new Set(options)].sort((a, b) => a - b);
+    
+    // 親コンポーネントに入力値を通知
+    updateUserAnswer(userInput);
   }
   
-  // コンポーネント初期化時に回答選択肢を生成
-  answers = generateAnswers();
+  // 回答ボタンを押した時の処理
+  function handleSubmit() {
+    if (userInput) {
+      onAnswer(parseInt(userInput, 10));
+      userInput = '';
+    }
+  }
 </script>
 
-<div class="answer-input">
-  <div class="answer-grid">
-    {#each answers as answer}
-      <button 
-        class="answer-button" 
-        on:click={() => onAnswer(answer)}
-      >
-        {answer}
-      </button>
-    {/each}
+<div class="my-8 w-full max-w-md mx-auto">
+  <div class="bg-gray-100 rounded-lg p-4 shadow-md">
+    <!-- テンキー -->
+    <div class="grid grid-cols-3 gap-2 mb-4">
+      {#each numpadKeys as row}
+        {#each row as key}
+          <button 
+            class="bg-white border border-gray-300 rounded py-3 px-2 text-2xl md:text-xl sm:text-lg font-bold cursor-pointer transition-all duration-150 text-gray-800 shadow hover:bg-gray-50 active:bg-gray-200 active:shadow-inner"
+            on:click={() => handleNumKey(key)}
+          >
+            {key}
+          </button>
+        {/each}
+      {/each}
+    </div>
+    
+    <!-- 回答ボタン -->
+    <button 
+      class="w-full bg-blue-500 text-white rounded-lg py-3 text-xl font-bold cursor-pointer transition-all duration-200 shadow hover:bg-blue-600 active:bg-blue-700"
+      on:click={handleSubmit}
+    >
+      答える
+    </button>
   </div>
 </div>
-
-<style>
-  .answer-input {
-    margin: 2rem 0;
-    width: 100%;
-  }
-  
-  .answer-grid {
-    display: grid;
-    grid-template-columns: repeat(9, 1fr);
-    gap: 0.75rem;
-    padding: 1rem;
-    background-color: #f8f9fa;
-    border-radius: 16px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .answer-button {
-    background-color: white;
-    border: 2px solid #4dabf7;
-    border-radius: 12px;
-    padding: 0.75rem 0.5rem;
-    font-size: 1.4rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.2s;
-    color: #1971c2;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .answer-button:hover {
-    background-color: #e7f5ff;
-    transform: scale(1.08);
-    box-shadow: 0 5px 10px rgba(77, 171, 247, 0.3);
-  }
-  
-  .answer-button:active {
-    transform: scale(0.95);
-  }
-  
-  @media (max-width: 768px) {
-    .answer-grid {
-      grid-template-columns: repeat(5, 1fr);
-      gap: 0.6rem;
-    }
-    
-    .answer-button {
-      font-size: 1.2rem;
-      padding: 0.6rem 0.4rem;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .answer-grid {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.5rem;
-      padding: 0.75rem;
-    }
-    
-    .answer-button {
-      font-size: 1.1rem;
-      padding: 0.5rem 0.3rem;
-    }
-  }
-</style>

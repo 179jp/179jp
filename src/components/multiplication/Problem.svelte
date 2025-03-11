@@ -1,109 +1,21 @@
 <script>
   export let num1;
   export let num2;
+  export let userAnswer = '';
 </script>
 
-<div class="problem-container">
-  <div class="problem">
-    <span class="number">{num1}</span>
-    <span class="operator">×</span>
-    <span class="number">{num2}</span>
-    <span class="equals">=</span>
-    <span class="question-mark">?</span>
+<div class="flex justify-center items-center my-8 bg-gray-50 rounded-lg p-6 shadow">
+  <div class="text-5xl md:text-4xl sm:text-3xl font-bold flex items-center gap-6 md:gap-4 sm:gap-3">
+    <span class="inline-block min-w-14 md:min-w-12 sm:min-w-10 text-center text-gray-800 p-2">
+      {num1}
+    </span>
+    <span class="text-gray-700">×</span>
+    <span class="inline-block min-w-14 md:min-w-12 sm:min-w-10 text-center text-gray-800 p-2">
+      {num2}
+    </span>
+    <span class="text-gray-700">=</span>
+    <span class="inline-block min-w-16 md:min-w-14 sm:min-w-12 text-center border-2 border-gray-300 rounded p-2 bg-white">
+      {userAnswer || '　'}
+    </span>
   </div>
 </div>
-
-<style>
-  .problem-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 2rem 0;
-    background-color: #f1f8ff;
-    border-radius: 16px;
-    padding: 2rem;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    border: 3px solid #4dabf7;
-    animation: pulse 2s infinite;
-  }
-  
-  @keyframes pulse {
-    0% {
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    }
-    50% {
-      box-shadow: 0 8px 16px rgba(77, 171, 247, 0.3);
-    }
-    100% {
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    }
-  }
-  
-  .problem {
-    font-size: 4rem;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-  }
-  
-  .number {
-    display: inline-block;
-    min-width: 4rem;
-    text-align: center;
-    color: #1971c2;
-    background-color: white;
-    border-radius: 12px;
-    padding: 0.5rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .operator, .equals {
-    color: #495057;
-  }
-  
-  .question-mark {
-    color: #ff6b6b;
-    font-size: 4.5rem;
-    animation: bounce 1s infinite alternate;
-  }
-  
-  @keyframes bounce {
-    from {
-      transform: translateY(0);
-    }
-    to {
-      transform: translateY(-10px);
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .problem {
-      font-size: 3rem;
-      gap: 1rem;
-    }
-    
-    .number {
-      min-width: 3rem;
-    }
-    
-    .question-mark {
-      font-size: 3.5rem;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .problem {
-      font-size: 2.5rem;
-      gap: 0.75rem;
-    }
-    
-    .number {
-      min-width: 2.5rem;
-    }
-    
-    .question-mark {
-      font-size: 3rem;
-    }
-  }
-</style>

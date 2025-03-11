@@ -1,24 +1,7 @@
 ---
 import MultiplicationApp from './multiplication/MultiplicationApp.svelte';
-import '../styles/multiplication.css';
 ---
 
-<div class="multiplication-wrapper">
+<div class="w-full max-w-3xl mx-auto p-4">
   <MultiplicationApp client:load />
 </div>
-
-<style>
-  .multiplication-wrapper {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 1rem;
-  }
-  
-  :global(.sandboxWrap) {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-</style>
