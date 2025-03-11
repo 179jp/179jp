@@ -1,7 +1,16 @@
 <script>
   export let num1;
   export let num2;
+  export let operation = 'multiplication'; // 'addition', 'subtraction', 'multiplication', 'division'
   export let userAnswer = '';
+  
+  // 操作の記号
+  const OPERATION_SYMBOLS = {
+    'addition': '+',
+    'subtraction': '-',
+    'multiplication': '×',
+    'division': '÷'
+  };
 </script>
 
 <div class="flex justify-center items-center my-6 lg:my-8 bg-gray-50 rounded-xl p-6 lg:p-8 shadow-md">
@@ -9,7 +18,7 @@
     <span class="inline-block min-w-16 md:min-w-14 sm:min-w-12 text-center text-gray-800 p-3 bg-white/80 rounded-lg shadow-sm">
       {num1}
     </span>
-    <span class="text-gray-700">×</span>
+    <span class="text-gray-700">{OPERATION_SYMBOLS[operation]}</span>
     <span class="inline-block min-w-16 md:min-w-14 sm:min-w-12 text-center text-gray-800 p-3 bg-white/80 rounded-lg shadow-sm">
       {num2}
     </span>
