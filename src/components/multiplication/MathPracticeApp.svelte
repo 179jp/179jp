@@ -1,10 +1,12 @@
 <script>
   import { onMount } from 'svelte';
   import Problem from './Problem.svelte';
+  import WordProblem from './WordProblem.svelte';
   import AnswerInput from './AnswerInput.svelte';
   import ResultFeedback from './ResultFeedback.svelte';
   import ProgressTracker from './ProgressTracker.svelte';
   import Certificate from './Certificate.svelte';
+  import { wordProblems } from '../../data/wordProblems.js';
 
   // アプリの状態
   let appState = 'start'; // start, select-level, problem, result, certificate
@@ -19,16 +21,20 @@
   let endTime = null;
   
   // 操作と難易度の選択
-  let selectedOperation = 'multiplication'; // 'addition', 'subtraction', 'multiplication', 'division'
+  let selectedOperation = 'multiplication'; // 'addition', 'subtraction', 'multiplication', 'division', 'word_problem'
   let selectedLevel = 1; // 1, 2, 3
   let problemHistory = []; // 問題履歴を保存する配列
+  
+  // 文章問題用の選択された演算子
+  let selectedWordProblemOperation = 'addition';
 
   // 操作の種類
   const OPERATIONS = {
     ADDITION: 'addition',
     SUBTRACTION: 'subtraction',
     MULTIPLICATION: 'multiplication',
-    DIVISION: 'division'
+    DIVISION: 'division',
+    WORD_PROBLEM: 'word_problem'
   };
   
   // 操作の表示名
@@ -36,7 +42,8 @@
     [OPERATIONS.ADDITION]: '足し算',
     [OPERATIONS.SUBTRACTION]: '引き算',
     [OPERATIONS.MULTIPLICATION]: '掛け算',
-    [OPERATIONS.DIVISION]: '割り算'
+    [OPERATIONS.DIVISION]: '割り算',
+    [OPERATIONS.WORD_PROBLEM]: '文章問題'
   };
   
   // 操作の記号
@@ -52,15 +59,21 @@
     [OPERATIONS.ADDITION]: [1, 2, 3],
     [OPERATIONS.SUBTRACTION]: [1, 2, 3],
     [OPERATIONS.MULTIPLICATION]: [1, 2, 3],
-    [OPERATIONS.DIVISION]: [1, 2]
+    [OPERATIONS.DIVISION]: [1, 2],
+    [OPERATIONS.WORD_PROBLEM]: [1]
   };
   
   // 問題生成関数
   function generateProblems(operation, level, count = 10) {
     const newProblems = [];
     
+    // 文章問題の場合は5問に設定
+    if (operation === OPERATIONS.WORD_PROBLEM) {
+      count = 5;
+    }
+    
     for (let i = 0; i < count; i++) {
-      let num1, num2, answer;
+      let num1, num2, answer, problemText;
       
       switch (operation) {
         case OPERATIONS.ADDITION:
@@ -141,6 +154,39 @@
             num1 = num2 * answer; // 割り切れる数を生成
           }
           break;
+          
+        case OPERATIONS.WORD_PROBLEM:
+          // 文章問題の場合
+          // ランダムに問題を選択
+          const randomIndex = Math.floor(Math.random() * wordProblems.length);
+          problemText = wordProblems[randomIndex];
+          
+          // 1~2桁の数字を生成
+          num1 = Math.floor(Math.random() * 90) + 10;
+          num2 = Math.floor(Math.random() * 90) + 10;
+          
+          // 選択された演算子に基づいて答えを計算
+          switch (selectedWordProblemOperation) {
+            case OPERATIONS.ADDITION:
+              answer = num1 + num2;
+              break;
+            case OPERATIONS.SUBTRACTION:
+              // 引き算の場合は大きい方を num1 にする
+              if (num1 < num2) {
+                [num1, num2] = [num2, num1];
+              }
+              answer = num1 - num2;
+              break;
+            case OPERATIONS.MULTIPLICATION:
+              answer = num1 * num2;
+              break;
+            case OPERATIONS.DIVISION:
+              // 割り切れるようにする
+              answer = Math.floor(Math.random() * 9) + 1;
+              num1 = num2 * answer;
+              break;
+          }
+          break;
       }
       
       newProblems.push({
@@ -149,7 +195,8 @@
         operation,
         level,
         answer,
-        userAnswer: null
+        userAnswer: null,
+        problemText
       });
     }
     
@@ -166,7 +213,20 @@
     startTime = new Date();
     
     // 問題履歴に追加
-    problemHistory.push({ operation: selectedOperation, level: selectedLevel, count: totalProblems });
+    if (selectedOperation === OPERATIONS.WORD_PROBLEM) {
+      problemHistory.push({ 
+        operation: selectedOperation, 
+        level: selectedLevel, 
+        count: 5,
+        wordProblemOperation: selectedWordProblemOperation 
+      });
+    } else {
+      problemHistory.push({ 
+        operation: selectedOperation, 
+        level: selectedLevel, 
+        count: totalProblems 
+      });
+    }
   }
 
   // ユーザー入力の更新
@@ -268,7 +328,66 @@
           <span class="text-4xl font-bold text-orange-600">÷</span>
           <span class="mt-2 font-bold">割り算</span>
         </button>
+        
+        <!-- 文章問題 -->
+        <button 
+          class="flex flex-col items-center p-4 bg-teal-100 rounded-lg hover:bg-teal-200 transition-colors col-span-2"
+          on:click={() => { selectedOperation = OPERATIONS.WORD_PROBLEM; appState = 'select-word-problem-operation'; }}
+        >
+          <span class="text-4xl font-bold text-teal-600">📝</span>
+          <span class="mt-2 font-bold">文章問題</span>
+        </button>
       </div>
+    </div>
+  {:else if appState === 'select-word-problem-operation'}
+    <div class="flex flex-col items-center justify-center gap-4 p-5 sm:p-6 md:p-7 bg-white/95 rounded-lg">
+      <h1 class="text-3xl font-bold text-gray-800">文章問題練習</h1>
+      <p class="text-lg text-gray-600">どの計算を使いますか？</p>
+      
+      <div class="grid grid-cols-2 gap-4 w-full max-w-md mt-4">
+        <!-- 足し算 -->
+        <button 
+          class="flex flex-col items-center p-4 bg-blue-100 rounded-lg hover:bg-blue-200 transition-colors"
+          on:click={() => { selectedWordProblemOperation = OPERATIONS.ADDITION; startGame(); }}
+        >
+          <span class="text-4xl font-bold text-blue-600">+</span>
+          <span class="mt-2 font-bold">足し算</span>
+        </button>
+        
+        <!-- 引き算 -->
+        <button 
+          class="flex flex-col items-center p-4 bg-green-100 rounded-lg hover:bg-green-200 transition-colors"
+          on:click={() => { selectedWordProblemOperation = OPERATIONS.SUBTRACTION; startGame(); }}
+        >
+          <span class="text-4xl font-bold text-green-600">-</span>
+          <span class="mt-2 font-bold">引き算</span>
+        </button>
+        
+        <!-- 掛け算 -->
+        <button 
+          class="flex flex-col items-center p-4 bg-purple-100 rounded-lg hover:bg-purple-200 transition-colors"
+          on:click={() => { selectedWordProblemOperation = OPERATIONS.MULTIPLICATION; startGame(); }}
+        >
+          <span class="text-4xl font-bold text-purple-600">×</span>
+          <span class="mt-2 font-bold">掛け算</span>
+        </button>
+        
+        <!-- 割り算 -->
+        <button 
+          class="flex flex-col items-center p-4 bg-orange-100 rounded-lg hover:bg-orange-200 transition-colors"
+          on:click={() => { selectedWordProblemOperation = OPERATIONS.DIVISION; startGame(); }}
+        >
+          <span class="text-4xl font-bold text-orange-600">÷</span>
+          <span class="mt-2 font-bold">割り算</span>
+        </button>
+      </div>
+      
+      <button 
+        class="p-3 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors mt-4"
+        on:click={() => { appState = 'start'; }}
+      >
+        戻る
+      </button>
     </div>
   {:else if appState === 'select-level'}
     <div class="flex flex-col items-center justify-center gap-4 p-5 sm:p-6 md:p-7 bg-white/95 rounded-lg">
@@ -334,12 +453,20 @@
       
       <div class="lg:flex lg:items-start lg:gap-4">
         <div class="lg:flex-1">
-          <Problem 
-            num1={problems[currentProblemIndex].num1} 
-            num2={problems[currentProblemIndex].num2}
-            operation={problems[currentProblemIndex].operation}
-            userAnswer={userInput}
-          />
+          {#if problems[currentProblemIndex].operation === OPERATIONS.WORD_PROBLEM}
+            <WordProblem 
+              problemText={problems[currentProblemIndex].problemText}
+              operation={selectedWordProblemOperation}
+              userAnswer={userInput}
+            />
+          {:else}
+            <Problem 
+              num1={problems[currentProblemIndex].num1} 
+              num2={problems[currentProblemIndex].num2}
+              operation={problems[currentProblemIndex].operation}
+              userAnswer={userInput}
+            />
+          {/if}
         </div>
         
         <div class="lg:flex-1">
@@ -356,8 +483,20 @@
     </div>
   {:else if appState === 'result'}
     <div class="flex flex-col items-center gap-6 p-6 sm:p-7 md:p-8 bg-white/95 rounded-xl">
-      <h2 class="text-3xl font-bold text-gray-800">{OPERATION_NAMES[selectedOperation]} レベル{selectedLevel}</h2>
-      <h3 class="text-2xl font-bold text-gray-700">10問終わりました！</h3>
+      <h2 class="text-3xl font-bold text-gray-800">
+        {#if selectedOperation === OPERATIONS.WORD_PROBLEM}
+          {OPERATION_NAMES[selectedOperation]} ({OPERATION_NAMES[selectedWordProblemOperation]})
+        {:else}
+          {OPERATION_NAMES[selectedOperation]} レベル{selectedLevel}
+        {/if}
+      </h2>
+      <h3 class="text-2xl font-bold text-gray-700">
+        {#if selectedOperation === OPERATIONS.WORD_PROBLEM}
+          5問終わりました！
+        {:else}
+          10問終わりました！
+        {/if}
+      </h3>
       <p class="text-2xl bg-blue-50 px-4 py-2 rounded-lg">正解数: <span class="text-blue-600 font-bold">{correctAnswers}</span>/{problems.length}</p>
       
       <div class="flex gap-6">

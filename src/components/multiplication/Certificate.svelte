@@ -11,7 +11,8 @@
     'addition': '足し算',
     'subtraction': '引き算',
     'multiplication': '掛け算',
-    'division': '割り算'
+    'division': '割り算',
+    'word_problem': '文章問題'
   };
   
   // 日付フォーマット関数
@@ -48,6 +49,10 @@
     
     return problemHistory.map(item => {
       const opName = OPERATION_NAMES[item.operation];
+      if (item.operation === 'word_problem' && item.wordProblemOperation) {
+        const wordOpName = OPERATION_NAMES[item.wordProblemOperation];
+        return `${opName}(${wordOpName}) ${item.count}問`;
+      }
       return `${opName} レベル${item.level} ${item.count}問`;
     }).join('、');
   }
