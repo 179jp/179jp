@@ -51,7 +51,7 @@
   const LEVELS = {
     [OPERATIONS.ADDITION]: [1, 2, 3],
     [OPERATIONS.SUBTRACTION]: [1, 2, 3],
-    [OPERATIONS.MULTIPLICATION]: [1, 2],
+    [OPERATIONS.MULTIPLICATION]: [1, 2, 3],
     [OPERATIONS.DIVISION]: [1, 2]
   };
   
@@ -111,8 +111,12 @@
             // レベル1: 1桁 × 1桁
             num1 = Math.floor(Math.random() * 9) + 1;
             num2 = Math.floor(Math.random() * 9) + 1;
+          } else if (level === 2) {
+            // レベル2: 3~12 × 3~12
+            num1 = Math.floor(Math.random() * 10) + 3; // 3から12までの数
+            num2 = Math.floor(Math.random() * 10) + 3; // 3から12までの数
           } else {
-            // レベル2: 1~2桁 × 1~2桁
+            // レベル3: 1~2桁 × 1~2桁
             num1 = Math.floor(Math.random() * 99) + 1;
             num2 = Math.floor(Math.random() * 99) + 1;
           }
@@ -197,7 +201,7 @@
 
   // おかわり（追加の問題）
   function addMoreProblems() {
-    const additionalProblems = generateProblems(10);
+    const additionalProblems = generateProblems(selectedOperation, selectedLevel, 10);
     problems = [...problems, ...additionalProblems];
     appState = 'problem';
   }
@@ -293,6 +297,8 @@
             {:else if selectedOperation === OPERATIONS.MULTIPLICATION}
               {#if level === 1}
                 <span class="block text-sm mt-1">1桁 × 1桁</span>
+              {:else if level === 2}
+                <span class="block text-sm mt-1">3~12 × 3~12</span>
               {:else}
                 <span class="block text-sm mt-1">1~2桁 × 1~2桁</span>
               {/if}
