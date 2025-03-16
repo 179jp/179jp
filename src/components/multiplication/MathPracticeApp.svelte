@@ -25,8 +25,10 @@
   let selectedLevel = 1; // 1, 2, 3
   let problemHistory = []; // 問題履歴を保存する配列
   
-  // 文章問題用の選択された演算子
-  let selectedWordProblemOperation = 'addition';
+  // 文章問題用の変数
+  let num1Input = '';
+  let num2Input = '';
+  let selectedOperation4WordProblem = 'addition';
 
   // 操作の種類
   const OPERATIONS = {
@@ -165,27 +167,8 @@
           num1 = Math.floor(Math.random() * 90) + 10;
           num2 = Math.floor(Math.random() * 90) + 10;
           
-          // 選択された演算子に基づいて答えを計算
-          switch (selectedWordProblemOperation) {
-            case OPERATIONS.ADDITION:
-              answer = num1 + num2;
-              break;
-            case OPERATIONS.SUBTRACTION:
-              // 引き算の場合は大きい方を num1 にする
-              if (num1 < num2) {
-                [num1, num2] = [num2, num1];
-              }
-              answer = num1 - num2;
-              break;
-            case OPERATIONS.MULTIPLICATION:
-              answer = num1 * num2;
-              break;
-            case OPERATIONS.DIVISION:
-              // 割り切れるようにする
-              answer = Math.floor(Math.random() * 9) + 1;
-              num1 = num2 * answer;
-              break;
-          }
+          // 初期値として足し算の答えを設定（ユーザーが演算子を選択するため）
+          answer = num1 + num2;
           break;
       }
       
@@ -217,8 +200,7 @@
       problemHistory.push({ 
         operation: selectedOperation, 
         level: selectedLevel, 
-        count: 5,
-        wordProblemOperation: selectedWordProblemOperation 
+        count: 5
       });
     } else {
       problemHistory.push({ 
@@ -332,63 +314,14 @@
         <!-- 文章問題 -->
         <button 
           class="flex flex-col items-center p-4 bg-teal-100 rounded-lg hover:bg-teal-200 transition-colors col-span-2"
-          on:click={() => { selectedOperation = OPERATIONS.WORD_PROBLEM; appState = 'select-word-problem-operation'; }}
+          on:click={() => { selectedOperation = OPERATIONS.WORD_PROBLEM; startGame(); }}
         >
           <span class="text-4xl font-bold text-teal-600">📝</span>
           <span class="mt-2 font-bold">文章問題</span>
         </button>
       </div>
     </div>
-  {:else if appState === 'select-word-problem-operation'}
-    <div class="flex flex-col items-center justify-center gap-4 p-5 sm:p-6 md:p-7 bg-white/95 rounded-lg">
-      <h1 class="text-3xl font-bold text-gray-800">文章問題練習</h1>
-      <p class="text-lg text-gray-600">どの計算を使いますか？</p>
-      
-      <div class="grid grid-cols-2 gap-4 w-full max-w-md mt-4">
-        <!-- 足し算 -->
-        <button 
-          class="flex flex-col items-center p-4 bg-blue-100 rounded-lg hover:bg-blue-200 transition-colors"
-          on:click={() => { selectedWordProblemOperation = OPERATIONS.ADDITION; startGame(); }}
-        >
-          <span class="text-4xl font-bold text-blue-600">+</span>
-          <span class="mt-2 font-bold">足し算</span>
-        </button>
-        
-        <!-- 引き算 -->
-        <button 
-          class="flex flex-col items-center p-4 bg-green-100 rounded-lg hover:bg-green-200 transition-colors"
-          on:click={() => { selectedWordProblemOperation = OPERATIONS.SUBTRACTION; startGame(); }}
-        >
-          <span class="text-4xl font-bold text-green-600">-</span>
-          <span class="mt-2 font-bold">引き算</span>
-        </button>
-        
-        <!-- 掛け算 -->
-        <button 
-          class="flex flex-col items-center p-4 bg-purple-100 rounded-lg hover:bg-purple-200 transition-colors"
-          on:click={() => { selectedWordProblemOperation = OPERATIONS.MULTIPLICATION; startGame(); }}
-        >
-          <span class="text-4xl font-bold text-purple-600">×</span>
-          <span class="mt-2 font-bold">掛け算</span>
-        </button>
-        
-        <!-- 割り算 -->
-        <button 
-          class="flex flex-col items-center p-4 bg-orange-100 rounded-lg hover:bg-orange-200 transition-colors"
-          on:click={() => { selectedWordProblemOperation = OPERATIONS.DIVISION; startGame(); }}
-        >
-          <span class="text-4xl font-bold text-orange-600">÷</span>
-          <span class="mt-2 font-bold">割り算</span>
-        </button>
-      </div>
-      
-      <button 
-        class="p-3 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors mt-4"
-        on:click={() => { appState = 'start'; }}
-      >
-        戻る
-      </button>
-    </div>
+
   {:else if appState === 'select-level'}
     <div class="flex flex-col items-center justify-center gap-4 p-5 sm:p-6 md:p-7 bg-white/95 rounded-lg">
       <h1 class="text-3xl font-bold text-gray-800">{OPERATION_NAMES[selectedOperation]}練習</h1>
@@ -456,7 +389,9 @@
           {#if problems[currentProblemIndex].operation === OPERATIONS.WORD_PROBLEM}
             <WordProblem 
               problemText={problems[currentProblemIndex].problemText}
-              operation={selectedWordProblemOperation}
+              num1={problems[currentProblemIndex].num1}
+              num2={problems[currentProblemIndex].num2}
+              bind:selectedOperation={selectedOperation4WordProblem}
               userAnswer={userInput}
             />
           {:else}

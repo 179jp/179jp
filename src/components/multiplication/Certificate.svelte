@@ -49,9 +49,8 @@
     
     return problemHistory.map(item => {
       const opName = OPERATION_NAMES[item.operation];
-      if (item.operation === 'word_problem' && item.wordProblemOperation) {
-        const wordOpName = OPERATION_NAMES[item.wordProblemOperation];
-        return `${opName}(${wordOpName}) ${item.count}問`;
+      if (item.operation === 'word_problem') {
+        return `${opName} ${item.count}問`;
       }
       return `${opName} レベル${item.level} ${item.count}問`;
     }).join('、');
