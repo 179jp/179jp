@@ -224,7 +224,7 @@
 
 <div class="w-full">
   {#if appState === 'start'}
-    <div class="flex flex-col items-center justify-center gap-6 p-8 bg-white/95 rounded-lg shadow-md">
+    <div class="flex flex-col items-center justify-center gap-4 p-5 sm:p-6 md:p-7 bg-white/95 rounded-lg shadow-md">
       <h1 class="text-3xl font-bold text-gray-800">計算練習アプリ</h1>
       <p class="text-lg text-gray-600">どの計算に挑戦しますか？</p>
       
@@ -267,7 +267,7 @@
       </div>
     </div>
   {:else if appState === 'select-level'}
-    <div class="flex flex-col items-center justify-center gap-6 p-8 bg-white/95 rounded-lg shadow-md">
+    <div class="flex flex-col items-center justify-center gap-4 p-5 sm:p-6 md:p-7 bg-white/95 rounded-lg shadow-md">
       <h1 class="text-3xl font-bold text-gray-800">{OPERATION_NAMES[selectedOperation]}練習</h1>
       <p class="text-lg text-gray-600">難易度を選んでください</p>
       
@@ -328,7 +328,7 @@
         correct={correctAnswers} 
       />
       
-      <div class="lg:flex lg:items-start lg:gap-8">
+      <div class="lg:flex lg:items-start lg:gap-4">
         <div class="lg:flex-1">
           <Problem 
             num1={problems[currentProblemIndex].num1} 
@@ -351,20 +351,20 @@
       {/if}
     </div>
   {:else if appState === 'result'}
-    <div class="flex flex-col items-center gap-8 p-10 bg-white/95 rounded-xl shadow-lg">
+    <div class="flex flex-col items-center gap-6 p-6 sm:p-7 md:p-8 bg-white/95 rounded-xl shadow-lg">
       <h2 class="text-3xl font-bold text-gray-800">{OPERATION_NAMES[selectedOperation]} レベル{selectedLevel}</h2>
       <h3 class="text-2xl font-bold text-gray-700">10問終わりました！</h3>
-      <p class="text-2xl bg-blue-50 px-6 py-3 rounded-lg shadow-sm">正解数: <span class="text-blue-600 font-bold">{correctAnswers}</span>/{problems.length}</p>
+      <p class="text-2xl bg-blue-50 px-4 py-2 rounded-lg shadow-sm">正解数: <span class="text-blue-600 font-bold">{correctAnswers}</span>/{problems.length}</p>
       
       <div class="flex gap-6">
         <button 
-          class="px-8 py-4 bg-blue-600 text-white text-xl font-bold rounded-xl shadow-md hover:bg-blue-700 transition-all hover:-translate-y-1 hover:shadow-lg active:translate-y-0"
+          class="px-6 py-3 bg-blue-600 text-white text-xl font-bold rounded-xl shadow-md hover:bg-blue-700 transition-all hover:-translate-y-1 hover:shadow-lg active:translate-y-0"
           on:click={addMoreProblems}
         >
           おかわり
         </button>
         <button 
-          class="px-8 py-4 bg-gray-600 text-white text-xl font-bold rounded-xl shadow-md hover:bg-gray-700 transition-all hover:-translate-y-1 hover:shadow-lg active:translate-y-0"
+          class="px-6 py-3 bg-gray-600 text-white text-xl font-bold rounded-xl shadow-md hover:bg-gray-700 transition-all hover:-translate-y-1 hover:shadow-lg active:translate-y-0"
           on:click={finishGame}
         >
           終了する
