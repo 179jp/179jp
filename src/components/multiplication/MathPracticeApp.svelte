@@ -222,7 +222,7 @@
   });
 </script>
 
-<div class="w-full max-w-3xl mx-auto bg-white/90 rounded-xl shadow-lg p-3 sm:p-4 md:p-5 lg:p-6">
+<div class="w-full">
   {#if appState === 'start'}
     <div class="flex flex-col items-center justify-center gap-4 p-5 sm:p-6 md:p-7 bg-white/95 rounded-lg shadow-md">
       <h1 class="text-3xl font-bold text-gray-800">計算練習アプリ</h1>
