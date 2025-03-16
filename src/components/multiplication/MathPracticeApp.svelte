@@ -112,9 +112,13 @@
             num1 = Math.floor(Math.random() * 9) + 1;
             num2 = Math.floor(Math.random() * 9) + 1;
           } else if (level === 2) {
-            // レベル2: 3~12 × 3~12
-            num1 = Math.floor(Math.random() * 10) + 3; // 3から12までの数
-            num2 = Math.floor(Math.random() * 10) + 3; // 3から12までの数
+            // レベル2: 3~12 × 3~12 (10を除く)
+            // 3~9, 11~12の範囲から数字を生成
+            let possibleNumbers = [3, 4, 5, 6, 7, 8, 9, 11, 12];
+            let randomIndex1 = Math.floor(Math.random() * possibleNumbers.length);
+            let randomIndex2 = Math.floor(Math.random() * possibleNumbers.length);
+            num1 = possibleNumbers[randomIndex1];
+            num2 = possibleNumbers[randomIndex2];
           } else {
             // レベル3: 1~2桁 × 1~2桁
             num1 = Math.floor(Math.random() * 99) + 1;
