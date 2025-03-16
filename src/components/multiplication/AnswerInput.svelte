@@ -43,7 +43,7 @@
   }
 </script>
 
-<div class="my-6 lg:my-8 w-full max-w-sm mx-auto">
+<div class="my-6 lg:my-8 w-full max-w-md mx-auto">
   <div class="bg-gray-100 rounded-xl p-5 shadow-md">
     <!-- テンキー -->
     <div class="grid grid-cols-3 gap-3 mb-4">
