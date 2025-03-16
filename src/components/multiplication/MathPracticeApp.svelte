@@ -28,7 +28,9 @@
   // 文章問題用の変数
   let num1Input = '';
   let num2Input = '';
-  let selectedOperation4WordProblem = 'addition';
+  let selectedOperation4WordProblem = '';
+  let selectedWordProblemOperation = '';
+  let calculatedAnswer = null;
 
   // 操作の種類
   const OPERATIONS = {
@@ -216,10 +218,63 @@
     userInput = value;
   }
 
+  // 文章問題の計算
+  $: {
+    if (num1Input && num2Input && selectedOperation4WordProblem) {
+      const num1 = parseInt(num1Input, 10);
+      const num2 = parseInt(num2Input, 10);
+      
+      // 選択された演算子に基づいて計算
+      switch(selectedOperation4WordProblem) {
+        case OPERATIONS.ADDITION:
+          calculatedAnswer = num1 + num2;
+          break;
+        case OPERATIONS.SUBTRACTION:
+          calculatedAnswer = num1 - num2;
+          break;
+        case OPERATIONS.MULTIPLICATION:
+          calculatedAnswer = num1 * num2;
+          break;
+        case OPERATIONS.DIVISION:
+          calculatedAnswer = num1 / num2;
+          break;
+        default:
+          calculatedAnswer = null;
+      }
+      
+      // 計算結果を自動的にuserInputに設定
+      if (calculatedAnswer !== null) {
+        userInput = calculatedAnswer.toString();
+      }
+    } else {
+      calculatedAnswer = null;
+      if (selectedOperation === OPERATIONS.WORD_PROBLEM) {
+        userInput = '';
+      }
+    }
+  }
+  
   // 回答チェック
   function checkAnswer(answer) {
     const currentProblem = problems[currentProblemIndex];
-    isCorrect = currentProblem.answer === answer;
+    
+    // 文章問題の場合
+    if (currentProblem.operation === OPERATIONS.WORD_PROBLEM) {
+      // 入力値のチェック
+      if (!num1Input || !num2Input || !selectedOperation4WordProblem) {
+        // 入力が不完全な場合は不正解とする
+        isCorrect = false;
+      } else {
+        // 計算結果と入力された回答を比較
+        isCorrect = calculatedAnswer !== null && calculatedAnswer === parseInt(answer, 10);
+        
+        // 選択された演算子を保存（結果画面表示用）
+        selectedWordProblemOperation = selectedOperation4WordProblem;
+      }
+    } else {
+      // 通常の問題の場合
+      isCorrect = currentProblem.answer === answer;
+    }
     
     if (isCorrect) {
       correctAnswers++;
@@ -232,6 +287,13 @@
     setTimeout(() => {
       showFeedback = false;
       userInput = '';
+      
+      // 文章問題の場合は入力フィールドをリセット
+      if (currentProblem.operation === OPERATIONS.WORD_PROBLEM) {
+        num1Input = '';
+        num2Input = '';
+        selectedOperation4WordProblem = '';
+      }
       
       if (currentProblemIndex < problems.length - 1) {
         currentProblemIndex++;
@@ -386,13 +448,13 @@
       
       <div class="lg:flex lg:items-start lg:gap-4">
         <div class="lg:flex-1">
-          {#if problems[currentProblemIndex].operation === OPERATIONS.WORD_PROBLEM}
+         {#if problems[currentProblemIndex].operation === OPERATIONS.WORD_PROBLEM}
             <WordProblem 
               problemText={problems[currentProblemIndex].problemText}
-              num1={problems[currentProblemIndex].num1}
-              num2={problems[currentProblemIndex].num2}
+              bind:num1Input={num1Input}
+              bind:num2Input={num2Input}
               bind:selectedOperation={selectedOperation4WordProblem}
-              userAnswer={userInput}
+              bind:userAnswer={userInput}
             />
           {:else}
             <Problem 
