@@ -1,6 +1,7 @@
 <script>
   export let onAnswer;
   export let updateUserAnswer;
+  export let currentValue = ''; // 現在の入力値を受け取るプロパティを追加
   
   let userInput = '';
   
@@ -14,24 +15,25 @@
   // 数字キーを押した時の処理
   function handleNumKey(key) {
     // 数字の追加（最大4桁まで）
-    if (userInput.length < 4) {
-      userInput += key;
+    let newValue = currentValue || '';
+    if (newValue.length < 4) {
+      newValue += key;
     }
     
     // 親コンポーネントに入力値を通知
-    updateUserAnswer(userInput);
+    updateUserAnswer(newValue);
   }
   
   // クリアボタンを押した時の処理
   function handleClear() {
-    userInput = '';
     updateUserAnswer('');
   }
   
   // バックスペースボタンを押した時の処理
   function handleBackspace() {
-    userInput = userInput.slice(0, -1);
-    updateUserAnswer(userInput);
+    let newValue = currentValue || '';
+    newValue = newValue.slice(0, -1);
+    updateUserAnswer(newValue);
   }
   
   // 回答ボタンを押した時の処理

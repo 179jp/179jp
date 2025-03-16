@@ -4,6 +4,7 @@
   export let userAnswer = '';
   export let num1Input = '';
   export let num2Input = '';
+  export let onFocus = () => {}; // 新しいプロパティ
   
   // 入力値の検証
   $: isValid = num1Input && num2Input && selectedOperation;
@@ -37,6 +38,7 @@
       type="text"
       bind:value={num1Input}
       placeholder="　"
+      on:focus={() => onFocus('num1')}
       class="inline-block min-w-10 sm:min-w-12 md:min-w-14 lg:min-w-16 text-center text-gray-800 p-2 sm:p-3 bg-white/80 rounded-lg shadow-sm border-2 border-gray-300"
     />
     
@@ -55,6 +57,7 @@
       type="text"
       bind:value={num2Input}
       placeholder="　"
+      on:focus={() => onFocus('num2')}
       class="inline-block min-w-10 sm:min-w-12 md:min-w-14 lg:min-w-16 text-center text-gray-800 p-2 sm:p-3 bg-white/80 rounded-lg shadow-sm border-2 border-gray-300"
     />
     

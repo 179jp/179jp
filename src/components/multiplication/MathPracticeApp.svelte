@@ -31,6 +31,7 @@
   let selectedOperation4WordProblem = '';
   let selectedWordProblemOperation = '';
   let calculatedAnswer = null;
+  let focusedInputField = 'answer'; // 'num1', 'num2', or 'answer'
 
   // 操作の種類
   const OPERATIONS = {
@@ -215,7 +216,18 @@
 
   // ユーザー入力の更新
   function updateUserAnswer(value) {
-    userInput = value;
+    if (focusedInputField === 'num1') {
+      num1Input = value;
+    } else if (focusedInputField === 'num2') {
+      num2Input = value;
+    } else {
+      userInput = value;
+    }
+  }
+  
+  // フォーカスされた入力フィールドを設定
+  function setFocusedField(fieldName) {
+    focusedInputField = fieldName;
   }
 
   // 文章問題の計算
@@ -455,6 +467,7 @@
               bind:num2Input={num2Input}
               bind:selectedOperation={selectedOperation4WordProblem}
               bind:userAnswer={userInput}
+              onFocus={setFocusedField}
             />
           {:else}
             <Problem 
@@ -470,6 +483,7 @@
           <AnswerInput 
             onAnswer={checkAnswer}
             updateUserAnswer={updateUserAnswer}
+            currentValue={focusedInputField === 'num1' ? num1Input : (focusedInputField === 'num2' ? num2Input : userInput)}
           />
         </div>
       </div>
