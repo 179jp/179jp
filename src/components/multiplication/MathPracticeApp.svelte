@@ -1,10 +1,12 @@
 <script>
   import { onMount } from 'svelte';
   import Problem from './Problem.svelte';
+  import WordProblem from './WordProblem.svelte';
   import AnswerInput from './AnswerInput.svelte';
   import ResultFeedback from './ResultFeedback.svelte';
   import ProgressTracker from './ProgressTracker.svelte';
   import Certificate from './Certificate.svelte';
+  import { wordProblems } from '../../data/wordProblems.js';
 
   // アプリの状態
   let appState = 'start'; // start, select-level, problem, result, certificate
@@ -19,16 +21,25 @@
   let endTime = null;
   
   // 操作と難易度の選択
-  let selectedOperation = 'multiplication'; // 'addition', 'subtraction', 'multiplication', 'division'
+  let selectedOperation = 'multiplication'; // 'addition', 'subtraction', 'multiplication', 'division', 'word_problem'
   let selectedLevel = 1; // 1, 2, 3
   let problemHistory = []; // 問題履歴を保存する配列
+  
+  // 文章問題用の変数
+  let num1Input = '';
+  let num2Input = '';
+  let selectedOperation4WordProblem = '';
+  let selectedWordProblemOperation = '';
+  let calculatedAnswer = null;
+  let focusedInputField = 'answer'; // 'num1', 'num2', or 'answer'
 
   // 操作の種類
   const OPERATIONS = {
     ADDITION: 'addition',
     SUBTRACTION: 'subtraction',
     MULTIPLICATION: 'multiplication',
-    DIVISION: 'division'
+    DIVISION: 'division',
+    WORD_PROBLEM: 'word_problem'
   };
   
   // 操作の表示名
@@ -36,7 +47,8 @@
     [OPERATIONS.ADDITION]: '足し算',
     [OPERATIONS.SUBTRACTION]: '引き算',
     [OPERATIONS.MULTIPLICATION]: '掛け算',
-    [OPERATIONS.DIVISION]: '割り算'
+    [OPERATIONS.DIVISION]: '割り算',
+    [OPERATIONS.WORD_PROBLEM]: '文章問題'
   };
   
   // 操作の記号
@@ -52,15 +64,21 @@
     [OPERATIONS.ADDITION]: [1, 2, 3],
     [OPERATIONS.SUBTRACTION]: [1, 2, 3],
     [OPERATIONS.MULTIPLICATION]: [1, 2, 3],
-    [OPERATIONS.DIVISION]: [1, 2]
+    [OPERATIONS.DIVISION]: [1, 2],
+    [OPERATIONS.WORD_PROBLEM]: [1]
   };
   
   // 問題生成関数
   function generateProblems(operation, level, count = 10) {
     const newProblems = [];
     
+    // 文章問題の場合は5問に設定
+    if (operation === OPERATIONS.WORD_PROBLEM) {
+      count = 5;
+    }
+    
     for (let i = 0; i < count; i++) {
-      let num1, num2, answer;
+      let num1, num2, answer, problemText;
       
       switch (operation) {
         case OPERATIONS.ADDITION:
@@ -141,6 +159,20 @@
             num1 = num2 * answer; // 割り切れる数を生成
           }
           break;
+          
+        case OPERATIONS.WORD_PROBLEM:
+          // 文章問題の場合
+          // ランダムに問題を選択
+          const randomIndex = Math.floor(Math.random() * wordProblems.length);
+          problemText = wordProblems[randomIndex];
+          
+          // 1~2桁の数字を生成
+          num1 = Math.floor(Math.random() * 90) + 10;
+          num2 = Math.floor(Math.random() * 90) + 10;
+          
+          // 初期値として足し算の答えを設定（ユーザーが演算子を選択するため）
+          answer = num1 + num2;
+          break;
       }
       
       newProblems.push({
@@ -149,7 +181,8 @@
         operation,
         level,
         answer,
-        userAnswer: null
+        userAnswer: null,
+        problemText
       });
     }
     
@@ -166,18 +199,94 @@
     startTime = new Date();
     
     // 問題履歴に追加
-    problemHistory.push({ operation: selectedOperation, level: selectedLevel, count: totalProblems });
+    if (selectedOperation === OPERATIONS.WORD_PROBLEM) {
+      problemHistory.push({ 
+        operation: selectedOperation, 
+        level: selectedLevel, 
+        count: 5
+      });
+    } else {
+      problemHistory.push({ 
+        operation: selectedOperation, 
+        level: selectedLevel, 
+        count: totalProblems 
+      });
+    }
   }
 
   // ユーザー入力の更新
   function updateUserAnswer(value) {
-    userInput = value;
+    if (focusedInputField === 'num1') {
+      num1Input = value;
+    } else if (focusedInputField === 'num2') {
+      num2Input = value;
+    } else {
+      userInput = value;
+    }
+  }
+  
+  // フォーカスされた入力フィールドを設定
+  function setFocusedField(fieldName) {
+    focusedInputField = fieldName;
   }
 
+  // 文章問題の計算
+  $: {
+    if (num1Input && num2Input && selectedOperation4WordProblem) {
+      const num1 = parseInt(num1Input, 10);
+      const num2 = parseInt(num2Input, 10);
+      
+      // 選択された演算子に基づいて計算
+      switch(selectedOperation4WordProblem) {
+        case OPERATIONS.ADDITION:
+          calculatedAnswer = num1 + num2;
+          break;
+        case OPERATIONS.SUBTRACTION:
+          calculatedAnswer = num1 - num2;
+          break;
+        case OPERATIONS.MULTIPLICATION:
+          calculatedAnswer = num1 * num2;
+          break;
+        case OPERATIONS.DIVISION:
+          calculatedAnswer = num1 / num2;
+          break;
+        default:
+          calculatedAnswer = null;
+      }
+      
+      // 計算結果を自動的にuserInputに設定
+      if (calculatedAnswer !== null) {
+        userInput = calculatedAnswer.toString();
+      }
+    } else {
+      calculatedAnswer = null;
+      if (selectedOperation === OPERATIONS.WORD_PROBLEM) {
+        userInput = '';
+      }
+    }
+  }
+  
   // 回答チェック
   function checkAnswer(answer) {
     const currentProblem = problems[currentProblemIndex];
-    isCorrect = currentProblem.answer === answer;
+    
+    // 文章問題の場合
+    if (currentProblem.operation === OPERATIONS.WORD_PROBLEM) {
+      // 入力値のチェック
+      if (!num1Input || !num2Input || !selectedOperation4WordProblem) {
+        // 入力が不完全な場合は不正解とする
+        isCorrect = false;
+      } else {
+        // 計算結果と入力された回答を比較
+        isCorrect = calculatedAnswer !== null && calculatedAnswer === parseInt(answer, 10);
+        
+        // 選択された演算子を保存（結果画面表示用）
+        selectedWordProblemOperation = selectedOperation4WordProblem;
+      }
+    } else {
+      // 通常の問題の場合
+      isCorrect = currentProblem.answer === answer;
+    }
     
     if (isCorrect) {
       correctAnswers++;
@@ -190,6 +299,13 @@
     setTimeout(() => {
       showFeedback = false;
       userInput = '';
+      
+      // 文章問題の場合は入力フィールドをリセット
+      if (currentProblem.operation === OPERATIONS.WORD_PROBLEM) {
+        num1Input = '';
+        num2Input = '';
+        selectedOperation4WordProblem = '';
+      }
       
       if (currentProblemIndex < problems.length - 1) {
         currentProblemIndex++;
@@ -268,8 +384,18 @@
           <span class="text-4xl font-bold text-orange-600">÷</span>
           <span class="mt-2 font-bold">割り算</span>
         </button>
+        
+        <!-- 文章問題 -->
+        <button 
+          class="flex flex-col items-center p-4 bg-teal-100 rounded-lg hover:bg-teal-200 transition-colors col-span-2"
+          on:click={() => { selectedOperation = OPERATIONS.WORD_PROBLEM; startGame(); }}
+        >
+          <span class="text-4xl font-bold text-teal-600">📝</span>
+          <span class="mt-2 font-bold">文章問題</span>
+        </button>
       </div>
     </div>
+
   {:else if appState === 'select-level'}
     <div class="flex flex-col items-center justify-center gap-4 p-5 sm:p-6 md:p-7 bg-white/95 rounded-lg">
       <h1 class="text-3xl font-bold text-gray-800">{OPERATION_NAMES[selectedOperation]}練習</h1>
@@ -334,18 +460,30 @@
       
       <div class="lg:flex lg:items-start lg:gap-4">
         <div class="lg:flex-1">
-          <Problem 
-            num1={problems[currentProblemIndex].num1} 
-            num2={problems[currentProblemIndex].num2}
-            operation={problems[currentProblemIndex].operation}
-            userAnswer={userInput}
-          />
+         {#if problems[currentProblemIndex].operation === OPERATIONS.WORD_PROBLEM}
+            <WordProblem 
+              problemText={problems[currentProblemIndex].problemText}
+              bind:num1Input={num1Input}
+              bind:num2Input={num2Input}
+              bind:selectedOperation={selectedOperation4WordProblem}
+              bind:userAnswer={userInput}
+              onFocus={setFocusedField}
+            />
+          {:else}
+            <Problem 
+              num1={problems[currentProblemIndex].num1} 
+              num2={problems[currentProblemIndex].num2}
+              operation={problems[currentProblemIndex].operation}
+              userAnswer={userInput}
+            />
+          {/if}
         </div>
         
         <div class="lg:flex-1">
           <AnswerInput 
             onAnswer={checkAnswer}
             updateUserAnswer={updateUserAnswer}
+            currentValue={focusedInputField === 'num1' ? num1Input : (focusedInputField === 'num2' ? num2Input : userInput)}
           />
         </div>
       </div>
@@ -356,8 +494,20 @@
     </div>
   {:else if appState === 'result'}
     <div class="flex flex-col items-center gap-6 p-6 sm:p-7 md:p-8 bg-white/95 rounded-xl">
-      <h2 class="text-3xl font-bold text-gray-800">{OPERATION_NAMES[selectedOperation]} レベル{selectedLevel}</h2>
-      <h3 class="text-2xl font-bold text-gray-700">10問終わりました！</h3>
+      <h2 class="text-3xl font-bold text-gray-800">
+        {#if selectedOperation === OPERATIONS.WORD_PROBLEM}
+          {OPERATION_NAMES[selectedOperation]} ({OPERATION_NAMES[selectedWordProblemOperation]})
+        {:else}
+          {OPERATION_NAMES[selectedOperation]} レベル{selectedLevel}
+        {/if}
+      </h2>
+      <h3 class="text-2xl font-bold text-gray-700">
+        {#if selectedOperation === OPERATIONS.WORD_PROBLEM}
+          5問終わりました！
+        {:else}
+          10問終わりました！
+        {/if}
+      </h3>
       <p class="text-2xl bg-blue-50 px-4 py-2 rounded-lg">正解数: <span class="text-blue-600 font-bold">{correctAnswers}</span>/{problems.length}</p>
       
       <div class="flex gap-6">
