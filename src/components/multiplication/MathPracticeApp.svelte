@@ -51,7 +51,7 @@
   const LEVELS = {
     [OPERATIONS.ADDITION]: [1, 2, 3],
     [OPERATIONS.SUBTRACTION]: [1, 2, 3],
-    [OPERATIONS.MULTIPLICATION]: [1, 2, 3],
+    [OPERATIONS.MULTIPLICATION]: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     [OPERATIONS.DIVISION]: [1, 2]
   };
   
@@ -119,8 +119,36 @@
             let randomIndex2 = Math.floor(Math.random() * possibleNumbers.length);
             num1 = possibleNumbers[randomIndex1];
             num2 = possibleNumbers[randomIndex2];
+          } else if (level === 3) {
+            // レベル3: 二桁 13 まで
+            num1 = Math.floor(Math.random() * 13) + 1;
+            num2 = Math.floor(Math.random() * 13) + 1;
+          } else if (level === 4) {
+            // レベル4: 二桁 14 まで
+            num1 = Math.floor(Math.random() * 14) + 1;
+            num2 = Math.floor(Math.random() * 14) + 1;
+          } else if (level === 5) {
+            // レベル5: 二桁 15 まで
+            num1 = Math.floor(Math.random() * 15) + 1;
+            num2 = Math.floor(Math.random() * 15) + 1;
+          } else if (level === 6) {
+            // レベル6: 二桁 16 まで
+            num1 = Math.floor(Math.random() * 16) + 1;
+            num2 = Math.floor(Math.random() * 16) + 1;
+          } else if (level === 7) {
+            // レベル7: 二桁 17 まで
+            num1 = Math.floor(Math.random() * 17) + 1;
+            num2 = Math.floor(Math.random() * 17) + 1;
+          } else if (level === 8) {
+            // レベル8: 二桁 18 まで
+            num1 = Math.floor(Math.random() * 18) + 1;
+            num2 = Math.floor(Math.random() * 18) + 1;
+          } else if (level === 9) {
+            // レベル9: 二桁 19 まで
+            num1 = Math.floor(Math.random() * 19) + 1;
+            num2 = Math.floor(Math.random() * 19) + 1;
           } else {
-            // レベル3: 1~2桁 × 1~2桁
+            // レベル10: 1~2桁 × 1~2桁 (現在のレベル3と同じ)
             num1 = Math.floor(Math.random() * 99) + 1;
             num2 = Math.floor(Math.random() * 99) + 1;
           }
@@ -303,6 +331,20 @@
                 <span class="block text-sm mt-1">1桁 × 1桁</span>
               {:else if level === 2}
                 <span class="block text-sm mt-1">3~12 × 3~12</span>
+              {:else if level === 3}
+                <span class="block text-sm mt-1">～13 × ～13</span>
+              {:else if level === 4}
+                <span class="block text-sm mt-1">～14 × ～14</span>
+              {:else if level === 5}
+                <span class="block text-sm mt-1">～15 × ～15</span>
+              {:else if level === 6}
+                <span class="block text-sm mt-1">～16 × ～16</span>
+              {:else if level === 7}
+                <span class="block text-sm mt-1">～17 × ～17</span>
+              {:else if level === 8}
+                <span class="block text-sm mt-1">～18 × ～18</span>
+              {:else if level === 9}
+                <span class="block text-sm mt-1">～19 × ～19</span>
               {:else}
                 <span class="block text-sm mt-1">1~2桁 × 1~2桁</span>
               {/if}
