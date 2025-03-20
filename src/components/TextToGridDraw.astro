@@ -1,0 +1,147 @@
+---
+const { class: className, margin, grid } = Astro.props;
+const grids = [...Array(grid)].map((_, i) => i);
+---
+
+<div class="text-to-grid-sample">
+  <p class="text-to-grid-sample_label">{`${grid}グリッド margin:${margin}`}</p>
+  <section class={className}>
+    {grids.map((i) => <div class={`grid`} />)}
+  </section>
+  <div class="baseGrid">
+    <p>
+      テキストとグリッドは、人類の情報整理の歴史において密接な関係を持っています。古代メソポタミアの粘土板や、中世の写本に見られる行と列の配置は、情報を秩序立てて伝えるための初期の試みでした。印刷技術の発展により、グリッドシステムは洗練されていきました。ヨハネス・グーテンベルクの活版印刷は、文字を均一に配置する基盤を築き、スイスのデザイナーたちが20世紀に体系化したモダンなグリッドシステムへと進化しました。デジタル時代において、ピクセルグリッドはスクリーン上の文字表示の基礎となりました。今日のウェブデザインやアプリケーションでは、レスポンシブデザインによって、様々な画面サイズに適応するグリッドが採用されています。テキストとグリッドの関係は、単なる整理整頓の手段を超え、情報の階層化、可読性の向上、そして美的感覚を高める役割を担っています。この見えない構造が、私たちの情報体験を形作っているのです。
+    </p>
+  </div>
+</div>
+
+<style>
+  .text-to-grid-sample {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    width: 100%;
+    margin: 2rem 0;
+    position: relative;
+    hanging-punctuation: allow-end;
+    text-underline-offset: 0.1em;
+  }
+  .text-to-grid-sample_label {
+    font-size: 0.8rem;
+    color: rgb(0, 102, 102);
+  }
+
+  .beta {
+    font-feature-settings: "palt" 0;
+    font-kerning: none;
+  }
+  .beta.chws {
+    font-feature-settings:
+      "palt" 0,
+      "halt" 1;
+    font-kerning: none;
+  }
+  .kerning {
+    font-feature-settings: "palt" 1;
+    font-kerning: normal;
+  }
+
+  .baseGrid {
+    position: absolute;
+    top: 2rem;
+    left: 0;
+    opacity: 0.2;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 1rem);
+    gap: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    p {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .rem-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 1rem);
+    gap: 0;
+    width: 100%;
+    p {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .margin-8_grid-12 {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1rem;
+    width: calc(100% - 8rem * 2);
+    margin: 0 8rem;
+    @media (width < 768px) {
+      width: calc(100% - 2rem * 2);
+      margin: 0 2rem;
+    }
+    p {
+      grid-column: 1 / -1;
+    }
+  }
+  .margin-4_grid-12 {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1rem;
+    width: calc(100% - 4rem * 2);
+    margin: 0 4rem;
+    @media (width < 768px) {
+      grid-template-columns: repeat(6, 1fr);
+      width: calc(100% - 1rem * 2);
+      margin: 0 1rem;
+    }
+    p {
+      grid-column: 1 / -1;
+    }
+  }
+  .margin-2_grid-16 {
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    gap: 1rem;
+    width: calc(100% - 2rem * 2);
+    margin: 0 2rem;
+    @media (width < 768px) {
+      grid-template-columns: repeat(8, 1fr);
+      width: calc(100% - 1rem * 2);
+      margin: 0 1rem;
+    }
+    p {
+      grid-column: 1 / -1;
+    }
+  }
+  .margin-2_grid-16_mobile {
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    gap: 1rem;
+    width: calc(100% - 2rem * 2);
+    margin: 0 2rem;
+    @media (width < 768px) {
+      font-size: 14px;
+      grid-template-columns: repeat(8, 1fr);
+      width: calc(100% - 1rem * 2);
+      margin: 0 1rem;
+    }
+    p {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .grid {
+    width: 100%;
+    height: 10rem;
+    background-color: #d69898;
+    overflow: hidden;
+    p {
+      height: 100%;
+      overflow: hidden;
+    }
+  }
+</style>
