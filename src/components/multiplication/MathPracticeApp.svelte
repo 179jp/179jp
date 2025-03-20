@@ -120,33 +120,33 @@
             num1 = possibleNumbers[randomIndex1];
             num2 = possibleNumbers[randomIndex2];
           } else if (level === 3) {
-            // レベル3: 二桁 13 まで
-            num1 = Math.floor(Math.random() * 13) + 1;
-            num2 = Math.floor(Math.random() * 13) + 1;
+            // レベル3: 二桁 13 まで (3以上)
+            num1 = Math.floor(Math.random() * 11) + 3; // 3-13
+            num2 = Math.floor(Math.random() * 11) + 3; // 3-13
           } else if (level === 4) {
-            // レベル4: 二桁 14 まで
-            num1 = Math.floor(Math.random() * 14) + 1;
-            num2 = Math.floor(Math.random() * 14) + 1;
+            // レベル4: 二桁 14 まで (3以上)
+            num1 = Math.floor(Math.random() * 12) + 3; // 3-14
+            num2 = Math.floor(Math.random() * 12) + 3; // 3-14
           } else if (level === 5) {
-            // レベル5: 二桁 15 まで
-            num1 = Math.floor(Math.random() * 15) + 1;
-            num2 = Math.floor(Math.random() * 15) + 1;
+            // レベル5: 二桁 15 まで (3以上)
+            num1 = Math.floor(Math.random() * 13) + 3; // 3-15
+            num2 = Math.floor(Math.random() * 13) + 3; // 3-15
           } else if (level === 6) {
-            // レベル6: 二桁 16 まで
-            num1 = Math.floor(Math.random() * 16) + 1;
-            num2 = Math.floor(Math.random() * 16) + 1;
+            // レベル6: 二桁 16 まで (3以上)
+            num1 = Math.floor(Math.random() * 14) + 3; // 3-16
+            num2 = Math.floor(Math.random() * 14) + 3; // 3-16
           } else if (level === 7) {
-            // レベル7: 二桁 17 まで
-            num1 = Math.floor(Math.random() * 17) + 1;
-            num2 = Math.floor(Math.random() * 17) + 1;
+            // レベル7: 二桁 17 まで (3以上)
+            num1 = Math.floor(Math.random() * 15) + 3; // 3-17
+            num2 = Math.floor(Math.random() * 15) + 3; // 3-17
           } else if (level === 8) {
-            // レベル8: 二桁 18 まで
-            num1 = Math.floor(Math.random() * 18) + 1;
-            num2 = Math.floor(Math.random() * 18) + 1;
+            // レベル8: 二桁 18 まで (3以上)
+            num1 = Math.floor(Math.random() * 16) + 3; // 3-18
+            num2 = Math.floor(Math.random() * 16) + 3; // 3-18
           } else if (level === 9) {
-            // レベル9: 二桁 19 まで
-            num1 = Math.floor(Math.random() * 19) + 1;
-            num2 = Math.floor(Math.random() * 19) + 1;
+            // レベル9: 二桁 19 まで (3以上)
+            num1 = Math.floor(Math.random() * 17) + 3; // 3-19
+            num2 = Math.floor(Math.random() * 17) + 3; // 3-19
           } else {
             // レベル10: 1~2桁 × 1~2桁 (現在のレベル3と同じ)
             num1 = Math.floor(Math.random() * 99) + 1;
@@ -328,25 +328,25 @@
               {/if}
             {:else if selectedOperation === OPERATIONS.MULTIPLICATION}
               {#if level === 1}
-                <span class="block text-sm mt-1">1桁 × 1桁</span>
+                <span class="block text-sm mt-1">九九の掛け算</span>
               {:else if level === 2}
-                <span class="block text-sm mt-1">3~12 × 3~12</span>
+                <span class="block text-sm mt-1">1〜2桁の掛け算（3〜12）</span>
               {:else if level === 3}
-                <span class="block text-sm mt-1">～13 × ～13</span>
+                <span class="block text-sm mt-1">1〜2桁の掛け算（3〜13）</span>
               {:else if level === 4}
-                <span class="block text-sm mt-1">～14 × ～14</span>
+                <span class="block text-sm mt-1">1〜2桁の掛け算（3〜14）</span>
               {:else if level === 5}
-                <span class="block text-sm mt-1">～15 × ～15</span>
+                <span class="block text-sm mt-1">1〜2桁の掛け算（3〜15）</span>
               {:else if level === 6}
-                <span class="block text-sm mt-1">～16 × ～16</span>
+                <span class="block text-sm mt-1">1〜2桁の掛け算（3〜16）</span>
               {:else if level === 7}
-                <span class="block text-sm mt-1">～17 × ～17</span>
+                <span class="block text-sm mt-1">1〜2桁の掛け算（3〜17）</span>
               {:else if level === 8}
-                <span class="block text-sm mt-1">～18 × ～18</span>
+                <span class="block text-sm mt-1">1〜2桁の掛け算（3〜18）</span>
               {:else if level === 9}
-                <span class="block text-sm mt-1">～19 × ～19</span>
+                <span class="block text-sm mt-1">1〜2桁の掛け算（3〜19）</span>
               {:else}
-                <span class="block text-sm mt-1">1~2桁 × 1~2桁</span>
+                <span class="block text-sm mt-1">2桁の掛け算</span>
               {/if}
             {:else if selectedOperation === OPERATIONS.DIVISION}
               {#if level === 1}
@@ -368,6 +368,14 @@
     </div>
   {:else if appState === 'problem'}
     <div class="w-full">
+      <div class="absolute top-4 left-4">
+        <button 
+          class="text-blue-600 hover:text-blue-800 text-sm font-medium"
+          on:click={() => { appState = 'select-level'; }}
+        >
+          ← レベル選択に戻る
+        </button>
+      </div>
       <ProgressTracker 
         current={currentProblemIndex + 1} 
         total={problems.length} 
