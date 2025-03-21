@@ -1,0 +1,24 @@
+---
+interface Props {
+  date: Date;
+  isShort: boolean;
+}
+
+const { date, isShort = false } = Astro.props;
+const d = date;
+
+const options: Intl.DateTimeFormatOptions = isShort
+  ? {
+      month: "short",
+      day: "numeric",
+    }
+  : {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    };
+---
+
+<span>
+  {d.toLocaleDateString("ja-JP", options)}
+</span>
