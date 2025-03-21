@@ -1,0 +1,418 @@
+---
+
+---
+
+<div>
+  <canvas id="glCanvas" width="800" height="800"></canvas>
+</div>
+
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+    background-color: #f8f8f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  canvas {
+    display: block;
+    background-color: white;
+    width: 100vw;
+    height: 100vh;
+  }
+</style>
+
+<script client:load>
+  // WebGLコンテキストの初期化
+  const canvas = document.getElementById("glCanvas");
+  const gl = canvas.getContext("webgl");
+
+  if (!gl) {
+    alert("WebGLがサポートされていないか、有効になっていません");
+    throw new Error("WebGL not available");
+  }
+
+  // 頂点シェーダーのソースコード
+  const vertexShaderSource = `
+      attribute vec2 a_position;
+      
+      void main() {
+          gl_Position = vec4(a_position, 0.0, 1.0);
+      }
+  `;
+
+  // フラグメントシェーダーのソースコード
+  const fragmentShaderSource = `
+      precision highp float;
+      
+      uniform float u_time;
+      uniform vec2 u_resolution;
+      
+      // 2D Simplex Noise by Ian McEwan, Ashima Arts
+      // https://github.com/ashima/webgl-noise
+      vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+      vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+      vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
+
+      float snoise(vec2 v) {
+          const vec4 C = vec4(0.211324865405187, 0.366025403784439,
+                              -0.577350269189626, 0.024390243902439);
+          vec2 i  = floor(v + dot(v, C.yy));
+          vec2 x0 = v -   i + dot(i, C.xx);
+          vec2 i1;
+          i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+          vec4 x12 = x0.xyxy + C.xxzz;
+          x12.xy -= i1;
+          i = mod289(i);
+          vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0))
+              + i.x + vec3(0.0, i1.x, 1.0));
+          vec3 m = max(0.5 - vec3(dot(x0, x0), dot(x12.xy, x12.xy),
+              dot(x12.zw, x12.zw)), 0.0);
+          m = m*m;
+          m = m*m;
+          vec3 x = 2.0 * fract(p * C.www) - 1.0;
+          vec3 h = abs(x) - 0.5;
+          vec3 ox = floor(x + 0.5);
+          vec3 a0 = x - ox;
+          m *= 1.79284291400159 - 0.85373472095314 * (a0*a0 + h*h);
+          vec3 g;
+          g.x = a0.x * x0.x + h.x * x0.y;
+          g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+          return 130.0 * dot(m, g);
+      }
+      
+      // フラクタルノイズ関数
+      float fbm(vec2 p, int octaves, float lacunarity, float gain) {
+          float freq = 1.0;
+          float amp = 0.5;
+          float sum = 0.0;
+          
+          for(int i = 0; i < 16; i++) {
+              if(i >= octaves) break;
+              float n = snoise(p * freq);
+              sum += n * amp;
+              freq *= lacunarity;
+              amp *= gain;
+          }
+          
+          return sum;
+      }
+      
+      // 地形高度関数
+      float terrainHeight(vec2 p, float time) {
+          // 拡大率（小さくすると表示領域が拡大される）
+          p *= 0.6; 
+          
+          // 基本となるノイズ
+          float height = 0.0;
+          
+          // タイムオフセット - より顕著な変化のために大きめの値を使用
+          vec2 timeOffset = vec2(time * 0.05, time * 0.06);
+          
+          // ゆっくり変形する基本地形
+          height += fbm(p * 0.3 + timeOffset * 0.3, 6, 2.0, 0.5);
+          height += fbm(p * 0.8 + timeOffset * 0.5, 4, 2.0, 0.5) * 0.25;
+          height += fbm(p * 3.0 + timeOffset * 0.7, 3, 2.0, 0.5) * 0.12;
+          
+          // ランダムに現れたり消えたりする山々を作成
+          // 動的な山の生成
+          
+          // 山1
+          float timeFactor1 = time * 0.15;
+          float peakTime1 = time * 0.08;
+          vec2 peakPos1 = vec2(
+              sin(1.0 * 2.5 + 0.7) * 0.8 + 0.2 * sin(peakTime1 * 0.55 + 1.0),
+              cos(1.0 * 1.9 + 0.3) * 0.8 + 0.2 * cos(peakTime1 * 0.44 + 0.7)
+          );
+          float peakSize1 = 4.0 + sin(timeFactor1 * 0.3 + 1.1) * 1.5;
+          float peakStrength1 = 0.3 + 0.2 * sin(timeFactor1 * 0.7 + 0.5);
+          float existence1 = 0.5 + 0.5 * sin(timeFactor1 * 0.21 + 3.0);
+          existence1 = pow(existence1, 1.5);
+          float dist1 = distance(p, peakPos1) * peakSize1;
+          height += peakStrength1 * exp(-dist1 * dist1) * existence1;
+          
+          // 山2
+          float timeFactor2 = time * 0.18;
+          float peakTime2 = time * 0.09;
+          vec2 peakPos2 = vec2(
+              sin(2.0 * 2.5 + 0.7) * 0.8 + 0.2 * sin(peakTime2 * 0.6 + 2.0),
+              cos(2.0 * 1.9 + 0.3) * 0.8 + 0.2 * cos(peakTime2 * 0.48 + 1.4)
+          );
+          float peakSize2 = 4.0 + sin(timeFactor2 * 0.3 + 2.2) * 1.5;
+          float peakStrength2 = 0.3 + 0.2 * sin(timeFactor2 * 0.7 + 1.0);
+          float existence2 = 0.5 + 0.5 * sin(timeFactor2 * 0.22 + 6.0);
+          existence2 = pow(existence2, 1.5);
+          float dist2 = distance(p, peakPos2) * peakSize2;
+          height += peakStrength2 * exp(-dist2 * dist2) * existence2;
+          
+          // 山3
+          float timeFactor3 = time * 0.13;
+          float peakTime3 = time * 0.07;
+          vec2 peakPos3 = vec2(
+              sin(3.0 * 2.5 + 0.7) * 0.8 + 0.2 * sin(peakTime3 * 0.65 + 3.0),
+              cos(3.0 * 1.9 + 0.3) * 0.8 + 0.2 * cos(peakTime3 * 0.52 + 2.1)
+          );
+          float peakSize3 = 4.0 + sin(timeFactor3 * 0.3 + 3.3) * 1.5;
+          float peakStrength3 = 0.3 + 0.2 * sin(timeFactor3 * 0.7 + 1.5);
+          float existence3 = 0.5 + 0.5 * sin(timeFactor3 * 0.23 + 9.0);
+          existence3 = pow(existence3, 1.5);
+          float dist3 = distance(p, peakPos3) * peakSize3;
+          height += peakStrength3 * exp(-dist3 * dist3) * existence3;
+          
+          // 山4
+          float timeFactor4 = time * 0.16;
+          float peakTime4 = time * 0.06;
+          vec2 peakPos4 = vec2(
+              sin(4.0 * 2.5 + 0.7) * 0.8 + 0.2 * sin(peakTime4 * 0.7 + 4.0),
+              cos(4.0 * 1.9 + 0.3) * 0.8 + 0.2 * cos(peakTime4 * 0.56 + 2.8)
+          );
+          float peakSize4 = 4.0 + sin(timeFactor4 * 0.3 + 4.4) * 1.5;
+          float peakStrength4 = 0.3 + 0.2 * sin(timeFactor4 * 0.7 + 2.0);
+          float existence4 = 0.5 + 0.5 * sin(timeFactor4 * 0.24 + 12.0);
+          existence4 = pow(existence4, 1.5);
+          float dist4 = distance(p, peakPos4) * peakSize4;
+          height += peakStrength4 * exp(-dist4 * dist4) * existence4;
+          
+          // 山5
+          float timeFactor5 = time * 0.14;
+          float peakTime5 = time * 0.08;
+          vec2 peakPos5 = vec2(
+              sin(5.0 * 2.5 + 0.7) * 0.8 + 0.2 * sin(peakTime5 * 0.75 + 5.0),
+              cos(5.0 * 1.9 + 0.3) * 0.8 + 0.2 * cos(peakTime5 * 0.6 + 3.5)
+          );
+          float peakSize5 = 4.0 + sin(timeFactor5 * 0.3 + 5.5) * 1.5;
+          float peakStrength5 = 0.3 + 0.2 * sin(timeFactor5 * 0.7 + 2.5);
+          float existence5 = 0.5 + 0.5 * sin(timeFactor5 * 0.25 + 15.0);
+          existence5 = pow(existence5, 1.5);
+          float dist5 = distance(p, peakPos5) * peakSize5;
+          height += peakStrength5 * exp(-dist5 * dist5) * existence5;
+          
+          // 山6
+          float timeFactor6 = time * 0.17;
+          float peakTime6 = time * 0.09;
+          vec2 peakPos6 = vec2(
+              sin(6.0 * 2.5 + 0.7) * 0.8 + 0.2 * sin(peakTime6 * 0.8 + 6.0),
+              cos(6.0 * 1.9 + 0.3) * 0.8 + 0.2 * cos(peakTime6 * 0.64 + 4.2)
+          );
+          float peakSize6 = 4.0 + sin(timeFactor6 * 0.3 + 6.6) * 1.5;
+          float peakStrength6 = 0.3 + 0.2 * sin(timeFactor6 * 0.7 + 3.0);
+          float existence6 = 0.5 + 0.5 * sin(timeFactor6 * 0.26 + 18.0);
+          existence6 = pow(existence6, 1.5);
+          float dist6 = distance(p, peakPos6) * peakSize6;
+          height += peakStrength6 * exp(-dist6 * dist6) * existence6;
+          
+          // 山7
+          float timeFactor7 = time * 0.12;
+          float peakTime7 = time * 0.07;
+          vec2 peakPos7 = vec2(
+              sin(7.0 * 2.5 + 0.7) * 0.8 + 0.2 * sin(peakTime7 * 0.85 + 7.0),
+              cos(7.0 * 1.9 + 0.3) * 0.8 + 0.2 * cos(peakTime7 * 0.68 + 4.9)
+          );
+          float peakSize7 = 4.0 + sin(timeFactor7 * 0.3 + 7.7) * 1.5;
+          float peakStrength7 = 0.3 + 0.2 * sin(timeFactor7 * 0.7 + 3.5);
+          float existence7 = 0.5 + 0.5 * sin(timeFactor7 * 0.27 + 21.0);
+          existence7 = pow(existence7, 1.5);
+          float dist7 = distance(p, peakPos7) * peakSize7;
+          height += peakStrength7 * exp(-dist7 * dist7) * existence7;
+          
+          // 山8
+          float timeFactor8 = time * 0.19;
+          float peakTime8 = time * 0.1;
+          vec2 peakPos8 = vec2(
+              sin(8.0 * 2.5 + 0.7) * 0.8 + 0.2 * sin(peakTime8 * 0.9 + 8.0),
+              cos(8.0 * 1.9 + 0.3) * 0.8 + 0.2 * cos(peakTime8 * 0.72 + 5.6)
+          );
+          float peakSize8 = 4.0 + sin(timeFactor8 * 0.3 + 8.8) * 1.5;
+          float peakStrength8 = 0.3 + 0.2 * sin(timeFactor8 * 0.7 + 4.0);
+          float existence8 = 0.5 + 0.5 * sin(timeFactor8 * 0.28 + 24.0);
+          existence8 = pow(existence8, 1.5);
+          float dist8 = distance(p, peakPos8) * peakSize8;
+          height += peakStrength8 * exp(-dist8 * dist8) * existence8;
+          
+          return height;
+      }
+      
+      // 等高線の描画
+      float contourLines(float height, float interval) {
+          float f = fract(height / interval);
+          float df = abs(f - 0.5) * 2.0;
+          
+          // 等高線の幅を調整（線を少し太くして見やすく）
+          return smoothstep(0.94, 1.0, df);
+      }
+      
+      void main() {
+          // 正規化されたピクセル座標 [-1, 1]
+          vec2 p = (gl_FragCoord.xy / u_resolution.xy) * 2.0 - 1.0;
+          p.x *= u_resolution.x / u_resolution.y; // アスペクト比の修正
+          
+          // 時間をより速く進める
+          float time = u_time * 0.5; // 時間を少し速く
+          
+          // 地形の高さを計算
+          float height = terrainHeight(p, time);
+          
+          // 等高線の間隔を複数設定して重ね合わせる
+          // 異なる間隔の等高線で階層的な表現（間隔を広げて見やすく）
+          float contour1 = contourLines(height, 0.03); // 細かい等高線
+          float contour2 = contourLines(height, 0.08); // 中間の等高線
+          float contour3 = contourLines(height, 0.15); // 主要な等高線
+          float contour4 = contourLines(height, 0.3);  // 大きな等高線
+          
+          // 標高による色の濃淡を作成（低い場所は薄く、高い場所は濃く）
+          float shading = smoothstep(-0.3, 1.0, height);
+          
+          // すべての等高線を組み合わせる（大きな等高線ほど太く濃く）- コントラストを上げる
+          float lines = mix(1.0, 0.8, contour1);           // 最も細かい線（より明確に）
+          lines = mix(lines, 0.6, contour2 * 0.9);         // 中間の線
+          lines = mix(lines, 0.4, contour3 * 0.95);        // 主要な線
+          lines = mix(lines, 0.2, contour4 * 1.0);         // 大きな線（より濃く）
+          
+          // 背景色から最終的な色を計算（白背景と濃紺の線）
+          vec3 bgColor = vec3(1.0, 1.0, 1.0); // 純白
+          vec3 lineColor = vec3(0.039, 0.102, 0.376); // #0A1A60
+          
+          // 等高線のみを適用（高さに基づく色付けを削除）
+          vec3 color = bgColor;
+          color = mix(color, lineColor, 1.0 - lines); // 等高線を適用
+          
+          gl_FragColor = vec4(color, 1.0);
+      }
+  `;
+
+  // シェーダーをコンパイルする関数
+  function compileShader(gl, source, type) {
+    const shader = gl.createShader(type);
+    gl.shaderSource(shader, source);
+    gl.compileShader(shader);
+
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+      console.error(
+        "シェーダーのコンパイルエラー:",
+        gl.getShaderInfoLog(shader)
+      );
+      gl.deleteShader(shader);
+      return null;
+    }
+
+    return shader;
+  }
+
+  // シェーダープログラムの作成と初期化
+  function initShaderProgram(gl, vsSource, fsSource) {
+    const vertexShader = compileShader(gl, vsSource, gl.VERTEX_SHADER);
+    const fragmentShader = compileShader(gl, fsSource, gl.FRAGMENT_SHADER);
+
+    const program = gl.createProgram();
+    gl.attachShader(program, vertexShader);
+    gl.attachShader(program, fragmentShader);
+    gl.linkProgram(program);
+
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      console.error(
+        "シェーダープログラムのリンクエラー:",
+        gl.getProgramInfoLog(program)
+      );
+      return null;
+    }
+
+    return program;
+  }
+
+  // シェーダープログラムの初期化
+  const shaderProgram = initShaderProgram(
+    gl,
+    vertexShaderSource,
+    fragmentShaderSource
+  );
+
+  // 属性とユニフォームの取得
+  const programInfo = {
+    program: shaderProgram,
+    attribLocations: {
+      position: gl.getAttribLocation(shaderProgram, "a_position"),
+    },
+    uniformLocations: {
+      time: gl.getUniformLocation(shaderProgram, "u_time"),
+      resolution: gl.getUniformLocation(shaderProgram, "u_resolution"),
+    },
+  };
+
+  // フルスクリーン四角形の頂点バッファを作成
+  function initBuffers(gl) {
+    const positionBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+
+    // フルスクリーン四角形（2つの三角形）
+    const positions = [-1.0, -1.0, 1.0, -1.0, -1.0, 1.0, 1.0, 1.0];
+
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+
+    return {
+      position: positionBuffer,
+    };
+  }
+
+  const buffers = initBuffers(gl);
+
+  // 描画関数
+  function render(time) {
+    // 時間を秒単位に変換
+    const timeInSeconds = time * 0.001;
+
+    gl.clearColor(1.0, 1.0, 1.0, 1.0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+
+    gl.useProgram(programInfo.program);
+
+    // 頂点アトリビュートの設定
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
+    gl.vertexAttribPointer(
+      programInfo.attribLocations.position,
+      2, // サイズ（vec2）
+      gl.FLOAT, // 型
+      false, // 正規化しない
+      0, // ストライド
+      0 // オフセット
+    );
+    gl.enableVertexAttribArray(programInfo.attribLocations.position);
+
+    // ユニフォームの設定
+    gl.uniform1f(programInfo.uniformLocations.time, timeInSeconds);
+    gl.uniform2f(
+      programInfo.uniformLocations.resolution,
+      canvas.width,
+      canvas.height
+    );
+
+    // 描画
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+    // 次のフレームをリクエスト
+    requestAnimationFrame(render);
+  }
+
+  // ウィンドウサイズが変更されたときのキャンバスリサイズ
+  function resizeCanvas() {
+    const containerWidth = Math.min(800, window.innerWidth - 40);
+    const containerHeight = Math.min(800, window.innerHeight - 100);
+
+    // 正方形にする（等高線表示を歪ませないため）
+    const size = Math.min(containerWidth, containerHeight);
+
+    canvas.width = size;
+    canvas.height = size;
+    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+  }
+
+  // 初期サイズを設定
+  resizeCanvas();
+
+  // リサイズイベントのリスナーを追加
+  window.addEventListener("resize", resizeCanvas);
+
+  // アニメーションの開始
+  requestAnimationFrame(render);
+</script>
