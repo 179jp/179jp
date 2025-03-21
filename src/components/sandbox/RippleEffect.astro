@@ -1,0 +1,498 @@
+---
+
+---
+
+<div>
+  <canvas id="glCanvas" width="800" height="800"></canvas>
+</div>
+
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+    background-color: #313131;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  canvas {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+  }
+</style>
+
+<script client:load>
+  // キャンバスの設定
+  const canvas = document.getElementById("glCanvas");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const gl = canvas.getContext("webgl");
+
+  if (!gl) {
+    alert("WebGLがサポートされていません");
+    throw new Error("WebGL not supported");
+  }
+
+  // シェーダーソース
+  const vertexShaderSource = `
+            attribute vec2 a_position;
+            attribute vec2 a_texCoord;
+            varying vec2 v_texCoord;
+            
+            void main() {
+                gl_Position = vec4(a_position, 0.0, 1.0);
+                v_texCoord = a_texCoord;
+            }
+        `;
+
+  const fragmentShaderSource = `
+            precision mediump float;
+            
+            uniform float u_time;
+            uniform vec2 u_resolution;
+            uniform vec3 u_drops[30];
+            uniform float u_bigDropSize;
+            uniform vec3 u_bigDrop;
+            uniform sampler2D u_texture;
+            
+            varying vec2 v_texCoord;
+            
+            float calculateRipple(vec2 position, vec2 center, float startTime) {
+                float currentTime = u_time - startTime;
+                if (currentTime <= 0.0) return 0.0;
+                
+                float distance = length(position - center);
+                float speed = 0.15;
+                float waveRadius = currentTime * speed;
+                float waveWidth = 0.05;
+                
+                float fadeOut = 1.0 - min(1.0, currentTime * 0.4);
+                
+                float mask = smoothstep(0.0, waveWidth, distance - waveRadius + waveWidth) * 
+                            smoothstep(waveWidth, 0.0, distance - waveRadius);
+                
+                float wave = sin((distance - waveRadius) * 100.0) * 0.02 * fadeOut * mask;
+                
+                return wave;
+            }
+            
+            float calculateBigRipple(vec2 position, vec2 center, float startTime) {
+                float currentTime = u_time - startTime;
+                if (currentTime <= 0.0) return 0.0;
+                
+                float distance = length(position - center);
+                float speed = 0.1;
+                float waveRadius = currentTime * speed;
+                float waveWidth = 0.15;
+                
+                float fadeOut = 1.0 - min(1.0, currentTime * 0.2);
+                
+                float mask = smoothstep(0.0, waveWidth, distance - waveRadius + waveWidth) * 
+                            smoothstep(waveWidth, 0.0, distance - waveRadius);
+                
+                float wave = sin((distance - waveRadius) * 50.0) * 0.06 * fadeOut * mask;
+                
+                return wave * u_bigDropSize;
+            }
+            
+            void main() {
+                vec2 uv = v_texCoord;
+                vec2 position = (uv * 2.0 - 1.0);
+                position.x *= u_resolution.x / u_resolution.y;
+                
+                float elevation = 0.0;
+                
+                // 小さな波紋
+                for (int i = 0; i < 30; i++) {
+                    if (u_drops[i].z > 0.0) {
+                        elevation += calculateRipple(position, u_drops[i].xy, u_drops[i].z);
+                    }
+                }
+                
+                // 大きな波紋
+                if (u_bigDrop.z > 0.0) {
+                    elevation += calculateBigRipple(position, u_bigDrop.xy, u_bigDrop.z);
+                }
+                
+                vec2 distortedUV = uv;
+                distortedUV += elevation * 0.2;
+                
+                vec4 texColor = texture2D(u_texture, distortedUV);
+                
+                float distortion = abs(elevation) * 10.0;
+                vec3 highlight = vec3(0.8, 0.9, 1.0) * distortion;
+                
+                vec3 finalColor = mix(texColor.rgb, highlight, min(1.0, distortion));
+                float alpha = 0.9;
+                
+                gl_FragColor = vec4(finalColor, alpha);
+            }
+        `;
+
+  // シェーダーのコンパイル
+  function compileShader(gl, source, type) {
+    const shader = gl.createShader(type);
+    gl.shaderSource(shader, source);
+    gl.compileShader(shader);
+
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+      console.error("シェーダーコンパイルエラー:", gl.getShaderInfoLog(shader));
+      gl.deleteShader(shader);
+      return null;
+    }
+
+    return shader;
+  }
+
+  // シェーダープログラムの作成
+  function createProgram(gl, vertexShader, fragmentShader) {
+    const program = gl.createProgram();
+    gl.attachShader(program, vertexShader);
+    gl.attachShader(program, fragmentShader);
+    gl.linkProgram(program);
+
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      console.error("プログラムリンクエラー:", gl.getProgramInfoLog(program));
+      return null;
+    }
+
+    return program;
+  }
+
+  // シェーダーを初期化
+  const vertexShader = compileShader(gl, vertexShaderSource, gl.VERTEX_SHADER);
+  const fragmentShader = compileShader(
+    gl,
+    fragmentShaderSource,
+    gl.FRAGMENT_SHADER
+  );
+  const program = createProgram(gl, vertexShader, fragmentShader);
+
+  // 頂点データの設定
+  const positionBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+  const positions = [-1.0, -1.0, 1.0, -1.0, 1.0, 1.0, -1.0, 1.0];
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+
+  // テクスチャ座標の設定
+  const texCoordBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, texCoordBuffer);
+  const texCoords = [0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0];
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(texCoords), gl.STATIC_DRAW);
+
+  // インデックスバッファの設定
+  const indexBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+  const indices = [0, 1, 2, 0, 2, 3];
+  gl.bufferData(
+    gl.ELEMENT_ARRAY_BUFFER,
+    new Uint16Array(indices),
+    gl.STATIC_DRAW
+  );
+
+  // 属性の設定
+  const positionAttributeLocation = gl.getAttribLocation(program, "a_position");
+  const texCoordAttributeLocation = gl.getAttribLocation(program, "a_texCoord");
+
+  // Uniform 変数の場所を取得
+  const timeUniformLocation = gl.getUniformLocation(program, "u_time");
+  const resolutionUniformLocation = gl.getUniformLocation(
+    program,
+    "u_resolution"
+  );
+  const dropsUniformLocation = gl.getUniformLocation(program, "u_drops");
+  const bigDropSizeUniformLocation = gl.getUniformLocation(
+    program,
+    "u_bigDropSize"
+  );
+  const bigDropUniformLocation = gl.getUniformLocation(program, "u_bigDrop");
+  const textureUniformLocation = gl.getUniformLocation(program, "u_texture");
+
+  // テキストテクスチャの作成
+  function createTextTexture() {
+    const textCanvas = document.createElement("canvas");
+    textCanvas.width = 1024;
+    textCanvas.height = 1024;
+
+    const ctx = textCanvas.getContext("2d");
+
+    // 背景色を暗いグレーに
+    ctx.fillStyle = "#1a1a1a";
+    ctx.fillRect(0, 0, textCanvas.width, textCanvas.height);
+
+    // テキスト設定
+    ctx.fillStyle = "rgba(255, 255, 255, 0.35)";
+    ctx.font = '45px "MS Mincho", "HG Mincho", serif';
+    ctx.textBaseline = "middle";
+
+    // 縦書きテキスト
+    const text = `水の底に
+沈む言葉は
+静かに揺れて
+時を紡ぐ
+
+波紋が広がり
+忘れられた記憶が
+蘇る`;
+
+    // 中央に配置
+    const centerX = textCanvas.width / 2;
+    const centerY = textCanvas.height / 2;
+
+    // 縦書きの実装
+    const lines = text.split("\n");
+    const lineHeight = 80;
+
+    for (let i = 0; i < lines.length; i++) {
+      const chars = lines[i].split("");
+      const lineX = centerX - (i - lines.length / 2) * lineHeight;
+
+      for (let j = 0; j < chars.length; j++) {
+        // 影の効果
+        ctx.fillStyle = "#2a2a2a";
+        ctx.fillText(chars[j], lineX + 1, centerY - 250 + j * 60 + 1);
+
+        // テキスト本体
+        ctx.fillStyle = "rgba(255, 255, 255, 0.35)";
+        ctx.fillText(chars[j], lineX, centerY - 250 + j * 60);
+      }
+    }
+
+    // WebGLテクスチャを作成
+    const texture = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+
+    // テクスチャパラメータを設定
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+
+    // キャンバスの内容をテクスチャに転送
+    gl.texImage2D(
+      gl.TEXTURE_2D,
+      0,
+      gl.RGBA,
+      gl.RGBA,
+      gl.UNSIGNED_BYTE,
+      textCanvas
+    );
+
+    return texture;
+  }
+
+  // テクスチャを作成
+  const texture = createTextTexture();
+
+  // 波紋データ
+  const drops = new Array(30).fill().map(() => ({ x: 0, y: 0, time: -1 }));
+  // 大きな波紋のデータ
+  let bigDrop = { x: 0, y: 0, time: -1 };
+  let bigDropSize = 1.0;
+
+  // 波紋を追加する関数
+  function addDrop(x, y) {
+    const normX = (x / canvas.width) * 2 - 1;
+    const normY = (y / canvas.height) * 2 - 1;
+
+    const aspectRatio = canvas.width / canvas.height;
+    const correctedX = normX * aspectRatio;
+
+    // 未使用の要素を探す
+    for (let i = 0; i < drops.length; i++) {
+      if (drops[i].time < 0) {
+        drops[i] = { x: correctedX, y: normY, time: performance.now() / 1000 };
+        return;
+      }
+    }
+
+    // すべて使用中なら最も古いものを置き換え
+    let oldestIdx = 0;
+    let oldestTime = Infinity;
+
+    for (let i = 0; i < drops.length; i++) {
+      if (drops[i].time < oldestTime) {
+        oldestTime = drops[i].time;
+        oldestIdx = i;
+      }
+    }
+
+    drops[oldestIdx] = {
+      x: correctedX,
+      y: normY,
+      time: performance.now() / 1000,
+    };
+  }
+
+  // 大きな波紋を追加する関数
+  function addBigDrop(x, y) {
+    const normX = (x / canvas.width) * 2 - 1;
+    const normY = (y / canvas.height) * 2 - 1;
+
+    const aspectRatio = canvas.width / canvas.height;
+    const correctedX = normX * aspectRatio;
+
+    bigDrop = { x: correctedX, y: normY, time: performance.now() / 1000 };
+    bigDropSize = 1.0 + Math.random() * 0.5; // 1.0 〜 1.5 の範囲
+  }
+
+  // マウスイベント
+  let lastDropTime = 0;
+  let lastMouseX = -1;
+  let lastMouseY = -1;
+  let prevMouseX = -1;
+  let prevMouseY = -1;
+  let isMouseMoving = false;
+
+  canvas.addEventListener("mousemove", (event) => {
+    const currentX = event.clientX;
+    const currentY = event.clientY;
+
+    if (prevMouseX !== -1 && prevMouseY !== -1) {
+      const dx = currentX - prevMouseX;
+      const dy = currentY - prevMouseY;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance > 3) {
+        isMouseMoving = true;
+        setTimeout(() => {
+          isMouseMoving = false;
+        }, 100);
+      }
+    }
+
+    prevMouseX = currentX;
+    prevMouseY = currentY;
+    lastMouseX = currentX;
+    lastMouseY = currentY;
+  });
+
+  // クリックイベント
+  canvas.addEventListener("mousedown", (event) => {
+    addBigDrop(event.clientX, event.clientY);
+
+    // クリック周辺に小さな波紋も追加
+    for (let i = 0; i < 8; i++) {
+      const offsetX = (Math.random() - 0.5) * 80;
+      const offsetY = (Math.random() - 0.5) * 80;
+      addDrop(event.clientX + offsetX, event.clientY + offsetY);
+    }
+  });
+
+  // タッチイベント
+  canvas.addEventListener(
+    "touchstart",
+    (event) => {
+      event.preventDefault();
+      const touch = event.touches[0];
+
+      addBigDrop(touch.clientX, touch.clientY);
+
+      for (let i = 0; i < 8; i++) {
+        const offsetX = (Math.random() - 0.5) * 80;
+        const offsetY = (Math.random() - 0.5) * 80;
+        addDrop(touch.clientX + offsetX, touch.clientY + offsetY);
+      }
+    },
+    { passive: false }
+  );
+
+  // 初期波紋を追加
+  function addInitialDrops() {
+    for (let i = 0; i < 10; i++) {
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height;
+      addDrop(x, y);
+    }
+  }
+
+  addInitialDrops();
+
+  // リサイズ対応
+  window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    gl.viewport(0, 0, canvas.width, canvas.height);
+  });
+
+  // レンダリング関数
+  function render(now) {
+    now *= 0.001; // ミリ秒を秒に変換
+
+    // マウスが動いているとき波紋を生成
+    if (isMouseMoving && lastMouseX >= 0 && lastMouseY >= 0) {
+      if (now - lastDropTime > 0.1) {
+        // マウス位置周辺にランダムな波紋を生成
+        for (let i = 0; i < 5; i++) {
+          const offsetX = (Math.random() - 0.5) * 100;
+          const offsetY = (Math.random() - 0.5) * 100;
+          addDrop(lastMouseX + offsetX, lastMouseY + offsetY);
+        }
+
+        lastDropTime = now;
+      }
+    }
+
+    // 波紋データを更新
+    const currentTime = now;
+
+    // 古い波紋を削除
+    for (let i = 0; i < drops.length; i++) {
+      if (drops[i].time > 0 && currentTime - drops[i].time > 3) {
+        drops[i].time = -1;
+      }
+    }
+
+    // 大きな波紋の寿命
+    if (bigDrop.time > 0 && currentTime - bigDrop.time > 6) {
+      bigDrop.time = -1;
+    }
+
+    // 描画用のデータを準備
+    const dropData = new Float32Array(drops.length * 3);
+    for (let i = 0; i < drops.length; i++) {
+      dropData[i * 3] = drops[i].x;
+      dropData[i * 3 + 1] = drops[i].y;
+      dropData[i * 3 + 2] = drops[i].time;
+    }
+
+    // 描画開始
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+
+    gl.useProgram(program);
+
+    // 頂点属性を設定
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+    gl.enableVertexAttribArray(positionAttributeLocation);
+    gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, texCoordBuffer);
+    gl.enableVertexAttribArray(texCoordAttributeLocation);
+    gl.vertexAttribPointer(texCoordAttributeLocation, 2, gl.FLOAT, false, 0, 0);
+
+    // uniform 変数の設定
+    gl.uniform1f(timeUniformLocation, now);
+    gl.uniform2f(resolutionUniformLocation, canvas.width, canvas.height);
+    gl.uniform3fv(dropsUniformLocation, dropData);
+    gl.uniform1f(bigDropSizeUniformLocation, bigDropSize);
+    gl.uniform3f(bigDropUniformLocation, bigDrop.x, bigDrop.y, bigDrop.time);
+
+    // テクスチャの設定
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    gl.uniform1i(textureUniformLocation, 0);
+
+    // 描画
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+    gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0);
+
+    requestAnimationFrame(render);
+  }
+
+  // アニメーション開始
+  requestAnimationFrame(render);
+</script>
