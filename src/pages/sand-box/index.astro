@@ -1,17 +1,26 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
-import SandBoxTemplate from "../../layouts/SandBoxTemplate.astro";
+import PageTemplate from "../../layouts/PageTemplate.astro";
 import { render } from "astro:content";
+
+import FormattedDate from "../../components/FormattedDate.astro";
 
 const posts = (await getCollection("sandBox")).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
-const latestPost = posts[0];
-
-// Markdownをレンダリング
-const { Content } = await render(latestPost);
 ---
 
-<SandBoxTemplate {...latestPost.data} slug={latestPost.id}>
-  <Content />
-</SandBoxTemplate>
+<PageTemplate title="すなば">
+  {
+    posts.map((post) => (
+      <div>
+        <a href={`/sand-box/${post.id}`}>
+          <h3>{post.data.title}</h3>
+          <p>
+            <FormattedDate date={post.data.date} isShort={true} />
+          </p>
+        </a>
+      </div>
+    ))
+  }
+</PageTemplate>
