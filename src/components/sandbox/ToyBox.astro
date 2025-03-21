@@ -1,0 +1,395 @@
+---
+
+---
+
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-size: auto auto;
+    background-color: rgb(245, 244, 236);
+    background-image: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 10px,
+      rgb(241, 241, 230) 10px,
+      rgb(241, 241, 230) 20px
+    );
+  }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"
+></script>
+<script is:inline>
+  // 図形オブジェクトの配列
+  let shapes = [];
+  // 星のパーティクル配列
+  let particles = [];
+
+  // 色のパレット
+  const colors = [
+    "#FF6B6B", // 赤
+    "#FF8659", // オレンジ
+    "#21AB9B", // 緑
+    "#50AADE", // 水色
+    "#226F9B", // ブルー
+    "#FFB9B9", // ピンク
+    "#FFCB2D", // 黄色
+    "#FFDE62", // 明るい黄色
+  ];
+
+  /*
+  const colors = [
+    "#ECB921", // 黄色
+    "#FFCB2D", // 黄色
+    "#FFDE62", // 明るい黄色
+    "#FFE78E",
+  ];
+  */
+
+  function setup() {
+    createCanvas(windowWidth, windowHeight);
+
+    // 初期図形を生成
+    for (let i = 0; i < 25; i++) {
+      createShape(random(width), random(height));
+    }
+  }
+
+  function draw() {
+    clear();
+
+    // 衝突判定
+    for (let i = 0; i < shapes.length; i++) {
+      for (let j = i + 1; j < shapes.length; j++) {
+        checkCollision(shapes[i], shapes[j]);
+      }
+    }
+
+    // 図形を更新して描画
+    for (let i = 0; i < shapes.length; i++) {
+      updateShape(shapes[i]);
+      drawShape(shapes[i]);
+    }
+
+    // パーティクルを更新して描画
+    for (let i = particles.length - 1; i >= 0; i--) {
+      particles[i].life--;
+
+      if (particles[i].life > 0) {
+        updateParticle(particles[i]);
+        drawParticle(particles[i]);
+      } else {
+        particles.splice(i, 1);
+      }
+    }
+  }
+
+  // 図形を生成する関数
+  function createShape(x, y) {
+    const size = random(40, 250);
+    const shape = {
+      x: x,
+      y: y,
+      size: size,
+      initialSize: size, // 初期サイズを保存
+      color: random(colors),
+      type: floor(random(4)), // 0: 円, 1: 三角形, 2: 星, 3: 四角形
+      rotation: random(TWO_PI),
+      rotationSpeed: random(0.002, 0.01),
+      vx: random(0.5, 2),
+      vy: random(0.5, 2),
+      isGrowing: false,
+      growthStart: 0,
+    };
+
+    shapes.push(shape);
+    return shape;
+  }
+
+  // 図形を更新する関数
+  function updateShape(shape) {
+    // 移動
+    shape.x += shape.vx;
+    shape.y += shape.vy;
+
+    // 回転
+    shape.rotation += shape.rotationSpeed;
+
+    // 画面外に出たら反対側から再登場
+    if (shape.x > width + shape.size / 2) {
+      shape.x = -shape.size / 2;
+    }
+    if (shape.y > height + shape.size / 2) {
+      shape.y = -shape.size / 2;
+    }
+
+    // サイズの拡大アニメーション
+    if (shape.isGrowing) {
+      const currentTime = millis();
+      const elapsed = currentTime - shape.growthStart;
+      const duration = 300; // ミリ秒
+
+      if (elapsed < duration) {
+        // イーズアウト効果で自然な拡大
+        const progress = elapsed / duration;
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const growthAmount = shape.targetSize - shape.originalSize;
+        shape.size = shape.originalSize + growthAmount * eased;
+      } else {
+        // 拡大完了
+        shape.size = shape.targetSize;
+        shape.isGrowing = false;
+
+        // サイズが元の4倍以上になったら爆発
+        if (shape.size >= shape.initialSize * 3) {
+          createExplosion(shape);
+          resetShape(shape);
+        }
+      }
+    }
+  }
+
+  // 図形を描画する関数
+  function drawShape(shape) {
+    push();
+    translate(shape.x, shape.y);
+    rotate(shape.rotation);
+
+    fill(shape.color);
+    noStroke();
+
+    switch (shape.type) {
+      case 0: // 円
+        ellipse(0, 0, shape.size, shape.size);
+        break;
+      case 1: // 三角形
+        drawTriangle(shape.size);
+        break;
+      case 2: // 星
+        drawStar(shape.size);
+        break;
+      case 3: // 四角形
+        rectMode(CENTER);
+        rect(0, 0, shape.size, shape.size);
+        break;
+    }
+
+    pop();
+  }
+
+  // 三角形を描画
+  function drawTriangle(size) {
+    const r = size / 2;
+    beginShape();
+    for (let i = 0; i < 3; i++) {
+      const angle = (TWO_PI / 3) * i - PI / 6;
+      vertex(r * cos(angle), r * sin(angle));
+    }
+    endShape(CLOSE);
+  }
+
+  // 星を描画
+  function drawStar(size) {
+    const outerRadius = size / 2;
+    const innerRadius = outerRadius * 0.4;
+
+    beginShape();
+    for (let i = 0; i < 10; i++) {
+      const radius = i % 2 === 0 ? outerRadius : innerRadius;
+      const angle = (TWO_PI / 10) * i - PI / 2;
+      vertex(radius * cos(angle), radius * sin(angle));
+    }
+    endShape(CLOSE);
+  }
+
+  // 衝突判定と反応
+  function checkCollision(shape1, shape2) {
+    // 図形間の距離を計算
+    const dx = shape2.x - shape1.x;
+    const dy = shape2.y - shape1.y;
+    const distance = sqrt(dx * dx + dy * dy);
+
+    // 図形の種類に応じた当たり判定の半径を取得
+    const radius1 = getCollisionRadius(shape1);
+    const radius2 = getCollisionRadius(shape2);
+
+    // 衝突判定（形状に応じた半径を使用）
+    const minDistance = radius1 + radius2;
+
+    if (distance < minDistance) {
+      // 衝突の方向ベクトル
+      const nx = dx / distance;
+      const ny = dy / distance;
+
+      // 相対速度
+      const dvx = shape2.vx - shape1.vx;
+      const dvy = shape2.vy - shape1.vy;
+      const dotProduct = dvx * nx + dvy * ny;
+
+      // 既に離れる方向に動いている場合は計算しない
+      if (dotProduct > 0) return;
+
+      // 反発係数
+      const restitution = 1.25;
+
+      // 運動量保存に基づく速度更新（質量は形状に応じて変える）
+      const mass1 = shape1.size * getShapeMassMultiplier(shape1.type);
+      const mass2 = shape2.size * getShapeMassMultiplier(shape2.type);
+      const impulse = (-2 * dotProduct) / (1 / mass1 + 1 / mass2);
+
+      shape1.vx -= (impulse * nx) / mass1;
+      shape1.vy -= (impulse * ny) / mass1;
+      shape2.vx += (impulse * nx) / mass2;
+      shape2.vy += (impulse * ny) / mass2;
+
+      // 重なりを解消
+      const overlap = (minDistance - distance) * 0.5;
+      const m1Ratio = mass2 / (mass1 + mass2);
+      const m2Ratio = mass1 / (mass1 + mass2);
+
+      shape1.x -= overlap * nx * m1Ratio;
+      shape1.y -= overlap * ny * m1Ratio;
+      shape2.x += overlap * nx * m2Ratio;
+      shape2.y += overlap * ny * m2Ratio;
+
+      // 衝突時に拡大
+      growOnCollision(shape1);
+      growOnCollision(shape2);
+    }
+  }
+
+  // 図形の形状に応じた当たり判定の半径を取得
+  function getCollisionRadius(shape) {
+    const baseRadius = shape.size / 2;
+
+    switch (shape.type) {
+      case 0: // 円
+        return baseRadius;
+
+      case 1: // 三角形
+        // 三角形は内接円半径に近い値（中心から辺までの最短距離）
+        return baseRadius * 0.75;
+
+      case 2: // 星
+        // 星は中心から内側の頂点までの距離
+        return baseRadius * 0.4;
+
+      case 3: // 四角形
+        // 四角形は対角線の半分なので、√2/2 ≈ 0.7071
+        return baseRadius * 0.7071;
+
+      default:
+        return baseRadius;
+    }
+  }
+
+  // 図形の形状に応じた質量の係数を取得
+  function getShapeMassMultiplier(type) {
+    switch (type) {
+      case 0: // 円 - 基準
+        return 1.0;
+
+      case 1: // 三角形 - 円より軽い
+        return 0.8;
+
+      case 2: // 星 - さらに軽い
+        return 0.6;
+
+      case 3: // 四角形 - 円より重い
+        return 1.2;
+
+      default:
+        return 1.0;
+    }
+  }
+
+  // 衝突時に拡大
+  function growOnCollision(shape) {
+    if (!shape.isGrowing) {
+      shape.originalSize = shape.size;
+      shape.targetSize = shape.size * 1.15;
+      shape.isGrowing = true;
+      shape.growthStart = millis();
+    }
+  }
+
+  // 図形をリセット
+  function resetShape(shape) {
+    shape.size = shape.initialSize;
+    shape.x = random(width);
+    shape.y = random(height / 3);
+    shape.vx = random(0.5, 2);
+    shape.vy = random(0.5, 2);
+    shape.rotation = random(TWO_PI);
+  }
+
+  // 爆発効果を作成
+  function createExplosion(shape) {
+    const count = 12; // パーティクル数
+
+    for (let i = 0; i < count; i++) {
+      const angle = (TWO_PI * i) / count;
+      const speed = random(2, 5);
+
+      particles.push({
+        x: shape.x,
+        y: shape.y,
+        vx: cos(angle) * speed,
+        vy: sin(angle) * speed,
+        size: random(10, 20),
+        color: shape.color,
+        rotation: random(TWO_PI),
+        rotationSpeed: random(-0.1, 0.1),
+        life: random(20, 40),
+      });
+    }
+  }
+
+  // パーティクルを更新
+  function updateParticle(particle) {
+    particle.x += particle.vx;
+    particle.y += particle.vy;
+    particle.rotation += particle.rotationSpeed;
+
+    // 減速
+    particle.vx *= 0.95;
+    particle.vy *= 0.95;
+
+    // 消えていく
+    if (particle.life < 10) {
+      particle.size *= 0.9;
+    }
+  }
+
+  // パーティクルを描画
+  function drawParticle(particle) {
+    push();
+    translate(particle.x, particle.y);
+    rotate(particle.rotation);
+
+    // 透明度を寿命に応じて変更
+    const alpha = map(particle.life, 0, 20, 0, 255);
+    const c = color(particle.color);
+    c.setAlpha(alpha);
+    fill(c);
+    noStroke();
+
+    // 小さな星を描画
+    drawStar(particle.size);
+
+    pop();
+  }
+
+  // ウィンドウサイズが変更されたときにキャンバスをリサイズ
+  function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+  }
+
+  // マウスクリックで図形を追加
+  function mousePressed() {
+    createShape(mouseX, mouseY);
+    return false;
+  }
+</script>
