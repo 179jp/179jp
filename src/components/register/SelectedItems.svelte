@@ -64,7 +64,12 @@
     </div>
 
     <div class="total wfont-black text-xl mt-4 pb-4 border-b">
-      Total <span class="text-sm">{totalItems}点</span>¥{totalAmount}
+      <p class="total_label">Total</p>
+      <p class="total_price">
+        <span class="text-sm">{totalItems}点</span><span class="total_sum"
+          >¥{totalAmount}</span
+        >
+      </p>
     </div>
   {/if}
 </div>

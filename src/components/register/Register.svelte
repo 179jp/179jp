@@ -60,7 +60,7 @@
     <div class="order-section">
       <SelectedItems bind:selectedItems />
 
-      <div class="mt-6 px-4">
+      <div class="order-button">
         <button
           class="w-full py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400"
           on:click={submitOrder}
@@ -72,11 +72,3 @@
     </div>
   </div>
 </div>
-
-<style>
-  .register-app {
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 16px;
-  }
-</style>

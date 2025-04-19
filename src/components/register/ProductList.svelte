@@ -36,9 +36,3 @@
     {/each}
   </div>
 </div>
-
-<style>
-  .product-list {
-    padding: 16px;
-  }
-</style>
