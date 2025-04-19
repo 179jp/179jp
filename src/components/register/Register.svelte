@@ -1,43 +1,46 @@
 <script>
-  import ProductList from './ProductList.svelte';
-  import SelectedItems from './SelectedItems.svelte';
-  import { onMount } from 'svelte';
-  
+  import ProductList from "./ProductList.svelte";
+  import SelectedItems from "./SelectedItems.svelte";
+  import { onMount } from "svelte";
+
   // 選択された商品を管理する配列
   let selectedItems = [];
-  
+
   // Google Apps Script URL
   let gasUrl = ""; // GASのデプロイURLを設定
-  
+
   // 送信処理
   async function submitOrder() {
     if (selectedItems.length === 0) {
       alert("商品が選択されていません");
       return;
     }
-    
+
     try {
       // 送信データの準備
       const orderData = {
         items: selectedItems,
-        totalAmount: selectedItems.reduce((sum, item) => sum + (item.price * item.quantity), 0),
-        timestamp: new Date().toISOString()
+        totalAmount: selectedItems.reduce(
+          (sum, item) => sum + item.price * item.quantity,
+          0,
+        ),
+        timestamp: new Date().toISOString(),
       };
-      
+
       // GASにデータを送信
       if (gasUrl) {
         await fetch(gasUrl, {
-          method: 'POST',
-          mode: 'no-cors',
+          method: "POST",
+          mode: "no-cors",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify(orderData)
+          body: JSON.stringify(orderData),
         });
       } else {
         console.log("送信データ:", orderData);
       }
-      
+
       // 送信成功後、選択をクリア
       selectedItems = [];
       alert("注文が送信されました");
@@ -51,19 +54,19 @@
 <div class="register-app">
   <div class="grid grid-cols-2 gap-8">
     <div class="product-section">
-      <ProductList bind:selectedItems={selectedItems} />
+      <ProductList bind:selectedItems />
     </div>
-    
+
     <div class="order-section">
-      <SelectedItems bind:selectedItems={selectedItems} />
-      
+      <SelectedItems bind:selectedItems />
+
       <div class="mt-6 px-4">
-        <button 
+        <button
           class="w-full py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400"
           on:click={submitOrder}
           disabled={selectedItems.length === 0}
         >
-          注文を送信
+          完了
         </button>
       </div>
     </div>
@@ -76,7 +79,7 @@
     margin: 0 auto;
     padding: 16px;
   }
-  
+
   /* 16グリッドレイアウト (margin: 16, gutter: 16) */
   @media (max-width: 768px) {
     .grid {
