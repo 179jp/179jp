@@ -25,7 +25,9 @@
   <div class="grid grid-cols-2 gap-4">
     {#each products as product}
       <button
-        class="p-4 border rounded bg-gray-100 text-left"
+        class="p-4 border rounded text-left {product.isSweet
+          ? 'bg-slate-100'
+          : 'bg-stone-100'}"
         on:click={() => selectProduct(product)}
       >
         <div class="font-medium">{product.name}</div>
