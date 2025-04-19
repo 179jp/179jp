@@ -1,0 +1,16 @@
+export const products = [
+  { id: 1, name: "カレーパン", price: 500 },
+  { id: 2, name: "たこのアヒージョ", price: 350 },
+  { id: 3, name: "ザルツドッグ", price: 400 },
+  { id: 4, name: "なすマスカル", price: 400 },
+  { id: 5, name: "エビ", price: 250 },
+  { id: 6, name: "ハムバター", price: 400 },
+  { id: 7, name: "クロワッサン", price: 300 },
+  { id: 8, name: "生ドーナツ", price: 300 },
+  { id: 9, name: "カヌレ", price: 350 },
+  { id: 10, name: "エッグタルト", price: 350 },
+  { id: 11, name: "マスカルポーネあんぱん", price: 350 },
+  { id: 12, name: "いちじく&クリームチーズ", price: 350 },
+  { id: 13, name: "バネトーネ", price: 700 },
+  { id: 14, name: "キャロットケーキ", price: 450 },
+];
