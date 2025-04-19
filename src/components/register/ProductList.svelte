@@ -21,17 +21,17 @@
 </script>
 
 <div class="product-list">
-  <h2 class="text-xl font-bold mb-4">商品一覧</h2>
+  <h2 class="font-signature title mb-4">Items</h2>
   <div class="grid grid-cols-2 gap-4">
     {#each products as product}
       <button
-        class="p-4 border rounded text-left {product.isSweet
+        class="register_item p-4 {product.isSweet
           ? 'bg-slate-100'
           : 'bg-stone-100'}"
         on:click={() => selectProduct(product)}
       >
-        <div class="font-medium">{product.name}</div>
-        <div class="text-gray-600">¥{product.price}</div>
+        <div class="item_name">{product.name}</div>
+        <div class="item_price font-din text-gray-600">¥{product.price}</div>
       </button>
     {/each}
   </div>
