@@ -31,7 +31,7 @@
   {#if selectedItems.length === 0}
     <p class="text-gray-500">商品が選択されていません</p>
   {:else}
-    <div class="mb-4">
+    <div class="items-wrap mb-4">
       {#each selectedItems as item, index}
         <div class="flex justify-between items-center py-2 border-b">
           <div>
@@ -73,9 +73,3 @@
     </div>
   {/if}
 </div>
-
-<style>
-  .selected-items {
-    padding: 16px;
-  }
-</style>
