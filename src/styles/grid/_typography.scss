@@ -1,41 +1,51 @@
 // フォントサイズ
 :root {
-  --grid-base-w: 
-    16 * var(--grid-column-w) + 
-    15 * var(--grid-gap);
+  --grid-base-w:
+    16 * var(--grid-column-w) + 15 * var(--grid-gutter);
 }
+
 .-fs {
   font-size: .875rem;
+
   &_xs {
     font-size: .5rem;
   }
+
   &_s {
     font-size: .75rem;
   }
+
   &_m {
     font-size: 1rem;
   }
+
   &_l {
     font-size: 1.5rem;
   }
+
   &_xl {
     font-size: 1.875rem;
   }
+
   &_xxl {
     font-size: 3em;
   }
+
   &_huge {
     font-size: 10em;
   }
 }
+
 .-fcs {
   container-type: inline-size;
   font-size: 1.2cqw;
   line-height: 1.75;
   text-align: justify;
-  @media (width < $MOBILE_WIDTH) {
+
+  @media (max-width: $MOBILE_WIDTH) {
     font-size: 2.6cqw;
   }
+
   &_xs,
   &_s,
   &_m,
@@ -43,42 +53,58 @@
   &_xl {
     container-type: inline-size;
     text-align: justify;
+
     P {
       hanging-punctuation: allow-end;
       text-align: justify;
     }
   }
+
   &_xs {
     font-size: 0.6cqw;
     line-height: 1.6;
-    @media (width < $MOBILE_WIDTH) {
+
+    @media (max-width: $MOBILE_WIDTH) {
       font-size: 1.8cqw;
     }
   }
+
   &_s {
     font-size: 0.8cqw;
     line-height: 1.7;
-    @media (width < $MOBILE_WIDTH) {
+
+    @media (max-width: $MOBILE_WIDTH) {
       font-size: 2cqw;
     }
   }
+
   &_m {
     font-size: 1.6cqw;
     line-height: 1.8;
-    @media (width < $MOBILE_WIDTH) {
+
+    @media (max-width: $MOBILE_WIDTH) {
       font-size: 3cqw;
     }
   }
+
   &_l {
     font-size: 1.5em;
   }
+
   &_xl {
     font-size: 1.875em;
   }
+
   p {
     hanging-punctuation: allow-end;
     text-align: justify;
   }
+}
+
+.-ff-haas-black {
+  font-family: "neue-haas-unica", sans-serif;
+  font-weight: 900;
+  font-style: normal;
 }
 
 // 縦書き
@@ -86,6 +112,7 @@
   writing-mode: vertical-rl;
   font-feature-settings: "vpal";
 }
+
 .-g_uprightText {
   font-style: normal;
   text-combine-upright: all;

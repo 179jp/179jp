@@ -1,5 +1,5 @@
 .-g {
-  
+
   width: 100%;
   min-height: 100svh;
   overflow-x: hidden;
@@ -13,70 +13,84 @@
   }
 
   .-g_head {
-    height: calc(
-      var(--grid-column-w) * 0.5 +
-      var(--grid-gap) * (0)
-    );
+    height: calc(var(--grid-column-w) * 0.5 + var(--grid-gutter) * (0));
   }
 
   .-g_u {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(var(--grid-num), 1fr);
-    gap: var(--grid-gap);
+    gap: var(--grid-gutter);
+    padding: 0 var(--grid-margin);
     position: relative;
-    @media (width < $MOBILE_WIDTH) {
-      gap: calc(
-        var(--grid-column-w) * 1 +
-        var(--grid-gap) * (1)
-      ) var(--grid-gap);
+
+    @media (max-width: $MOBILE_WIDTH) {
+      gap: calc(var(--grid-column-w) * 1 + var(--grid-gutter) * (1)) var(--grid-gutter);
     }
   }
+
+  .-g_margin-heading {
+    position: absolute;
+    top: 0;
+    left: 1.5em;
+    display: inline-block;
+    text-align: center;
+    rotate: 90deg;
+    transform-origin: top left;
+    translate: translateX(100%);
+  }
+
   .-g_scale {
     height: 1000vh;
   }
 
   .-f {
     display: flex;
-    gap: var(--grid-gap);
+    gap: var(--grid-gutter);
+  }
+
+  .-img-fit {
+    width: 100%;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
   }
 
   .-c-vt_scr {
-    @media (width < $MOBILE_WIDTH) {
-      padding-right: calc(
-        var(--grid-column-w) * 1 +
-        var(--grid-gap) * (1)
-      );
-      grid-column: 
+    @media (max-width: $MOBILE_WIDTH) {
+      padding-right: calc(var(--grid-column-w) * 1 + var(--grid-gutter) * (1));
+      grid-column:
         span var(--grid-num) / span var(--grid-num);
-      padding-bottom: calc(
-        var(--grid-column-w) * 0.5 +
-        var(--grid-gap) * (0)
-      );
+      padding-bottom: calc(var(--grid-column-w) * 0.5 + var(--grid-gutter) * (0));
       overflow-x: auto;
       overflow-y: hidden;
     }
-    * + * {
+
+    *+* {
       margin-right: 1rem;
     }
-    .-c-vt_inner {
-      padding-left: calc(
-        var(--grid-column-w) * 1 +
-        var(--grid-gap) * (1)
-      );
-    }
-  }
 
-  .forPc {
-    display: block;
-    @media (width < $MOBILE_WIDTH) {
-      display: none;
+    .-c-vt_inner {
+      padding-left: calc(var(--grid-column-w) * 1 + var(--grid-gutter) * (1));
     }
   }
-  .forMobile {
+}
+
+.forPc {
+  display: block;
+
+  @media (max-width: $MOBILE_WIDTH) {
     display: none;
-    @media (width < $MOBILE_WIDTH) {
-      display: block;
-    }
+  }
+}
+
+.forMobile {
+  display: none;
+
+  @media (max-width: $MOBILE_WIDTH) {
+    display: block;
   }
 }

@@ -1,19 +1,17 @@
-$GRID_NUMBER: 28;
+$GRID_NUMBER: 16;
 $MOBILE_WIDTH: 768px;
 
 :root {
-  --grid-num: 28;
-  @media (width < $MOBILE_WIDTH) {
-    --grid-num: 14;
+  --grid-num: 16;
+  --grid-margin: 48px;
+
+  @media (max-width: $MOBILE_WIDTH) {
+    --grid-num: 8;
+    --grid-margin: 16px;
   }
-  
+
   --grid-wide: calc(var(--grid-num) - 2);
   --grid-full: var(--grid-num);
-  --grid-gap: clamp(4px, 0.8vw, 16px);
-  --grid-column-w: calc(
-    (
-      100vw - (
-        var(--grid-gap) * (var(--grid-num) - 1)
-        )
-    ) / var(--grid-num));
+  --grid-gutter: clamp(4px, 0.8vw, 16px);
+  --grid-column-w: calc((100vw - (var(--grid-margin) * 2)) / var(--grid-num));
 }
