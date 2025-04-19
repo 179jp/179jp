@@ -26,7 +26,7 @@
 </script>
 
 <div class="selected-items">
-  <h2 class="font-signature title mb-4">Cart</h2>
+  <h2 class="wfont-black title mb-4">Order</h2>
 
   {#if selectedItems.length === 0}
     <p class="text-gray-500">商品が選択されていません</p>
@@ -36,7 +36,7 @@
         <div class="flex justify-between items-center py-2 border-b">
           <div>
             <div class="font-medium">{item.name}</div>
-            <div class="font-din text-gray-500">
+            <div class="wfont-light text-gray-500">
               ¥{item.price} × {item.quantity}
             </div>
           </div>
@@ -48,7 +48,7 @@
               -
             </button>
             <span
-              class="w-8 h-8 flex items-center justify-center border-t border-b font-din"
+              class="w-8 h-8 flex items-center justify-center border-t border-b wfont-light"
             >
               {item.quantity}
             </span>
@@ -63,7 +63,7 @@
       {/each}
     </div>
 
-    <div class="total font-din text-xl mt-4 pb-4 border-b">
+    <div class="total wfont-black text-xl mt-4 pb-4 border-b">
       Total <span class="text-sm">{totalItems}点</span>¥{totalAmount}
     </div>
   {/if}

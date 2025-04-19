@@ -1,7 +1,37 @@
 .register {
   --border-color: oklch(96.7% 0.001 286.375);
+  --grid-num: 16;
+  --grid-margin: 16px;
+  --grid-gutter: clamp(4px, 0.8vw, 16px);
 
   font-family: Hiragino-sans, sans-serif;
+  margin: 0 auto;
+}
+
+.register-grid-outer {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-num), 1fr);
+  gap: var(--grid-gutter);
+}
+
+.product-section {
+  grid-column: 1 / span 11;
+}
+
+.order-section {
+  grid-column: 12 / span 16;
+}
+
+.wfont-black {
+  font-family: "neue-haas-grotesk-display", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.wfont-light {
+  font-family: "neue-haas-grotesk-display", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .font-din {
@@ -17,7 +47,7 @@
 }
 
 .title {
-  font-size: 32px;
+  font-size: 16px;
 }
 
 .register_item {

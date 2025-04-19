@@ -52,7 +52,7 @@
 </script>
 
 <div class="register-app">
-  <div class="grid grid-cols-2 gap-8">
+  <div class="register-grid-outer">
     <div class="product-section">
       <ProductList bind:selectedItems />
     </div>
@@ -75,15 +75,8 @@
 
 <style>
   .register-app {
-    max-width: 1200px;
+    max-width: 1600px;
     margin: 0 auto;
     padding: 16px;
-  }
-
-  /* 16グリッドレイアウト (margin: 16, gutter: 16) */
-  @media (max-width: 768px) {
-    .grid {
-      grid-template-columns: 1fr;
-    }
   }
 </style>

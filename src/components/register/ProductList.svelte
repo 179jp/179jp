@@ -21,7 +21,7 @@
 </script>
 
 <div class="product-list">
-  <h2 class="font-signature title mb-4">Items</h2>
+  <h2 class="wfont-black title mb-4">Items</h2>
   <div class="grid grid-cols-2 gap-4">
     {#each products as product}
       <button
@@ -31,7 +31,7 @@
         on:click={() => selectProduct(product)}
       >
         <div class="item_name">{product.name}</div>
-        <div class="item_price font-din text-gray-600">¥{product.price}</div>
+        <div class="item_price wfont-light text-gray-600">¥{product.price}</div>
       </button>
     {/each}
   </div>
