@@ -1,0 +1,17 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import SandBoxTemplate from "../../layouts/SandBoxTemplate.astro";
+import { render } from "astro:content";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const latestPost = posts[0];
+
+// Markdownをレンダリング
+const { Content } = await render(latestPost);
+---
+
+<SandBoxTemplate {...latestPost.data} slug={latestPost.id}>
+  <Content />
+</SandBoxTemplate>

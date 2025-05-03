@@ -23,16 +23,20 @@
   --base-font-weight: 300;
   --base-font-style: normal;
 	*/
-  --base-font: "fot-tsukumin-pr6n", sans-serif;
+  --base-font: "avenir-next-lt-pro", "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
   --base-font-weight: 400;
   --base-font-style: normal;
 
-  --device-font: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN",
-    "Hiragino Sans", Meiryo, sans-serif;
+  --base-serif-font: "fot-udmincho-pr6n", serif;
+  --base-serif-font-weight: 300;
+  --base-serif-font-style: normal;
+
+  --device-font: "Helvetica Neue", Arial,
+    "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
 }
+
 @media all and (width < 900px) {
-  :root {
-  }
+  :root {}
 }
 
 body {

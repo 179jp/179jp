@@ -14,6 +14,11 @@
 
   .-g_head {
     height: calc(var(--grid-column-w) * 0.5 + var(--grid-gutter) * (0));
+    margin-top: 0.5rem;
+
+    nav {
+      text-align: right;
+    }
   }
 
   .-g_u {
