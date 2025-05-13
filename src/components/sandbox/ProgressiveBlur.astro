@@ -75,13 +75,16 @@
     backdrop-filter: blur(10px);
   }
   .unit::after {
+    height: 15svh;
     z-index: 101;
-    background: linear-gradient(
-      to bottom,
-      rgba(0, 11, 0, 1),
-      rgba(0, 11, 0, 0)
+    background: radial-gradient(
+      ellipse at center bottom,
+      transparent 0%,
+      rgba(0, 0, 0, 0) 60%,
+      rgba(0, 0, 0, 0.6) 80%,
+      rgba(0, 0, 0, 0.8) 100%
     );
-    mix-blend-mode: multiply;
+    filter: blur(20px);
   }
   .pb {
     width: 100%;
