@@ -14,20 +14,20 @@
   </div>
 
   <div class="pb">
-    <img src="/img/photos/photo/L1001447.jpg" alt="京都駅" class="pb_img" />
+    <img src="/img/photos/photo/L1014727.jpg" alt="賀茂川" class="pb_img" />
     <div class="pb_blur">
       <div class="pb_text">
-        <p class="pb_title">Progressive Blur Sample</p>
-        <p class="pb_caption">L1001447.jpg – Kyoto Station</p>
+        <p class="pb_title">Progressive Blur – Liner</p>
+        <p class="pb_caption">L1014727.jpg – Kamo River</p>
       </div>
     </div>
   </div>
 
-  <div class="pb">
+  <div class="pb pb-radial">
     <img src="/img/photos/photo/L1014727.jpg" alt="賀茂川" class="pb_img" />
     <div class="pb_blur">
       <div class="pb_text">
-        <p class="pb_title">Progressive Blur Sample</p>
+        <p class="pb_title">Progressive Blur – Radial</p>
         <p class="pb_caption">L1014727.jpg – Kamo River</p>
       </div>
     </div>
@@ -39,6 +39,16 @@
       <div class="pb_text">
         <p class="pb_title">Progressive Blur Sample</p>
         <p class="pb_caption">L1015937.jpg – Book Fair</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pb">
+    <img src="/img/photos/photo/L1001447.jpg" alt="京都駅" class="pb_img" />
+    <div class="pb_blur">
+      <div class="pb_text">
+        <p class="pb_title">Progressive Blur Sample</p>
+        <p class="pb_caption">L1001447.jpg – Kyoto Station</p>
       </div>
     </div>
   </div>
@@ -117,6 +127,20 @@
     );
     mask-composite: intersect;
     backdrop-filter: blur(20px);
+  }
+  .pb-radial .pb_blur {
+    mask-image: radial-gradient(
+      ellipse at center top,
+      transparent 0%,
+      rgb(0 0 0 / 0%) 0%,
+      rgb(0 0 0 / 4.9%) 15.5%,
+      rgb(0 0 0 / 10.4%) 22.5%,
+      rgb(0 0 0 / 45%) 47.1%,
+      rgb(0 0 0 / 55%) 52.9%,
+      rgb(0 0 0 / 89.6%) 77.5%,
+      rgb(0 0 0 / 95.1%) 91.9%,
+      rgb(0 0 0 / 100%) 100%
+    );
   }
   .pb_text {
     color: #fff;
