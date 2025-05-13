@@ -48,6 +48,29 @@
   .unit {
     width: 100%;
   }
+  .unit::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 10svh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    mask-image: linear-gradient(
+      to top,
+      rgb(0 0 0 / 0%) 0%,
+      rgb(0 0 0 / 4.9%) 15.5%,
+      rgb(0 0 0 / 10.4%) 22.5%,
+      rgb(0 0 0 / 45%) 47.1%,
+      rgb(0 0 0 / 55%) 52.9%,
+      rgb(0 0 0 / 89.6%) 77.5%,
+      rgb(0 0 0 / 95.1%) 91.9%,
+      rgb(0 0 0 / 100%) 100%
+    );
+    mask-composite: intersect;
+    backdrop-filter: blur(20px);
+  }
   .pb {
     width: 100%;
     height: 100svh;
