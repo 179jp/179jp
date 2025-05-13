@@ -1,0 +1,99 @@
+---
+
+---
+
+<div class="unit">
+  <div class="pb">
+    <img src="/img/photos/photo/L1001454.jpg" alt="京都駅" class="pb_img" />
+    <div class="pb_blur">
+      <div class="pb_text">
+        <p class="pb_title">Progerresive Blur Sample</p>
+        <p class="pb_caption">L1001454.jpg – Kyoto Station</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pb">
+    <img src="/img/photos/photo/L1001447.jpg" alt="京都駅" class="pb_img" />
+    <div class="pb_blur">
+      <div class="pb_text">
+        <p class="pb_title">Progerresive Blur Sample</p>
+        <p class="pb_caption">L1001447.jpg – Kyoto Station</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pb">
+    <img src="/img/photos/photo/L1014727.jpg" alt="賀茂川" class="pb_img" />
+    <div class="pb_blur">
+      <div class="pb_text">
+        <p class="pb_title">Progerresive Blur Sample</p>
+        <p class="pb_caption">L1014727.jpg – Kamo River</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pb">
+    <img src="/img/photos/photo/L1015937.jpg" alt="古本市" class="pb_img" />
+    <div class="pb_blur">
+      <div class="pb_text">
+        <p class="pb_title">Progerresive Blur Sample</p>
+        <p class="pb_caption">L1015937.jpg – Book Fair</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .unit {
+    width: 100%;
+  }
+  .pb {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+  }
+  .pb_img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .pb_blur {
+    display: flex;
+    align-items: flex-end;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 35%;
+    mask-image: linear-gradient(
+      to bottom,
+      rgb(0 0 0 / 0%) 0%,
+      rgb(0 0 0 / 4.9%) 15.5%,
+      rgb(0 0 0 / 10.4%) 22.5%,
+      rgb(0 0 0 / 45%) 47.1%,
+      rgb(0 0 0 / 55%) 52.9%,
+      rgb(0 0 0 / 89.6%) 77.5%,
+      rgb(0 0 0 / 95.1%) 91.9%,
+      rgb(0 0 0 / 100%) 100%
+    );
+    mask-composite: intersect;
+    backdrop-filter: blur(20px);
+  }
+  .pb_text {
+    color: #fff;
+    display: flex;
+    padding: 1rem;
+    flex-direction: column;
+    gap: 0rem;
+    align-items: flex-start;
+    justify-content: flex-end;
+  }
+  .pb_title {
+    font-size: 20px;
+  }
+  .pb_caption {
+    font-size: 10px;
+    opacity: 0.8;
+  }
+</style>
