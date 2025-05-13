@@ -4,12 +4,20 @@ import BaseHead from "../components/BaseHead.astro";
 
 type Props = CollectionEntry<"sand-box">["data"];
 
-const { slug, title, pubDate, updatedDate, heroImage } = Astro.props;
+const {
+  slug,
+  title,
+  pubDate,
+  updatedDate,
+  heroImage,
+  backgroundColor = "#FFFFFF",
+} = Astro.props;
 ---
 
 <html lang="ja">
   <head>
     <BaseHead title={title} description="サンプル" />
+    <meta name="theme-color" content={backgroundColor} />
   </head>
 
   <body>
