@@ -31,6 +31,10 @@
   --base-serif-font-weight: 300;
   --base-serif-font-style: normal;
 
+  --base-en-serif-font: "norman-variable", sans-serif;
+  --base-en-serif-font-weight: 400;
+  --base-en-serif-font-style: normal;
+
   --device-font: "Helvetica Neue", Arial,
     "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
 }
