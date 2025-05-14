@@ -13,7 +13,7 @@ const gridColumnArray = [...Array(scaleNum)].map((_, i) => i);
     <div class="--g_5_8">
       <img src="/img/photos/photo/L1001466.jpg" />
     </div>
-    <div class="--g_2_2-7 -text-s">
+    <div class="--g_2_2-7 -text-xs">
       <p>
         写真における陰影（シャドウ）は、単なる光の不在ではなく、画像に深みと立体感を与える重要な要素です。適切に活用された陰影は、写真に感情やストーリーを吹き込み、見る者の注意を引きつける力を持っています。
       </p>
@@ -61,10 +61,13 @@ const gridColumnArray = [...Array(scaleNum)].map((_, i) => i);
     }
   }
   body {
-    font-size: calc(14 * var(--rem));
+    font-size: calc(var(--base-font-size) * var(--rem));
   }
   .-text-s {
-    font-size: calc(10 * var(--rem));
+    font-size: calc((var(--base-font-size) - 2) * var(--rem));
+  }
+  .-text-xs {
+    font-size: calc((var(--base-font-size) - 4) * var(--rem));
   }
 
   .v {
