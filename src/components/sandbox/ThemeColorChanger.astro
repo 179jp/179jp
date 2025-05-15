@@ -1,0 +1,125 @@
+---
+
+---
+
+<div class="theme-color-changer">
+  <div class="explanation">
+    <p>
+      下のボタンをクリックすると、meta
+      theme-colorが変更され、モバイルブラウザのUI要素の色が変わります。
+    </p>
+    <p>現在のテーマカラー: <span id="current-color">#ff0000</span></p>
+  </div>
+
+  <div class="color-buttons">
+    <button
+      style="background-color: #ff0000;"
+      onclick="changeThemeColor('#ff0000')">赤</button
+    >
+    <button
+      style="background-color: #00ff00; color: black;"
+      onclick="changeThemeColor('#00ff00')">緑</button
+    >
+    <button
+      style="background-color: #0000ff;"
+      onclick="changeThemeColor('#0000ff')">青</button
+    >
+    <button
+      style="background-color: #ffff00; color: black;"
+      onclick="changeThemeColor('#ffff00')">黄</button
+    >
+    <button
+      style="background-color: #ff00ff;"
+      onclick="changeThemeColor('#ff00ff')">ピンク</button
+    >
+    <button
+      style="background-color: #00ffff; color: black;"
+      onclick="changeThemeColor('#00ffff')">水色</button
+    >
+  </div>
+
+  <button onclick="startRandomColors()">ランダム色変更開始</button>
+  <button onclick="stopRandomColors()">ランダム色変更停止</button>
+</div>
+
+<script client:load>
+  let intervalId = null;
+
+  function changeThemeColor(color) {
+    // meta要素のtheme-color属性を変更
+    const metaThemeColor = document.querySelector("meta[name=theme-color]");
+    metaThemeColor.setAttribute("content", color);
+
+    // 背景色も同じ色に変更
+    document.body.style.backgroundColor = color;
+
+    // 現在の色を表示
+    document.getElementById("current-color").textContent = color;
+  }
+
+  function getRandomColor() {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+  function startRandomColors() {
+    if (intervalId === null) {
+      intervalId = setInterval(() => {
+        const randomColor = getRandomColor();
+        changeThemeColor(randomColor);
+      }, 1000);
+    }
+  }
+
+  function stopRandomColors() {
+    if (intervalId !== null) {
+      clearInterval(intervalId);
+      intervalId = null;
+    }
+  }
+</script>
+
+<style>
+  body {
+    font-family: sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+    transition: background-color 0.5s;
+    background-color: #ff0000;
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .color-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .color-buttons button {
+    width: 80px;
+    height: 40px;
+    margin: 5px;
+  }
+  .explanation {
+    max-width: 600px;
+    margin: 20px auto;
+    line-height: 1.6;
+  }
+</style>
