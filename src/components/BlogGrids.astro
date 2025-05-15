@@ -5,12 +5,12 @@ const gridColumnArray = [...Array(scaleNum)].map((_, i) => i);
 
 <section class="v">
   <div class="-g -head">
-    <div class="-title">
-      <p class="-text-xs -title_label">179.jp</p>
-      <p class="-text-xs -title_label">Photo Blog</p>
-      <p class="-text-xs -title_label">2024.05 – 12 entries</p>
-    </div>
-    <div class="-g_1_8">
+    <div class="-g_1_8 -title">
+      <div class="-title_header">
+        <p class="-text-xs -title_label">179.jp</p>
+        <p class="-text-xs -title_label">Photo Blog</p>
+        <p class="-text-xs -title_label">2024.05 – 12 entries</p>
+      </div>
       <p class="-text-s -title_label">グリッドの先にあるもの</p>
     </div>
     <div class="-g_5_8">
@@ -87,9 +87,15 @@ const gridColumnArray = [...Array(scaleNum)].map((_, i) => i);
   }
   .-title {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     width: 2svb;
     height: calc(var(--grid) * 8 + var(--grid-gap) * (8 - 1));
+  }
+  .-title_header {
+    display: flex;
+    justify-content: space-between;
+    gap: 2svb;
   }
   .-f_center {
     display: flex;
