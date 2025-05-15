@@ -133,7 +133,7 @@
       // 中間点（0.5）を中心にスムーズなブレンドを作成
       // イージング関数：徐々に変化→中間で急速に変化→徐々に変化
       const easedProgress =
-        progressInSection < 0.5
+        progressInSection < 0.2
           ? 2 * Math.pow(progressInSection, 2) // 前半は二次曲線で緩やかに
           : 1 - Math.pow(-2 * progressInSection + 2, 2) / 2; // 後半はイーズアウト
 
