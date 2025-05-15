@@ -1,0 +1,230 @@
+---
+
+---
+
+<div class="theme-color-changer">
+  <div class="info-display">
+    現在のテーマカラー: <span id="current-color">#FF5733</span>
+    <span
+      class="color-preview"
+      id="color-preview"
+      style="background-color: #FF5733;"></span>
+    <div>ブレンド率: <span id="blend-ratio">100%</span></div>
+  </div>
+
+  <section id="section1" data-color="#FF5733">
+    <div class="section-content">
+      <h2>セクション 1</h2>
+      <p>
+        スクロールすると徐々にテーマカラーが変化します。このセクションは赤橙色です。
+      </p>
+    </div>
+  </section>
+
+  <section id="section2" data-color="#33FF57">
+    <div class="section-content">
+      <h2>セクション 2</h2>
+      <p>
+        このセクションは明るい緑色です。スクロールすると、色がスムーズに変化します。
+      </p>
+    </div>
+  </section>
+
+  <section id="section3" data-color="#3357FF">
+    <div class="section-content">
+      <h2>セクション 3</h2>
+      <p>このセクションは青色です。セクション間で色が徐々に混ざります。</p>
+    </div>
+  </section>
+
+  <section id="section4" data-color="#F033FF">
+    <div class="section-content">
+      <h2>セクション 4</h2>
+      <p>
+        このセクションはマゼンタ色です。スクロール位置に応じて色が連続的に変化します。
+      </p>
+    </div>
+  </section>
+
+  <section id="section5" data-color="#FF9933">
+    <div class="section-content">
+      <h2>セクション 5</h2>
+      <p>このセクションはオレンジ色です。最後のセクションです。</p>
+    </div>
+  </section>
+</div>
+
+<script client:load>
+  // セクションの要素を取得
+  const sections = document.querySelectorAll("section");
+  const sectionColors = Array.from(sections).map(
+    (section) => section.dataset.color,
+  );
+
+  // カラー操作のユーティリティ関数
+  function hexToRgb(hex) {
+    // #RRGGBB形式の色コードをRGB配列に変換
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return [r, g, b];
+  }
+
+  function rgbToHex(r, g, b) {
+    // RGB値を#RRGGBB形式の色コードに変換
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+  }
+
+  function blendColors(color1, color2, ratio) {
+    // 2つの色を指定した比率でブレンド
+    const rgb1 = hexToRgb(color1);
+    const rgb2 = hexToRgb(color2);
+
+    const blendedRgb = rgb1.map((channel, i) => {
+      return Math.round(channel * (1 - ratio) + rgb2[i] * ratio);
+    });
+
+    return rgbToHex(...blendedRgb);
+  }
+
+  // テーマカラーを変更する関数
+  function changeThemeColor(color) {
+    const metaThemeColor = document.querySelector("meta[name=theme-color]");
+    metaThemeColor.setAttribute("content", color);
+    document.getElementById("current-color").textContent = color;
+    document.getElementById("color-preview").style.backgroundColor = color;
+  }
+
+  // スクロール位置に応じてカラーブレンドを計算
+  function updateColorBasedOnScroll() {
+    const windowHeight = window.innerHeight;
+    const scrollY = window.scrollY;
+
+    // 現在のスクロール位置からどのセクション間にいるかを計算
+    const currentSectionIndex = Math.floor(scrollY / windowHeight);
+    const nextSectionIndex = Math.min(
+      currentSectionIndex + 1,
+      sections.length - 1,
+    );
+
+    // セクション内でのスクロール進行度を計算（0～1）
+    const progressInSection = (scrollY % windowHeight) / windowHeight;
+
+    // 現在と次のセクションの色
+    const currentColor = sectionColors[currentSectionIndex];
+    const nextColor = sectionColors[nextSectionIndex];
+
+    // 同じセクション内なら単色、セクション間ではブレンド
+    let resultColor;
+    let blendRatioDisplay;
+
+    if (currentSectionIndex === nextSectionIndex) {
+      // 最後のセクションでは単色
+      resultColor = currentColor;
+      blendRatioDisplay = "100%";
+    } else {
+      // 中間点（0.5）を中心にスムーズなブレンドを作成
+      // イージング関数：徐々に変化→中間で急速に変化→徐々に変化
+      const easedProgress =
+        progressInSection < 0.5
+          ? 2 * Math.pow(progressInSection, 2) // 前半は二次曲線で緩やかに
+          : 1 - Math.pow(-2 * progressInSection + 2, 2) / 2; // 後半はイーズアウト
+
+      resultColor = blendColors(currentColor, nextColor, easedProgress);
+      blendRatioDisplay = Math.round(easedProgress * 100) + "%";
+    }
+
+    changeThemeColor(resultColor);
+    document.getElementById("blend-ratio").textContent = blendRatioDisplay;
+  }
+
+  // スクロールイベントをリスニング（パフォーマンス向上のためにデバウンス）
+  let scrollTimeout;
+  window.addEventListener("scroll", () => {
+    if (scrollTimeout) {
+      window.cancelAnimationFrame(scrollTimeout);
+    }
+
+    scrollTimeout = window.requestAnimationFrame(() => {
+      updateColorBasedOnScroll();
+    });
+  });
+
+  // 初期化（ページ読み込み時に実行）
+  updateColorBasedOnScroll();
+</script>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    overflow-x: hidden;
+  }
+
+  section {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  section:nth-child(1) {
+    background-color: #ff5733;
+  }
+
+  section:nth-child(2) {
+    background-color: #33ff57;
+    color: #333;
+  }
+
+  section:nth-child(3) {
+    background-color: #3357ff;
+  }
+
+  section:nth-child(4) {
+    background-color: #f033ff;
+  }
+
+  section:nth-child(5) {
+    background-color: #ff9933;
+    color: #333;
+  }
+
+  .section-content {
+    max-width: 800px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+  }
+
+  .info-display {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    z-index: 100;
+  }
+
+  .color-preview {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    border-radius: 50%;
+    margin-left: 10px;
+    vertical-align: middle;
+  }
+</style>
