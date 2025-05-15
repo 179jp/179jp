@@ -5,10 +5,13 @@ const gridColumnArray = [...Array(scaleNum)].map((_, i) => i);
 
 <section class="v">
   <div class="-g -head">
-    <div class="-g_1_8 -title">
-      <p>グリッドの見本</p>
+    <div class="-title">
+      <p class="-text-xs -title_label">179.jp</p>
       <p class="-text-xs -title_label">Photo Blog</p>
-      <p class="-text-xs -title_label">2024.05</p>
+      <p class="-text-xs -title_label">2024.05 – 12 entries</p>
+    </div>
+    <div class="-g_1_8">
+      <p class="-text-s -title_label">グリッドの先にあるもの</p>
     </div>
     <div class="-g_5_8">
       <img src="/img/photos/photo/L1001466.jpg" />
@@ -81,11 +84,12 @@ const gridColumnArray = [...Array(scaleNum)].map((_, i) => i);
   }
 
   .-head {
-    margin-block: 2svb;
   }
   .-title {
     display: flex;
     justify-content: space-between;
+    width: 2svb;
+    height: calc(var(--grid) * 8 + var(--grid-gap) * (8 - 1));
   }
   .-f_center {
     display: flex;
