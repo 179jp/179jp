@@ -1,6 +1,6 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
-import PageTemplate from "../../layouts/PageTemplate.astro";
+import BlogTemplate from "../../layouts/BlogTemplate.astro";
 import { render } from "astro:content";
 
 const posts = (await getCollection("blog")).sort(
@@ -12,6 +12,6 @@ const latestPost = posts[0];
 const { Content } = await render(latestPost);
 ---
 
-<PageTemplate {...latestPost.data} slug={latestPost.id}>
+<BlogTemplate {...latestPost.data} slug={latestPost.id}>
   <Content />
-</PageTemplate>
+</BlogTemplate>
