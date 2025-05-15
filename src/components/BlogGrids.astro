@@ -4,24 +4,24 @@ const gridColumnArray = [...Array(scaleNum)].map((_, i) => i);
 ---
 
 <section class="v">
-  <div class="--g -head">
-    <div class="--g_1_8 -title">
+  <div class="-g -head">
+    <div class="-g_1_8 -title">
       <p>グリッドの見本</p>
       <p class="-text-xs -title_label">Photo Blog</p>
       <p class="-text-xs -title_label">2024.05</p>
     </div>
-    <div class="--g_5_8">
+    <div class="-g_5_8">
       <img src="/img/photos/photo/L1001466.jpg" />
     </div>
-    <div class="--g_2_2-7 -text-xs">
+    <div class="-g_2_2-7 -text-xs">
       <p>
         写真における陰影（シャドウ）は、単なる光の不在ではなく、画像に深みと立体感を与える重要な要素です。適切に活用された陰影は、写真に感情やストーリーを吹き込み、見る者の注意を引きつける力を持っています。
       </p>
     </div>
   </div>
-  <div class="--g">
-    <div class="--g_6 -f_center">
-      <div class="--g_4_6">
+  <div class="-g">
+    <div class="-g_6 -f_center">
+      <div class="-g_4_6">
         <img src="/img/photos/photo/L1005062.jpg" />
       </div>
     </div>
@@ -93,7 +93,7 @@ const gridColumnArray = [...Array(scaleNum)].map((_, i) => i);
     align-items: center;
   }
 
-  .--g {
+  .-g {
     display: flex;
     flex-direction: column;
     gap: 2svb;
@@ -105,32 +105,32 @@ const gridColumnArray = [...Array(scaleNum)].map((_, i) => i);
       object-fit: cover;
     }
   }
-  .--g-test {
+  .-g-test {
     width: var(--grid);
     height: var(--grid);
     background-color: rgb(128 143 156 / 0.5);
   }
-  .--g_full {
+  .-g_full {
     width: calc(var(--grid) * 8 + var(--grid-gap) * (8 - 1));
     height: calc(var(--grid) * 8 + var(--grid-gap) * (8 - 1));
   }
-  .--g_5_8 {
+  .-g_5_8 {
     width: calc(var(--grid) * 5 + var(--grid-gap) * (5 - 1));
     height: calc(var(--grid) * 8 + var(--grid-gap) * (8 - 1));
   }
-  .--g_6 {
+  .-g_6 {
     width: calc(var(--grid) * 6 + var(--grid-gap) * (6 - 1));
     height: calc(var(--grid) * 8 + var(--grid-gap) * (8 - 1));
   }
-  .--g_4_6 {
+  .-g_4_6 {
     width: calc(var(--grid) * 4 + var(--grid-gap) * (4 - 1));
     height: calc(var(--grid) * 6 + var(--grid-gap) * (6 - 1));
   }
-  .--g_1_8 {
+  .-g_1_8 {
     width: calc(var(--grid) * 1 + var(--grid-gap) * (1 - 1));
     height: calc(var(--grid) * 8 + var(--grid-gap) * (8 - 1));
   }
-  .--g_2_2-7 {
+  .-g_2_2-7 {
     width: calc(var(--grid) * 2 + var(--grid-gap) * (2 - 1));
     height: calc(var(--grid) * 2 + var(--grid-gap) * (2 - 1));
     margin-top: calc(var(--grid) * 6 + var(--grid-gap) * (6));
