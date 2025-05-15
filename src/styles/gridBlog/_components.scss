@@ -3,6 +3,13 @@
   width: 100%;
   height: 100%;
   overflow-x: auto;
+
+  p {
+    font-feature-settings: "vchw";
+    line-height: 1.75;
+    text-align: justify;
+    hanging-punctuation: allow-end;
+  }
 }
 
 // Header
