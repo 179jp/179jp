@@ -1,0 +1,56 @@
+.-g {
+  display: flex;
+  flex-direction: column;
+  gap: var(--grid-gap);
+  margin-inline: calc(var(--grid-margin) + 0.5svh) calc(var(--grid-margin) - 0.5svh);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &_full,
+  &_cover {
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+
+  &_full {
+    width: calc(var(--grid) * 8 + var(--grid-gap) * (8 - 1));
+    height: calc(var(--grid) * 8 + var(--grid-gap) * (8 - 1));
+  }
+
+  &_cover {
+    max-width: calc(var(--grid) * 8 + var(--grid-gap) * (8 - 1));
+  }
+}
+
+// グリッドの幅ごとのクラス
+@for $i from 1 through $GRID_NUMBER {
+  .-g_#{$i} {
+    width: calc(var(--grid) * #{$i} + var(--grid-gap) * (#{$i} - 1));
+    height: calc(var(--grid) * 8 + var(--grid-gap) * (8 - 1));
+  }
+
+  @for $j from 1 through $GRID_NUMBER {
+    .-g_#{$i}_#{$j} {
+      width: calc(var(--grid) * #{$i} + var(--grid-gap) * (#{$i} - 1));
+      height: calc(var(--grid) * #{$j} + var(--grid-gap) * (#{$j} - 1));
+    }
+
+    @for $k from 1 through ($GRID_NUMBER - $j) {
+      .-g_#{$i}_#{$j}-#{$k} {
+        width: calc(var(--grid) * #{$i} + var(--grid-gap) * (#{$i} - 1));
+        height: calc(var(--grid) * #{$j} + var(--grid-gap) * (#{$j} - 1));
+        margin-top: calc(var(--grid) * #{$k} + var(--grid-gap) * #{$k});
+      }
+    }
+  }
+}

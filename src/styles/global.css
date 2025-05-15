@@ -61,3 +61,9 @@ body {
   text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 }
+
+.f-norman {
+  font-family: var(--base-en-serif-font);
+  font-weight: var(--base-en-serif-font-weight);
+  font-style: var(--base-en-serif-font-style);
+}

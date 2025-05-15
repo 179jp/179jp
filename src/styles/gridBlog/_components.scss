@@ -1,0 +1,47 @@
+.-v {
+  writing-mode: vertical-rl;
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+}
+
+// Header
+.-head {}
+
+.-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 2svb;
+  height: calc(var(--grid) * 8 + var(--grid-gap) * (8 - 1));
+}
+
+.-title_header {
+  display: flex;
+  justify-content: space-between;
+  gap: 2svb;
+  height: calc(var(--grid) * 8 + var(--grid-gap) * (8 - 1));
+  padding-bottom: calc(var(--grid) * 3 + var(--grid-gap) * (3 - 1));
+  position: relative;
+}
+
+.-title_number {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 0;
+  flex-direction: column;
+  line-height: 1.2;
+  align-items: center;
+  writing-mode: horizontal-tb;
+  padding: 0 0.5rem;
+}
+
+
+.-fx_center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
