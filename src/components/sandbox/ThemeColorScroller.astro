@@ -12,7 +12,7 @@
     <div>ブレンド率: <span id="blend-ratio">100%</span></div>
   </div>
 
-  <section id="section1" data-color="#FF5733">
+  <section class="theme-section" id="section1" data-color="#FF5733">
     <div class="section-content">
       <h2>セクション 1</h2>
       <p>
@@ -21,7 +21,7 @@
     </div>
   </section>
 
-  <section id="section2" data-color="#33FF57">
+  <section class="theme-section" id="section2" data-color="#33FF57">
     <div class="section-content">
       <h2>セクション 2</h2>
       <p>
@@ -30,14 +30,14 @@
     </div>
   </section>
 
-  <section id="section3" data-color="#3357FF">
+  <section class="theme-section" id="section3" data-color="#3357FF">
     <div class="section-content">
       <h2>セクション 3</h2>
       <p>このセクションは青色です。セクション間で色が徐々に混ざります。</p>
     </div>
   </section>
 
-  <section id="section4" data-color="#F033FF">
+  <section class="theme-section" id="section4" data-color="#F033FF">
     <div class="section-content">
       <h2>セクション 4</h2>
       <p>
@@ -46,7 +46,7 @@
     </div>
   </section>
 
-  <section id="section5" data-color="#FF9933">
+  <section class="theme-section" id="section5" data-color="#FF9933">
     <div class="section-content">
       <h2>セクション 5</h2>
       <p>このセクションはオレンジ色です。最後のセクションです。</p>
@@ -56,7 +56,7 @@
 
 <script client:load>
   // セクションの要素を取得
-  const sections = document.querySelectorAll("section");
+  const sections = document.querySelectorAll(".theme-section");
   const sectionColors = Array.from(sections).map(
     (section) => section.dataset.color,
   );
