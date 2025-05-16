@@ -14,11 +14,13 @@ const posts = (await getCollection("blog"))
   .filter((post) => {
     const postDate = new Date(post.data.date);
     return (
+      post.data.number > 0 &&
       postDate.getMonth() === currentMonth &&
       postDate.getFullYear() === currentYear
     );
   })
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .sort((a, b) => b.data.number?.valueOf() - a.data.number?.valueOf());
 ---
 
 <BlogTemplate>
