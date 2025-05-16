@@ -3,6 +3,11 @@
   flex-direction: column;
   gap: var(--grid-gap);
   margin-inline: calc(var(--grid-margin) + 0.5svh) calc(var(--grid-margin) - 0.5svh);
+  margin-left: var(--grid-gap);
+
+  .-img-scale {
+    overflow: hidden;
+  }
 
   img {
     width: 100%;

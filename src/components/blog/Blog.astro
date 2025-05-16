@@ -1,0 +1,17 @@
+---
+import { render } from "astro:content";
+const { post, isFirst = false } = Astro.props;
+
+const { Content } = await render(post);
+---
+
+<div class="-g">
+  {
+    !isFirst && (
+      <div class="-g_1_8 -title">
+        <h2 class="-text-m -title_label">{post.data.title}</h2>
+      </div>
+    )
+  }
+  <Content />
+</div>

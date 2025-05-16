@@ -1,3 +1,8 @@
+body {
+  scrollbar-width: none;
+  overflow-y: hidden;
+}
+
 .-v {
   writing-mode: vertical-rl;
   max-height: 100svh;

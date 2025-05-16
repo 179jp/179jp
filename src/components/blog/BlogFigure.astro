@@ -1,0 +1,23 @@
+---
+const {
+  w = 5,
+  h = "",
+  space = "",
+  src,
+  alt,
+  caption = "",
+  scale = "",
+} = Astro.props;
+
+let c = `-g_${w}`;
+if (h) c += `_${h}`;
+if (space) c += `-${space}`;
+if (scale) c += ` -img-scale`;
+
+const imgStyle = scale ? `scale: ${scale};` : "";
+---
+
+<figure class={c}>
+  <img src={src} alt={alt} style={imgStyle} />
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
