@@ -19,6 +19,10 @@ body {
   font-size: calc((var(--base-font-size) + 4) * var(--rem));
 }
 
+.-text-m {
+  font-size: calc((var(--base-font-size)) * var(--rem));
+}
+
 .-text-s {
   font-size: calc((var(--base-font-size) - 2) * var(--rem));
 }
