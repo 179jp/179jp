@@ -25,6 +25,10 @@ body {
   justify-content: space-between;
   width: 2svb;
   height: calc(var(--grid) * 8 + var(--grid-gap) * (8 - 1));
+
+  &.-without_header {
+    justify-content: flex-end;
+  }
 }
 
 .-title_header {

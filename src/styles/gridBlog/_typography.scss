@@ -31,6 +31,10 @@ body {
   font-size: calc((var(--base-font-size) - 4) * var(--rem));
 }
 
+.-text-h {
+  writing-mode: horizontal-tb;
+}
+
 
 .-long-body {
   scale: 1 10;
