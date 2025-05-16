@@ -1,8 +1,7 @@
 .-v {
   writing-mode: vertical-rl;
-  width: 100%;
-  height: 100%;
-  overflow-x: auto;
+  max-height: 100svh;
+  overflow-y: hidden;
 
   :where(p) {
     font-feature-settings: "vchw";
@@ -51,11 +50,4 @@
   height: calc(var(--grid) * 2 + var(--grid-gap) * (2 - 1));
   display: flex;
   justify-content: space-between;
-}
-
-
-.-fx_center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }

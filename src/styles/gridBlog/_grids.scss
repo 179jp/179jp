@@ -33,7 +33,7 @@
 }
 
 // グリッドの幅ごとのクラス
-@for $i from 1 through $GRID_NUMBER {
+@for $i from 1 through ($GRID_NUMBER + 3) {
   .-g_#{$i} {
     width: calc(var(--grid) * #{$i} + var(--grid-gap) * (#{$i} - 1));
     height: calc(var(--grid) * 8 + var(--grid-gap) * (8 - 1));
