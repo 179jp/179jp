@@ -27,10 +27,10 @@
   display: flex;
   justify-content: space-between;
   gap: 2svb;
-  height: calc(var(--grid) * 8 + var(--grid-gap) * (8 - 1) + 2svb);
+  height: calc(var(--grid) * 8 + var(--grid-gap) * (8 - 1) + (var(--grid-margin) + 0.5svh));
   padding-bottom: calc(var(--grid) * 3 + var(--grid-gap) * (3 - 1));
   position: relative;
-  margin-inline-start: -2svb;
+  margin-inline-start: calc(-1 * (var(--grid-margin) + 0.5svh));
 }
 
 .-title_number {
