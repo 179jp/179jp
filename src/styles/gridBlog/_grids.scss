@@ -5,9 +5,21 @@
   margin-inline: calc(var(--grid-margin) + 0.5svh) calc(var(--grid-margin) - 0.5svh);
   margin-left: var(--grid-gap);
 
+  .-g-unit {
+    position: relative;
+  }
+
+  .-is-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 1rem;
+  }
+
   .-img-scale {
     overflow: hidden;
   }
+
 
   img {
     width: 100%;

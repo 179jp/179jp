@@ -1,10 +1,17 @@
 ---
-const { w = 8, h = "", space = "", class: className = "" } = Astro.props;
+const {
+  w = 8,
+  h = "",
+  space = "",
+  class: className = "",
+  isOverLay = false,
+} = Astro.props;
 
-let c = `-g_${w}`;
+let c = `-g-unit -g_${w}`;
 if (h) c += `_${h}`;
 if (space) c += `-${space}`;
 if (className) c += ` ${className}`;
+if (isOverLay) c += ` -is-overlay`;
 ---
 
 <div class={c}>
