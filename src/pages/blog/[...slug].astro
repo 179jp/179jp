@@ -1,21 +1,32 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
-import SandBoxTemplate from "../../layouts/SandBoxTemplate.astro";
 import { render } from "astro:content";
 
+import BlogTemplate from "../../layouts/BlogTemplate.astro";
+import Blog from "../../components/blog/Blog.astro";
+import BlogHeader from "../../components/blog/BlogHeader.astro";
+
 export async function getStaticPaths() {
-  const posts = await getCollection("sandBox");
+  const posts = await getCollection("blog");
   return posts.map((post) => ({
     params: { slug: post.id },
     props: post,
   }));
 }
-type Props = CollectionEntry<"sandBox">;
+type Props = CollectionEntry<"blog">;
 
 const post = Astro.props;
-const { Content } = await render(post);
+const postDate = new Date(post.data.date);
+const currentMonth = postDate.getMonth();
+const currentYear = postDate.getFullYear();
 ---
 
-<SandBoxTemplate {...post.data}>
-  <Content />
-</SandBoxTemplate>
+<BlogTemplate>
+  <article class="-v">
+    <div class="-g -head">
+      <BlogHeader month={currentMonth + 1} year={currentYear} />
+      <h2 class="-text-m -title_label">{post.data.title}</h2>
+    </div>
+    <Blog post={post} isFirst={true} />
+  </article>
+</BlogTemplate>
