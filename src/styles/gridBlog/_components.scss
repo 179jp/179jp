@@ -1,3 +1,7 @@
+html {
+  overscroll-behavior: none;
+}
+
 body {
   scrollbar-width: none;
   overflow-y: hidden;
