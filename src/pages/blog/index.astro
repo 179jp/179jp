@@ -1,17 +1,36 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
-import BlogTemplate from "../../layouts/BlogTemplate.astro";
 import { render } from "astro:content";
 
-const posts = (await getCollection("blog")).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-);
-const latestPost = posts[0];
+import BlogTemplate from "../../layouts/BlogTemplate.astro";
+import Blog from "../../components/blog/Blog.astro";
+import BlogHeader from "../../components/blog/BlogHeader.astro";
 
-// Markdownをレンダリング
-const { Content } = await render(latestPost);
+const currentDate = new Date();
+const currentMonth = currentDate.getMonth();
+const currentYear = currentDate.getFullYear();
+
+const posts = (await getCollection("blog"))
+  .filter((post) => {
+    const postDate = new Date(post.data.date);
+    return (
+      postDate.getMonth() === currentMonth &&
+      postDate.getFullYear() === currentYear
+    );
+  })
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
-<BlogTemplate {...latestPost.data} slug={latestPost.id}>
-  <Content />
+<BlogTemplate>
+  <article class="-v">
+    {
+      posts.length > 0 && (
+        <div class="-g -head">
+          <BlogHeader month={currentMonth + 1} year={currentYear} />
+          <h2 class="-text-m -title_label">{posts[0].data.title}</h2>
+        </div>
+      )
+    }
+    {posts.map((post, index) => <Blog post={post} isFirst={index === 0} />)}
+  </article>
 </BlogTemplate>
