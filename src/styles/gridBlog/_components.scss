@@ -46,6 +46,12 @@
   padding: 0 0.5rem;
 }
 
+.-header_label {
+  height: calc(var(--grid) * 2 + var(--grid-gap) * (2 - 1));
+  display: flex;
+  justify-content: space-between;
+}
+
 
 .-fx_center {
   display: flex;

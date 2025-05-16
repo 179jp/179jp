@@ -26,3 +26,8 @@ body {
 .-text-xs {
   font-size: calc((var(--base-font-size) - 4) * var(--rem));
 }
+
+
+.-long-body {
+  scale: 1 10;
+}
