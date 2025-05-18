@@ -9,8 +9,25 @@ import "../styles/gridBlog/index.css";
   <head>
     <BaseHead title={title} description="サンプル" />
   </head>
+  <script is:inline>
+    const scrollElement = document.querySelector("#vertical-scroll");
+    scrollElement.addEventListener("wheel", (e) => {
+      if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
 
-  <body>
+      const maxScrollLeft = scrollElement.scrollWidth - scrollElement.clientWidth;
+
+      if (
+        (scrollElement.scrollLeft <= 0 && e.deltaY < 0) ||
+        (scrollElement.scrollLeft >= maxScrollLeft && e.deltaY > 0)
+      )
+        return;
+
+      e.preventDefault();
+      scrollElement.scrollLeft += e.deltaY;
+    });
+  </script>
+
+  <body id="vertical-scroll">
     <main>
       <slot />
     </main>
