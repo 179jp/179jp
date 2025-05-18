@@ -1,0 +1,11 @@
+---
+const { size = "full", src, alt, caption = "",
+scale = "", class: className = "" } = Astro.props;
+const c = `-g-unit -g_${size}${className ? ` ${className}` : ""}`;
+const imgStyle = scale ? `scale: ${scale};` : "";
+---
+
+<figure class={c}>
+  <img src={src} alt={alt} style={imgStyle} loading="lazy" />
+  {caption && <figcaption class="-caption -caption_inner -text-xs">{caption}</figcaption>}
+</figure>
