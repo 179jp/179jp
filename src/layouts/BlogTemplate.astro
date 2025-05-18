@@ -8,26 +8,34 @@ import "../styles/gridBlog/index.css";
 <html lang="ja">
   <head>
     <BaseHead title={title} description="サンプル" />
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        window.addEventListener(
+          "wheel",
+          (e: WheelEvent) => {
+            if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
+
+            const maxScrollLeft =
+              document.documentElement.scrollWidth - window.innerWidth;
+
+            // スクロールの境界チェック
+            const scrollLeftDelte = window.scrollX - e.deltaY;
+            if (scrollLeftDelte < 0) return;
+            const newScrollLeft =
+              scrollLeftDelte > maxScrollLeft ? maxScrollLeft : scrollLeftDelte;
+
+            e.preventDefault();
+            window.scrollTo({
+              left: newScrollLeft,
+              behavior: "smooth",
+            });
+          },
+          { passive: false },
+        );
+      });
+    </script>
   </head>
-  <script is:inline>
-    const scrollElement = document.querySelector("#vertical-scroll");
-    scrollElement.addEventListener("wheel", (e) => {
-      if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
-
-      const maxScrollLeft = scrollElement.scrollWidth - scrollElement.clientWidth;
-
-      if (
-        (scrollElement.scrollLeft <= 0 && e.deltaY < 0) ||
-        (scrollElement.scrollLeft >= maxScrollLeft && e.deltaY > 0)
-      )
-        return;
-
-      e.preventDefault();
-      scrollElement.scrollLeft += e.deltaY;
-    });
-  </script>
-
-  <body id="vertical-scroll">
+  <body>
     <main>
       <slot />
     </main>
