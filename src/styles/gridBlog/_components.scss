@@ -23,7 +23,8 @@ body {
 }
 
 // Header
-.-head {}
+.-head {
+}
 
 .-title {
   display: flex;
@@ -41,7 +42,9 @@ body {
   display: flex;
   justify-content: space-between;
   gap: 2svb;
-  height: calc(var(--grid) * 8 + var(--grid-gap) * (8 - 1) + (var(--grid-margin) + 0.5svh));
+  height: calc(
+    var(--grid) * 8 + var(--grid-gap) * (8 - 1) + (var(--grid-margin) + 0.5svh)
+  );
   padding-bottom: calc(var(--grid) * 3 + var(--grid-gap) * (3 - 1));
   position: relative;
   margin-inline-start: calc(-1 * (var(--grid-margin) + 0.5svh));
@@ -65,4 +68,17 @@ body {
   height: calc(var(--grid) * 2 + var(--grid-gap) * (2 - 1));
   display: flex;
   justify-content: space-between;
+}
+
+.-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  height: calc(var(--grid) * 2 + var(--grid-gap) * (2 - 1));
+  color: rgb(255 255 255 / 0.6);
+  mix-blend-mode: difference;
+  text-align: justify;
 }
