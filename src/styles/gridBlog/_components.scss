@@ -1,6 +1,6 @@
 html {
   overscroll-behavior: none;
-  scrollbar-width: none;
+  scrollbar-color: rgba(0, 0, 0, 0.4) rgba(0, 0, 0, 0);
 }
 
 body {
@@ -76,7 +76,8 @@ body {
   display: flex;
   justify-content: flex-end;
   height: calc(var(--grid) * 2 + var(--grid-gap) * (2 - 1));
-  color: rgb(255 255 255 / 0.6);
+  color: #fff;
+  opacity: 0.6;
   mix-blend-mode: difference;
   text-align: justify;
 }
