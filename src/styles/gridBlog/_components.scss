@@ -24,7 +24,10 @@ body {
 }
 
 // Header
-.-head {}
+.-head {
+  width: calc(var(--grid) * 1 + var(--grid-gap) * (0));
+  justify-content: space-between;
+}
 
 .-title {
   display: flex;
@@ -45,7 +48,7 @@ body {
   height: calc(var(--grid) * 8 + var(--grid-gap) * (8 - 1) + (var(--grid-margin) + 0.5svh));
   padding-bottom: calc(var(--grid) * 3 + var(--grid-gap) * (3 - 1));
   position: relative;
-  margin-inline-start: calc(-1 * (var(--grid-margin) + 0.5svh));
+  margin-inline-start: calc(-1 * (var(--grid-margin) + 0.25svh));
 }
 
 .-title_number {
