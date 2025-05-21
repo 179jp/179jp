@@ -35,6 +35,10 @@ body {
   writing-mode: horizontal-tb;
 }
 
+.-color-white-ex {
+  color: #d8d8d8;
+  mix-blend-mode: exclusion;
+}
 
 .-long-body {
   scale: 1 10;
