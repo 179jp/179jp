@@ -25,7 +25,7 @@ jobs:
         run: node scripts/generate-ogp.js
 
       - name: Upload OGP images
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ogp-images
           path: ogp-images/
