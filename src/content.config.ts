@@ -20,6 +20,7 @@ const sandBox = defineCollection({
     date: z.coerce.date(),
     heroImage: z.string().optional(),
     backgroundColor: z.string().optional(),
+    version: z.number().optional(),
   }),
 });
 
