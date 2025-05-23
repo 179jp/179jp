@@ -9,7 +9,9 @@ if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir);
 
 (async () => {
   const files = fs.readdirSync(sandboxDir).filter(f => f.endsWith('.md')); // 例: mdファイル
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  });
   for (const file of files) {
     const filePath = path.join(sandboxDir, file);
     const page = await browser.newPage();
