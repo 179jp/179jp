@@ -1,0 +1,79 @@
+<canvas id="paper" width="900" height="340"></canvas>
+<script is:inline>
+  const text = "PAPER";
+  const fontSize = 200;
+  const foldRatio = 0.6; // 折り目（0〜1, 0.5=真ん中）
+
+  const canvas = document.getElementById("paper");
+  const ctx = canvas.getContext("2d");
+  ctx.font = `bold ${fontSize}px Arial Black, Arial, sans-serif`;
+  ctx.textBaseline = "top";
+  ctx.lineJoin = "round";
+
+  const startX = 40;
+  const y = 60;
+  const letterSpacing = 20;
+
+  for (let i = 0; i < text.length; i++) {
+    const letter = text[i];
+    // 文字の横幅計算
+    const metrics = ctx.measureText(letter);
+    const w = metrics.width;
+    const h = fontSize;
+
+    const x = startX + i * (w + letterSpacing);
+
+    // 1. 上半分（紙の表）
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(x, y, w, h * foldRatio);
+    ctx.clip();
+    ctx.fillStyle = "#fff";
+    ctx.strokeStyle = "#ddd";
+    ctx.lineWidth = 4;
+    ctx.fillText(letter, x, y);
+    ctx.strokeText(letter, x, y);
+    ctx.restore();
+
+    // 2. 下半分（折り曲げ面：やや奥に倒す）
+    ctx.save();
+    ctx.beginPath();
+    // 台形でクリップ（折り目を前、下端を後ろに倒す）
+    const foldY = y + h * foldRatio;
+    const skew = w * 0.16; // 折り面の奥行き
+    ctx.moveTo(x, foldY);
+    ctx.lineTo(x + w, foldY);
+    ctx.lineTo(x + w - skew, y + h);
+    ctx.lineTo(x + skew, y + h);
+    ctx.closePath();
+    ctx.clip();
+
+    // 折り返し部分を少し暗く
+    // グラデーション
+    let grad = ctx.createLinearGradient(x, foldY, x, y + h);
+    grad.addColorStop(0, "#ccc");
+    grad.addColorStop(1, "#222");
+    ctx.fillStyle = grad;
+
+    // 折り面にも同じ文字を描く（やや奥に傾けて見せる）
+    ctx.setTransform(1, 0.24, 0, 1, 0, 0); // y方向に傾斜
+    ctx.fillText(letter, x, y);
+    ctx.restore();
+
+    // 3. 影（折り返しのすぐ後ろに台形の影）
+    ctx.save();
+    ctx.globalAlpha = 0.18;
+    ctx.beginPath();
+    ctx.moveTo(x + skew, y + h);
+    ctx.lineTo(x + w - skew, y + h);
+    ctx.lineTo(x + w - skew * 0.6, y + h + 30);
+    ctx.lineTo(x + skew * 0.6, y + h + 30);
+    ctx.closePath();
+    ctx.fillStyle = "#000";
+    ctx.filter = "blur(4px)";
+    ctx.fill();
+    ctx.filter = "none";
+    ctx.globalAlpha = 1;
+    ctx.restore();
+  }
+</script>

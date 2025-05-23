@@ -1,0 +1,95 @@
+---
+
+---
+
+<script is:inline>
+  (function (d) {
+    var config = {
+        kitId: "dkw1fqv",
+        scriptTimeout: 3000,
+        async: true,
+      },
+      h = d.documentElement,
+      t = setTimeout(function () {
+        h.className =
+          h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+      }, config.scriptTimeout),
+      tk = d.createElement("script"),
+      f = false,
+      s = d.getElementsByTagName("script")[0],
+      a;
+    h.className += " wf-loading";
+    tk.src = "https://use.typekit.net/" + config.kitId + ".js";
+    tk.async = true;
+    tk.onload = tk.onreadystatechange = function () {
+      a = this.readyState;
+      if (f || (a && a != "complete" && a != "loaded")) return;
+      f = true;
+      clearTimeout(t);
+      try {
+        Typekit.load(config);
+      } catch (e) {}
+    };
+    s.parentNode.insertBefore(tk, s);
+  })(document);
+</script>
+
+<div class="kana">
+  <p class="tsukushi">
+    <span>男もすなる日記といふものを</span><br />
+    <span>女もしてみむとてするなり。</span><br />
+    <span>それの年の十二月の二十日あまり</span><br />
+    <span>一日の日の、戌の時に門出す。</span><br />
+    <span>そのよし、いささかにものに書きつく。</span>
+  </p>
+  <p class="tsukushi-old">
+    <span>男もすなる日記といふものを</span><br />
+    <span>女もしてみむとてするなり。</span><br />
+    <span>それの年の十二月の二十日あまり</span><br />
+    <span>一日の日の、戌の時に門出す。</span><br />
+    <span>そのよし、いささかにものに書きつく。</span>
+  </p>
+  <p class="tsukushi-old">
+    <span>男もすなる日記といふものを</span><br />
+    <span>女も<span class="long">し</span>てみむとてするなり。</span><br />
+    <span>それの年の十二月の二十日あまり</span><br />
+    <span>一日の日の、戌の時に門出す。</span><br />
+    <span>そのよし、いささかにものに書きつく。</span>
+  </p>
+</div>
+
+<style>
+  .tsukushi {
+    font-family: "fot-tsukumin-pr6n", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+  }
+  .tsukushi-old {
+    font-family: "fot-tsukuaoldmin-pr6n", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  .kana {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+    padding: 4em;
+    width: 100%;
+
+    font-size: 20px;
+    line-height: 1.7;
+    font-feature-settings: "vpal";
+
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+  }
+
+  .long {
+    display: inline-block;
+    scale: 0.5 2.4;
+    padding: 0.4em 0;
+  }
+</style>
