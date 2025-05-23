@@ -3,9 +3,9 @@ const path = require('path');
 const puppeteer = require('puppeteer');
 
 const sandboxDir = path.join(__dirname, '../src/content/sand-box');
-const outputDir = path.join(__dirname, '../ogp-images');
+const outputDir = path.join(__dirname, '../public/ogp-images/sand-box');
 
-if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir);
+if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
 
 (async () => {
   const files = fs.readdirSync(sandboxDir).filter(f => f.endsWith('.md')); // 例: mdファイル
