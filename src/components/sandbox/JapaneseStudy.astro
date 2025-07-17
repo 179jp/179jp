@@ -1,0 +1,35 @@
+---
+const sampleText = `日本語の文字組の指定について、検証するためのテキストです。「約物の連続、鉤括弧・句読点が連続する」場合など確認できます。`;
+---
+
+<div class="unit">
+  <p class="text-sample normal">{sampleText}</p>
+  <p class="text-sample text-spacing-trim">{sampleText}</p>
+  <p class="text-sample text-heading">{sampleText}</p>
+</div>
+
+<style>
+  .unit {
+    width: 1200px;
+    margin: 16px auto;
+  }
+  .text-sample {
+    font-size: 50px;
+    letter-spacing: 0.01em;
+    font-weight: normal;
+    margin-bottom: 1rem;
+  }
+  .normal {
+    text-spacing-trim: none;
+  }
+  .text-spacing-trim {
+    text-spacing-trim: normal;
+    line-break: strict;
+    overflow-wrap: anywhere;
+  }
+  .text-heading {
+    font-feature-settings: "palt";
+    word-break: auto-phrase;
+    text-wrap: balance;
+  }
+</style>
