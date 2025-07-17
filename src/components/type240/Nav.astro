@@ -1,0 +1,75 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+
+const { isTop = false } = Astro.props;
+
+const posts = (await getCollection("blog"))
+  .filter((post) => {
+    const postDate = new Date(post.data.date);
+    return post.data.number > 0;
+  })
+  .sort((a, b) => b.data.number?.valueOf() - a.data.number?.valueOf())
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<nav class="the-nav -g -fs_s">
+  <ul class="the-nav_list">
+    {
+      posts.map((post) => (
+        <li class="nav-item" data-id={post.id}>
+          <a href={post.id} class="nav-item_link">
+            <span class="nav-item_label">{post.data.title}</span>
+            <span class="nav-item_number">
+              {post.data.date
+                .toLocaleDateString()
+                .split("/")
+                .filter((_, index) => index < 2)
+                .join(".")}
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+  <div class="preview-container">
+    {
+      posts.map((post, index) => (
+        <div
+          class={`preview ${isTop && index === 0 ? "is-active" : ""}`}
+          id={`preview-${post.id}`}
+        >
+          <img
+            class="preview_image"
+            src={post.data.image}
+            alt={post.data.title}
+            loading="lazy"
+          />
+        </div>
+      ))
+    }
+  </div>
+</nav>
+
+<script is:inline>
+  const navItems = document.querySelectorAll(".nav-item");
+  const previewImages = document.querySelectorAll(".preview");
+  navItems.forEach((item) => {
+    item.addEventListener("mouseenter", () => {
+      resetActive();
+      item.classList.add("is-active");
+      const currentImage = document.getElementById(
+        `preview-${item.dataset.id}`,
+      );
+      currentImage.classList.add("is-active");
+    });
+  });
+
+  function resetActive() {
+    navItems.forEach((item) => {
+      item.classList.remove("is-active");
+    });
+    previewImages.forEach((image) => {
+      image.classList.remove("is-active");
+    });
+  }
+</script>
