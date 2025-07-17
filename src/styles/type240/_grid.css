@@ -1,0 +1,6 @@
+.-g {
+  margin-inline: var(--grid-gutter);
+  display: grid;
+  grid-template-columns: repeat(var(--grid-column), 1fr);
+  gap: var(--grid-gap);
+}

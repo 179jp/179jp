@@ -1,0 +1,20 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Logo from "../components/type240/Logo.astro";
+import Nav from "../components/type240/Nav.astro";
+import "../styles/type240/index.css";
+
+const { isTop = false } = Astro.props;
+---
+
+<html lang="ja">
+  <head>
+    <BaseHead title="179" description="179.jp is web design & engineer." />
+  </head>
+  <body>
+    <main>
+      <Logo />
+      <Nav isTop={isTop} />
+    </main>
+  </body>
+</html>

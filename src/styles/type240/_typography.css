@@ -1,0 +1,49 @@
+body {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.-fs {
+  font-size: 1rem;
+}
+
+.-fs_xs {
+  font-size: .5625rem;
+}
+
+.-fs_s {
+  font-size: .6875rem;
+}
+
+.-fs_m {
+  font-size: 1.5rem;
+}
+
+.-fs_l {
+  font-size: 1.875rem;
+}
+
+.-fs_xl {
+  font-size: 3rem;
+}
+
+.-fs_huge {
+  font-size: 10rem;
+}
+
+.-ja-serif {
+  font-family: var(--base-serif-font);
+  font-weight: var(--base-serif-font-weight);
+  font-style: var(--base-serif-font-style);
+}
+
+.-en-serif {
+  font-family: var(--base-en-serif-font);
+  font-weight: var(--base-en-serif-font-weight);
+  font-style: var(--base-en-serif-font-style);
+}
+
+.-vt {
+  writing-mode: vertical-rl;
+  font-feature-settings: "vpal";
+}

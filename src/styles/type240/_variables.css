@@ -1,0 +1,11 @@
+:root {
+  --grid-base: 16px;
+  --grid-gutter: calc(var(--grid-base) * 2);
+  --grid-column: 16;
+  --grid-gap: var(--grid-gutter);
+
+  @media (width < 768px) {
+    --grid-column: 8;
+    --grid-gutter: calc(var(--grid-base) * 1);
+  }
+}
