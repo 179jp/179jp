@@ -20,7 +20,7 @@ body {
 }
 
 .-fs_l {
-  font-size: 1.875rem;
+  font-size: 2rem;
 }
 
 .-fs_xl {
@@ -35,6 +35,12 @@ body {
   font-family: var(--base-serif-font);
   font-weight: var(--base-serif-font-weight);
   font-style: var(--base-serif-font-style);
+}
+
+.-font-heitai {
+  line-height: 1;
+  scale: 1.79 0.95;
+  transform-origin: center top;
 }
 
 .-en-serif {

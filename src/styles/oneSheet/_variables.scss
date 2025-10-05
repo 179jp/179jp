@@ -1,0 +1,10 @@
+$MOBILE_WIDTH: 768px;
+
+:root {
+  --grid-base: 16px;
+  --grid-gutter: calc(var(--grid-base) * 2);
+  --grid-column: 16;
+  --grid: calc(((100svh - var(--grid-gutter) * 2) - var(--grid-gap) * (var(--grid-column) - 1)) / var(--grid-column));
+  --grid-gap: var(--grid-gutter);
+
+}

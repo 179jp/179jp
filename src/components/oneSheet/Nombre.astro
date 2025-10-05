@@ -1,0 +1,23 @@
+---
+// props
+const { position = "bottom-left" } = Astro.props;
+
+const positionClass = () => {
+  switch (position) {
+    case "bottom-left":
+      return "bottom-left";
+    case "bottom-right":
+      return "bottom-right";
+    case "top-left":
+      return "top-left";
+    case "top-right":
+      return "top-right";
+  }
+};
+
+const classList = `sheet-nombre ${positionClass()} -fs_s`;
+---
+
+<p class={classList}>
+  <slot />
+</p>

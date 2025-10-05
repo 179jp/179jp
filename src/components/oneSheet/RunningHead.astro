@@ -1,0 +1,17 @@
+---
+// props
+const {
+  font = "serif",
+  size = "xs",
+  color = "",
+  rotate = 0,
+  align = "center",
+} = Astro.props;
+
+const style = `color: ${color}; rotate: ${rotate}deg;`;
+const classList = `sheet-running-head -font-${font} -fs_${size} -text-${align} -ls-l`;
+---
+
+<p class={classList} style={style}>
+  <slot />
+</p>

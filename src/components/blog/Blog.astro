@@ -6,12 +6,10 @@ const { Content } = await render(post);
 ---
 
 <div class="-g">
-  {
-    !isFirst && (
-      <div class="-g_1_8 -title -without_header">
-        <h2 class="-text-m -title_label">{post.data.title}</h2>
-      </div>
-    )
-  }
+  <div class="-g_1_8 -title -without_header">
+    <h1 class="-fs_l -ja-serif -font-heitai -title_label">
+      {post.data.title}
+    </h1>
+  </div>
   <Content />
 </div>

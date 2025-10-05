@@ -1,8 +1,8 @@
 ---
 import BaseHead from "../components/BaseHead.astro";
-import Logo from "../components/type240/Logo.astro";
-import Nav from "../components/type240/Nav.astro";
-import "../styles/type240/index.css";
+import Logo from "../components/oneSheet/Logo.astro";
+import Nav from "../components/oneSheet/Nav.astro";
+import "../styles/oneSheet/index.css";
 
 const { isTop = false, title = "", slug = "" } = Astro.props;
 ---
@@ -13,8 +13,7 @@ const { isTop = false, title = "", slug = "" } = Astro.props;
   </head>
   <body>
     <main>
-      <Logo title={title} />
-      <Nav isTop={isTop} slug={slug} />
+      <!-- <Logo title={title} /> -->
       <slot />
     </main>
   </body>

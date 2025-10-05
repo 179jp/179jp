@@ -2,7 +2,7 @@
 import { type CollectionEntry, getCollection } from "astro:content";
 import { render } from "astro:content";
 
-import BlogTemplate from "../../layouts/BlogTemplate.astro";
+import Layout from "../../layouts/Type240.astro";
 import Blog from "../../components/blog/Blog.astro";
 import BlogHeader from "../../components/blog/BlogHeader.astro";
 
@@ -21,12 +21,8 @@ const currentMonth = postDate.getMonth();
 const currentYear = postDate.getFullYear();
 ---
 
-<BlogTemplate>
-  <article class="-v">
-    <div class="-g -head">
-      <BlogHeader month={currentMonth + 1} year={currentYear} />
-      <h2 class="-text-m -title_label">{post.data.title}</h2>
-    </div>
+<Layout isTop={false} title={post.data.title} slug={post.id}>
+  <article class="article -v">
     <Blog post={post} isFirst={true} />
   </article>
-</BlogTemplate>
+</Layout>

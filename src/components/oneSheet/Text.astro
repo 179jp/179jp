@@ -1,0 +1,11 @@
+---
+// props
+const { color = "", size = "s" } = Astro.props;
+
+const style = `color: ${color}`;
+const classList = `sheet-text -fs_${size} -text-justify`;
+---
+
+<div class={classList} style={style}>
+  <slot />
+</div>

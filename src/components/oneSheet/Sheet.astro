@@ -1,0 +1,10 @@
+---
+// props
+const { img = "", bkg = "", color = "" } = Astro.props;
+
+const style = `--sheet-bkg-color: ${bkg}; color: ${color}`;
+---
+
+<section class="sheet" style={style}>
+  <slot />
+</section>

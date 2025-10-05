@@ -1,0 +1,36 @@
+---
+// props
+const {
+  font = "serif",
+  size = "xs",
+  color = "",
+  position = "bottom-left",
+} = Astro.props;
+
+const style = `color: ${color}`;
+const positionClass = () => {
+  switch (position) {
+    case "bottom-left":
+      return "bottom-left -g-3x5-pos-1-16 -g-end";
+    case "bottom-center":
+      return "bottom-center -g-3x5-pos-5-16 -g-end";
+    case "bottom-right":
+      return "bottom-right -g-3x5-pos-8-16 -g-end";
+    case "top-center":
+      return "top-center -g-3x5-pos-5-1 -g-end";
+    case "top-left":
+      return "top-left -g-3x5-pos-1-1 -g-end";
+    case "top-center":
+      return "top-center -g-3x5-pos-5-1 -g-end";
+    case "top-right":
+      return "top-right -g-3x5-pos-8-1 -g-end";
+  }
+};
+const classList = `sheet-caption ${positionClass()}  -font-${font} -fs_${size} -text-justify`;
+---
+
+<div class={classList} style={style}>
+  <p>
+    <slot />
+  </p>
+</div>

@@ -4,13 +4,14 @@
   left: var(--grid-gutter);
   margin: 0;
   width: calc(100% - var(--grid-gutter) * 2);
-  z-index: 100;
+  z-index: 500;
 }
 
 .the-header_english {
   grid-column: 1 / 3;
   mix-blend-mode: difference;
   color: #FFF;
+  line-height: 1;
 }
 
 .the-header_japanese {
@@ -27,32 +28,63 @@
   padding-top: calc(var(--grid-base) * 13);
 }
 
+.the-nav.for-contents-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100vw - var(--grid-gutter) * 2);
+  height: 100%;
+  z-index: 100;
+  overflow-y: hidden;
+  pointer-events: none;
+}
+
 .the-nav_list {
   grid-column: 12 / -1;
 }
 
-.the-nav_list:has(.nav-item.is-active) {
+.the-nav:not(.for-contents-page) .the-nav_list:has(.nav-item.is-active) {
   .nav-item:not(.is-active) {
-    filter: blur(3px);
-    opacity: 0.6;
+    filter: blur(5px);
+    opacity: 0.4;
     transition: filter 0.8s ease-out;
   }
 
   .nav-item:not(.is-active):has(+ .is-active.nav-item),
   .is-active.nav-item+.nav-item:not(.is-active) {
     filter: blur(1px);
+    opacity: 0.5;
+  }
+
+  .nav-item:not(.is-active):has(+ .is-active.nav-item + .is-active.nav-item),
+  .is-active.nav-item+.nav-item:not(.is-active)+.nav-item:not(.is-active) {
+    filter: blur(2px);
+    opacity: 0.5;
   }
 
   &:hover {
     .nav-item:not(.is-active) {
-      filter: blur(12px);
+      filter: blur(2px);
+      opacity: 0.2;
     }
 
     .nav-item:not(.is-active):has(+ .is-active.nav-item),
     .is-active.nav-item+.nav-item:not(.is-active) {
-      filter: blur(3px);
+      filter: blur(0.5px);
+      opacity: 0.5;
+    }
+
+    .nav-item:not(.is-active):has(+ .is-active.nav-item + .is-active.nav-item),
+    .is-active.nav-item+.nav-item:not(.is-active)+.nav-item:not(.is-active) {
+      filter: blur(1px);
+      opacity: 0.2;
     }
   }
+}
+
+.the-nav.for-contents-page .nav-item:not(.is-active) {
+  filter: blur(11px);
+  opacity: 0.5;
 }
 
 .nav-item {
@@ -112,4 +144,17 @@
   left: 0;
   height: calc(100vh - var(--grid-base) * 2);
   width: auto;
+}
+
+
+
+/* Article */
+.article {
+  width: 100vw;
+  height: 100vh;
+}
+
+.-title {
+  display: flex;
+  align-items: center;
 }

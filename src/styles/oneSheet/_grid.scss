@@ -1,0 +1,86 @@
+// グリッドシステムの基本設定
+$GRID_COLUMN_NUMBER: 10;
+$GRID_ROW_NUMBER: 20;
+
+// 基本グリッドコンテナ
+.-g {
+  margin-inline: var(--grid-gutter);
+  display: grid;
+  grid-template-columns: repeat(var(--grid-column), 1fr);
+  gap: var(--grid-gap);
+}
+
+// グリッドアイテムの幅と高さの組み合わせ
+@for $i from 1 through $GRID_COLUMN_NUMBER {
+
+  // 幅のみ指定（高さは8固定）
+  .-g-#{$i} {
+    width: calc(var(--grid) * #{$i} + var(--grid-gap) * (#{$i} - 1));
+    height: calc(var(--grid) * 8 + var(--grid-gap) * (8 - 1));
+  }
+
+  // 幅と高さの組み合わせ
+  @for $j from 1 through $GRID_ROW_NUMBER {
+    .-g-#{$i}_#{$j} {
+      width: calc(var(--grid) * #{$i} + var(--grid-gap) * (#{$i} - 1));
+      height: calc(var(--grid) * #{$j} + var(--grid-gap) * (#{$j} - 1));
+    }
+  }
+}
+
+// グリッド位置指定（列と行の開始位置）
+@for $col from 1 through $GRID_COLUMN_NUMBER {
+  @for $row from 1 through $GRID_ROW_NUMBER {
+    .-g-pos-#{$col}-#{$row} {
+      grid-column: #{$col};
+      grid-row: #{$row};
+    }
+  }
+}
+
+// 幅、高さ、位置の完全な組み合わせ
+@for $width from 1 through $GRID_COLUMN_NUMBER {
+  @for $height from 1 through $GRID_ROW_NUMBER {
+    @for $col from 1 through ($GRID_COLUMN_NUMBER - $width + 1) {
+      @for $row from 1 through ($GRID_ROW_NUMBER - $height + 1) {
+        .-g-#{$width}x#{$height}-pos-#{$col}-#{$row} {
+          grid-column: #{$col} / span #{$width};
+          grid-row: #{$row} / span #{$height};
+        }
+      }
+    }
+  }
+}
+
+// ユーティリティクラス
+.-g-center {
+  justify-self: center;
+  align-self: center;
+}
+
+.-g-start {
+  justify-self: start;
+  align-self: start;
+}
+
+.-g-end {
+  justify-self: end;
+  align-self: end;
+}
+
+.-g-stretch {
+  justify-self: stretch;
+  align-self: stretch;
+}
+
+// レスポンシブ対応
+@media (max-width: $MOBILE_WIDTH) {
+
+  // モバイル用の簡略化されたグリッド
+  @for $i from 1 through 6 {
+    .-g-mobile-#{$i} {
+      width: calc(var(--grid) * #{$i} + var(--grid-gap) * (#{$i} - 1));
+      height: calc(var(--grid) * 6 + var(--grid-gap) * (6 - 1));
+    }
+  }
+}

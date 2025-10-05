@@ -12,6 +12,17 @@ const blog = defineCollection({
   }),
 });
 
+// OneSheet
+const oneSheet = defineCollection({
+  loader: glob({ base: "./src/content/one-sheet/", pattern: "**/*.{md,mdx}" }),
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    image: z.string().optional(),
+    number: z.number().optional(),
+  }),
+});
+
 // Sandbox
 const sandBox = defineCollection({
   loader: glob({ base: "./src/content/sand-box/", pattern: "**/*.{md,mdx}" }),
@@ -26,5 +37,6 @@ const sandBox = defineCollection({
 
 export const collections = {
   blog,
+  oneSheet,
   sandBox,
 };

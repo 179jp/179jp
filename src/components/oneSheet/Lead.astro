@@ -1,0 +1,19 @@
+---
+// props
+const {
+  font = "serif",
+  size = "m",
+  color = "",
+  width = 10,
+  height = 1,
+  column = 1,
+  row = 13,
+} = Astro.props;
+
+const style = `color: ${color}`;
+const classList = `sheet-lead -font-${font} -fs_${size} -g-${width}x${height}-pos-${column}-${row}`;
+---
+
+<p class={classList} style={style}>
+  <slot />
+</p>

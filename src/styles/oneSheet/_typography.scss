@@ -1,0 +1,99 @@
+body {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.-fs,
+.-fs_n {
+  font-size: 1rem;
+}
+
+.-fs_xxs {
+  font-size: .5625rem;
+}
+
+.-fs_xs {
+  font-size: .6875rem;
+  font-weight: 300;
+}
+
+.-fs_s {
+  font-size: .875rem;
+}
+
+.-fs_m {
+  font-size: 1.5rem;
+}
+
+.-fs_l {
+  font-size: 2rem;
+}
+
+.-fs_xl {
+  font-size: 3.4rem;
+}
+
+.-fs_huge {
+  font-size: 10rem;
+}
+
+
+// テキスト寄せ
+.-text-justify {
+  text-align: justify;
+}
+
+.-text-center {
+  text-align: center;
+}
+
+.-text-left {
+  text-align: left;
+}
+
+.-text-right {
+  text-align: right;
+}
+
+// 字間
+.-ls-s {
+  letter-spacing: 0.04em;
+}
+
+.-ls-m {
+  letter-spacing: 0.24em;
+}
+
+.-ls-l {
+  letter-spacing: 0.62em;
+}
+
+
+.-ja-serif {
+  font-family: var(--base-serif-font);
+  font-weight: var(--base-serif-font-weight);
+  font-style: var(--base-serif-font-style);
+}
+
+.-font-heitai {
+  line-height: 1;
+  scale: 1.79 0.95;
+  transform-origin: center top;
+}
+
+.-en-serif {
+  font-family: var(--base-en-serif-font);
+  font-weight: var(--base-en-serif-font-weight);
+  font-style: var(--base-en-serif-font-style);
+}
+
+.-vt {
+  writing-mode: vertical-rl;
+  font-feature-settings: "vpal";
+}
+
+.-font-signature {
+  font-family: "lindsey-signature", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}

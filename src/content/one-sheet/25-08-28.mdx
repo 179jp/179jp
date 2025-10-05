@@ -1,0 +1,39 @@
+---
+title: "template"
+date: 2025-08-28
+image: "/img/photos/202508/L1016298.jpg"
+number: 0
+---
+
+import Sheet from "../../components/oneSheet/Sheet.astro";
+import Title from "../../components/oneSheet/Title.astro";
+import Text from "../../components/oneSheet/Text.astro";
+import Lead from "../../components/oneSheet/Lead.astro";
+import Image from "../../components/oneSheet/Image.astro";
+import Caption from "../../components/oneSheet/Caption.astro";
+import Nombre from "../../components/oneSheet/Nombre.astro";
+import RunningHead from "../../components/oneSheet/RunningHead.astro";
+import Vertical from "../../components/oneSheet/Vertical.astro";
+
+<Sheet bkg="#123123" color="#fff">
+  <Title
+    color="#fff"
+    size="l"
+    width="10"
+    height="1"
+    column="1"
+    row="11">Japanese Summer Room</Title>
+  <RunningHead>2025 – 夏のお出かけ</RunningHead>
+  <Vertical
+    width="10"
+    height="4"
+    column="1"
+    row="14">
+    <Text size="xs">
+    お盆休み、お客さんを迎えるためにも、自分の部屋を大掃除。<br />
+    本を積み上げるままカオスだった本棚も整えた結果、すごく居心地のいい、本を読むための空間が出来上がった。
+    </Text>
+  </Vertical>
+  <Nombre position="bottom-left">Aug. 28</Nombre>
+  <Image src="/img/photos/202508/L1016298.jpg" alt="sample" size="full" />
+</Sheet>

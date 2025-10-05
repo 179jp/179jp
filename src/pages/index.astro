@@ -1,7 +1,18 @@
 ---
-import Layout from "../layouts/Type240.astro";
+import { type CollectionEntry, getCollection } from "astro:content";
+import { render } from "astro:content";
+
+import Layout from "../layouts/OneSheet.astro";
+
+const posts = (await getCollection("oneSheet")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const latestPost = posts[0];
+
+// Markdownをレンダリング
+const { Content } = await render(latestPost);
 ---
 
-<Layout isTop={true}>
-  <div><p>Building</p></div>
+<Layout isTop={true} title="一七九">
+  <Content />
 </Layout>
