@@ -13,8 +13,8 @@
   padding: 1em;
 
   @media screen and (min-width: 769px) {
-    height: 94svh;
-    margin: 3svh auto;
+    width: 98svw;
+    margin: 4svh auto;
   }
 }
 
@@ -51,7 +51,6 @@
 
 // キャプション
 .sheet-caption {
-
   &.bottom-left,
   &.bottom-right {
     padding-bottom: 1em;
@@ -98,7 +97,6 @@
   top: 2em;
   left: 1em;
   width: calc(100% - 2em);
-
 }
 
 .sheet-vertical {
