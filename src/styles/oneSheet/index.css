@@ -59987,8 +59987,8 @@ body {
 }
 @media screen and (min-width: 769px) {
   .sheet {
-    width: 98svw;
-    margin: 4svh auto;
+    height: 94svh;
+    margin: 3svh auto;
   }
 }
 
