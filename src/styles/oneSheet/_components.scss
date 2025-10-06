@@ -5,6 +5,7 @@
   margin: auto;
   overflow: hidden;
   position: relative;
+  max-width: 98svw;
 
   display: grid;
   grid-template-columns: repeat(10, 1fr);
@@ -12,7 +13,7 @@
   gap: 1em;
   padding: 1em;
 
-  @media (width < 768px) {
+  @media screen and (min-width: 769px) {
     width: 98svw;
     margin: 4svh auto;
   }

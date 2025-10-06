@@ -59978,13 +59978,14 @@ body {
   margin: auto;
   overflow: hidden;
   position: relative;
+  max-width: 98svw;
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(20, 1fr);
   gap: 1em;
   padding: 1em;
 }
-@media (width < 768px) {
+@media screen and (min-width: 769px) {
   .sheet {
     width: 98svw;
     margin: 4svh auto;
