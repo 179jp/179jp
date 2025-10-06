@@ -9,16 +9,20 @@ body {
 }
 
 .-fs_xxs {
-  font-size: .5625rem;
+  font-size: 0.5625rem;
 }
 
 .-fs_xs {
-  font-size: .6875rem;
+  font-size: 0.6875rem;
   font-weight: 300;
+  letter-spacing: 0.04em;
+  @media screen and (min-width: 769px) {
+    font-size: 1.5svh;
+  }
 }
 
 .-fs_s {
-  font-size: .875rem;
+  font-size: 0.875rem;
 }
 
 .-fs_m {
@@ -36,7 +40,6 @@ body {
 .-fs_huge {
   font-size: 10rem;
 }
-
 
 // テキスト寄せ
 .-text-justify {
@@ -67,7 +70,6 @@ body {
 .-ls-l {
   letter-spacing: 0.62em;
 }
-
 
 .-ja-serif {
   font-family: var(--base-serif-font);
