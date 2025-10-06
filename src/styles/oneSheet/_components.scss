@@ -1,7 +1,7 @@
 .sheet {
   aspect-ratio: 750/1280;
   background-color: var(--sheet-bkg-color);
-  border-radius: 10px;
+  border-radius: 16px;
   margin: auto;
   overflow: hidden;
   position: relative;
@@ -16,6 +16,9 @@
   @media screen and (min-width: 769px) {
     height: 94svh;
     margin: 3svh auto;
+  }
+  @media (width < 768px) {
+    margin: 4svh auto 0;
   }
 }
 
