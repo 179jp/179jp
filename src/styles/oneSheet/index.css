@@ -47,6 +47,11 @@ body {
 .-fs_l {
   font-size: 2rem;
 }
+@media (width < 768px) {
+  .-fs_l {
+    font-size: 1.8rem;
+  }
+}
 
 .-fs_xl {
   font-size: 3.4rem;
