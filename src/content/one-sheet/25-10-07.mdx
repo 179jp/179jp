@@ -1,0 +1,30 @@
+---
+title: ""
+date: 2025-10-07
+image: "/img/photos/202509/L1017163.jpg"
+number: 0
+---
+
+import Sheet from "../../components/oneSheet/Sheet.astro";
+import Title from "../../components/oneSheet/Title.astro";
+import Image from "../../components/oneSheet/Image.astro";
+import Caption from "../../components/oneSheet/Caption.astro";
+import Nombre from "../../components/oneSheet/Nombre.astro";
+import RunningHead from "../../components/oneSheet/RunningHead.astro";
+
+
+<Sheet bkg="#123123" color="#fff">
+  <Title
+    color="#fff"
+    size="l"
+    width="10"
+    height="1"
+    column="1"
+    row="13">Too Heavy</Title>
+  <RunningHead>2025 – 秋のまどろみ</RunningHead>
+  <Caption color="#fff">
+    カメラを持ち出さない日に限って、きれいな光や気持ちのいい風景に出会い後悔する。迷わずに毎日持ち出すのが正解だとは思うけど、最近荷物が重くてついついおっくうになる。明日はちょっと頑張って持ち出そう。
+  </Caption>
+  <Nombre position="bottom-right">Oct. 07</Nombre>
+  <Image src="/img/photos/202509/L1017163.jpg" alt="光と影" size="full" />
+</Sheet>
