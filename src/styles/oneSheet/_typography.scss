@@ -16,6 +16,7 @@ body {
   font-size: 0.6875rem;
   font-weight: 300;
   letter-spacing: 0.04em;
+
   @media (width < 768px) {
     font-size: 1.5svh;
   }
@@ -30,7 +31,8 @@ body {
 }
 
 .-fs_l {
-  font-size: 2rem;
+  font-size: 2.4rem;
+
   @media (width < 768px) {
     font-size: 1.8rem;
   }

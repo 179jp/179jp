@@ -17,8 +17,9 @@
     height: 94svh;
     margin: 3svh auto;
   }
+
   @media (width < 768px) {
-    margin: 4svh auto 0;
+    margin: svh auto 0;
   }
 }
 
@@ -55,6 +56,7 @@
 
 // キャプション
 .sheet-caption {
+
   &.bottom-left,
   &.bottom-right {
     padding-bottom: 1em;

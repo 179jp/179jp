@@ -12,8 +12,8 @@ if (!dateArg || !/^\d{4}-\d{2}-\d{2}$/.test(dateArg)) {
 
 const [year, month, day] = dateArg.split('-');
 const yyyymm = `${year}${month}`;
-const templatePath = path.join(__dirname, '../src/content/blog/_.mdx');
-const outPath = path.join(__dirname, `../src/content/blog/${dateArg}.mdx`);
+const templatePath = path.join(__dirname, '../src/content/one-sheet/_.mdx');
+const outPath = path.join(__dirname, `../src/content/one-sheet/${dateArg}.mdx`);
 
 if (fs.existsSync(outPath)) {
   console.error(`エラー: 既に ${dateArg}.mdx が存在します`);
