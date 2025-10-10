@@ -60021,7 +60021,7 @@ body {
 }
 .sheet-title.rotate-left-bottom {
   position: absolute;
-  bottom: 0;
+  bottom: -0.5em;
   left: 0;
   rotate: -90deg;
   transform-origin: left top;
