@@ -33,6 +33,10 @@ const { className = "" } = Astro.props;
     text-align: center;
     padding: 1em 0;
     color: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
   }
   main {
     width: 100%;
@@ -44,5 +48,10 @@ const { className = "" } = Astro.props;
     width: 100%;
     padding: 2em 1em;
     background-color: #eaff82;
+  }
+  .safari-26-1 {
+    footer {
+      padding-bottom: env(safe-area-inset-bottom, 2em);
+    }
   }
 </style>
