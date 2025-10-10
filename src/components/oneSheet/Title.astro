@@ -10,10 +10,11 @@ const {
   height = 2,
   column = 1,
   row = 12,
+  titleStyle = "",
 } = Astro.props;
 
-const style = `color: ${color}; rotate: ${rotate}deg;`;
-const classList = `sheet-title -font-${font} -fs_${size} -g-${width}x${height}-pos-${column}-${row}`;
+const style = `${color ? `color: ${color};` : ""} ${rotate ? `rotate: ${rotate}deg;` : ""}`;
+const classList = `sheet-title -font-${font} -fs_${size} -g-${width}x${height}-pos-${column}-${row} ${titleStyle}`;
 ---
 
 <h1 class={classList} style={style}>

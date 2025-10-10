@@ -45,12 +45,7 @@ body {
 }
 
 .-fs_l {
-  font-size: 2rem;
-}
-@media (width < 768px) {
-  .-fs_l {
-    font-size: 1.8rem;
-  }
+  font-size: 2.4rem;
 }
 
 .-fs_xl {
@@ -59983,7 +59978,7 @@ body {
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(20, 1fr);
   gap: 1em;
-  padding: 1em;
+  padding: 0.5em 1em;
 }
 @media screen and (min-width: 769px) {
   .sheet {
@@ -59993,7 +59988,7 @@ body {
 }
 @media (width < 768px) {
   .sheet {
-    margin: 4svh auto 0;
+    margin: svh auto 0;
   }
 }
 
@@ -60015,18 +60010,31 @@ body {
   z-index: 1;
 }
 
+.sheet-title {
+  transform-origin: center center;
+}
 .sheet-title.-fs_xl {
   font-size: 4.5rem;
 }
 .sheet-title.-fs_huge {
   font-size: 10rem;
 }
+.sheet-title.rotate-left-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  rotate: -90deg;
+  transform-origin: left top;
+  grid-row: auto;
+  grid-column: auto;
+  white-space: nowrap;
+}
 
 .sheet-caption.bottom-left, .sheet-caption.bottom-right {
-  padding-bottom: 1em;
+  padding-bottom: 0.5em;
 }
 .sheet-caption.top-left, .sheet-caption.top-right {
-  padding-top: 1em;
+  padding-top: 0.5em;
 }
 .sheet-caption.bottom-left, .sheet-caption.top-left {
   padding-left: 1em;
@@ -60041,11 +60049,11 @@ body {
   z-index: 2;
 }
 .sheet-nombre.bottom-left {
-  bottom: 1em;
+  bottom: 0.5em;
   left: 1em;
 }
 .sheet-nombre.bottom-right {
-  bottom: 1em;
+  bottom: 0.5em;
   right: 1em;
 }
 
@@ -60053,13 +60061,42 @@ body {
   display: inline-block;
   position: absolute;
   z-index: 2;
-  top: 2em;
+  top: 0.75em;
   left: 1em;
   width: calc(100% - 2em);
 }
 
 .sheet-vertical p {
   line-height: 1.8;
+}
+
+.sheet-column {
+  -moz-columns: 2 auto;
+       columns: 2 auto;
+}
+.sheet-column.-column-size-auto {
+  -moz-columns: auto auto;
+       columns: auto auto;
+}
+.sheet-column.-column-number-2 {
+  -moz-columns: 2 auto;
+       columns: 2 auto;
+}
+.sheet-column.-column-number-3 {
+  -moz-columns: 3 auto;
+       columns: 3 auto;
+}
+.sheet-column.-column-number-4 {
+  -moz-columns: 4 auto;
+       columns: 4 auto;
+}
+.sheet-column.-column-number-5 {
+  -moz-columns: 5 auto;
+       columns: 5 auto;
+}
+.sheet-column.-column-number-6 {
+  -moz-columns: 6 auto;
+       columns: 6 auto;
 }
 
 :root {

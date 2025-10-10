@@ -1,0 +1,37 @@
+---
+title: "template"
+date: 2025-10-09
+image: "/img/photos/202510/L1017709.jpg"
+number: 0
+---
+
+import Sheet from "../../components/oneSheet/Sheet.astro";
+import Title from "../../components/oneSheet/Title.astro";
+import Text from "../../components/oneSheet/Text.astro";
+import Lead from "../../components/oneSheet/Lead.astro";
+import Image from "../../components/oneSheet/Image.astro";
+import Caption from "../../components/oneSheet/Caption.astro";
+import Column from "../../components/oneSheet/Column.astro";
+import Nombre from "../../components/oneSheet/Nombre.astro";
+import RunningHead from "../../components/oneSheet/RunningHead.astro";
+import Vertical from "../../components/oneSheet/Vertical.astro";
+
+
+<Sheet bkg="#123123" color="#ccc">
+  <Title level={1} color="#ddd" size="l" titleStyle="rotate-left-bottom">living in under construction</Title>
+  <RunningHead>2025 – 秋の悩み</RunningHead>
+  <Column
+    width="6"
+    height="17"
+    column="5"
+    row="3"
+    columnSize="auto"
+    columnNumber="3"
+    isVertical={true}>
+    <Text size="xs">
+    この夏からマンションの大規模修繕が始まってしまった。中庭も含めて足場に囲われたマンションは、まさに工事現場という雰囲気。いつもと違う光が見られるものの、我が家というよりは工事現場の中に住んでいる感じがする。日中も騒音が激しいので、最近はコワーキングスペースを借りて仕事をしている。これは意外と気分的には楽しくて、気候が良くなってきたのもあり、自転車での移動も楽しんでいる。ただ、夜帰ってくると、暗い中で足場がさらに不気味に見えて、帰宅した安堵感みたいなものがない。大規模修繕がどのように始まり、習慣化したのか。そしてこんな足場や騒音、異臭の中でも「生活できる」と判断した人が不思議。たぶん、あまり家にいない人だったんだろうな。
+    </Text>
+    </Column>
+  <Nombre position="bottom-left">Oct. 9</Nombre>
+  <Image src="/img/photos/202510/L1017709.jpg" alt="under construction" size="full" />
+</Sheet>

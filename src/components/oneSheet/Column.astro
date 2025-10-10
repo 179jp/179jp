@@ -1,0 +1,20 @@
+---
+// props
+const {
+  color = "",
+  width = 10,
+  height = 1,
+  column = 1,
+  row = 13,
+  columnSize = "auto",
+  columnNumber = 2,
+  isVertical = false,
+} = Astro.props;
+
+const style = `color: ${color}`;
+const classList = `sheet-column -column-size-${columnSize} -column-number-${columnNumber} -g-${width}x${height}-pos-${column}-${row} ${isVertical ? "sheet-vertical -vt" : ""}`;
+---
+
+<div class={classList} style={style}>
+  <slot />
+</div>
