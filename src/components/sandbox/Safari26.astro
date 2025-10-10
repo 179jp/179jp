@@ -70,6 +70,8 @@ const { className = "" } = Astro.props;
     footer {
       padding-bottom: env(safe-area-inset-bottom, 2em);
       position: relative;
+      overflow: hidden;
+      height: 240px;
       &::after {
         content: "";
         display: block;
