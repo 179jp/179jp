@@ -15,11 +15,11 @@
 
   @media screen and (min-width: 769px) {
     height: 94svh;
-    margin: 3svh auto;
+    margin: 3svh auto 0;
   }
 
   @media (width < 768px) {
-    margin: svh auto 0;
+    margin: 3svh auto 0;
   }
 }
 
@@ -53,7 +53,8 @@
   &.-fs_huge {
     font-size: 10rem;
   }
-  &.rotate-left-bottom {
+  &.rotate-left-bottom,
+  &.rotate-right-bottom {
     position: absolute;
     bottom: -0.5em;
     left: 0;
@@ -62,6 +63,9 @@
     grid-row: auto;
     grid-column: auto;
     white-space: nowrap;
+  }
+  &.rotate-right-bottom {
+    left: 88%;
   }
 }
 

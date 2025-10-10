@@ -59983,12 +59983,12 @@ body {
 @media screen and (min-width: 769px) {
   .sheet {
     height: 94svh;
-    margin: 3svh auto;
+    margin: 3svh auto 0;
   }
 }
 @media (width < 768px) {
   .sheet {
-    margin: svh auto 0;
+    margin: 3svh auto 0;
   }
 }
 
@@ -60019,7 +60019,7 @@ body {
 .sheet-title.-fs_huge {
   font-size: 10rem;
 }
-.sheet-title.rotate-left-bottom {
+.sheet-title.rotate-left-bottom, .sheet-title.rotate-right-bottom {
   position: absolute;
   bottom: -0.5em;
   left: 0;
@@ -60028,6 +60028,9 @@ body {
   grid-row: auto;
   grid-column: auto;
   white-space: nowrap;
+}
+.sheet-title.rotate-right-bottom {
+  left: 88%;
 }
 
 .sheet-caption.bottom-left, .sheet-caption.bottom-right {
