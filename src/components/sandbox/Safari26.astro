@@ -1,7 +1,8 @@
 ---
+const { className = "" } = Astro.props;
 ---
 
-<div class="safari-26">
+<div class="safari-26 {className}">
   <header>
     <h1>Safari 26</h1>
   </header>
@@ -35,7 +36,7 @@
   }
   main {
     width: 100%;
-    height: 300vh;
+    height: 200vh;
     background-color: #e6d2d2;
     text-align: center;
   }
