@@ -18,7 +18,7 @@
     margin: 3svh auto 0;
   }
 
-  @media (width < 768px) {
+  @media screen and (max-width: 768px) {
     margin: 3svh auto 0;
   }
 }
@@ -46,6 +46,7 @@
 // タイトル
 .sheet-title {
   transform-origin: center center;
+
   &.-fs_xl {
     font-size: 4.5rem;
   }
@@ -53,6 +54,7 @@
   &.-fs_huge {
     font-size: 10rem;
   }
+
   &.rotate-left-bottom,
   &.rotate-right-bottom {
     position: absolute;
@@ -64,6 +66,7 @@
     grid-column: auto;
     white-space: nowrap;
   }
+
   &.rotate-right-bottom {
     left: 88%;
   }
@@ -71,6 +74,7 @@
 
 // キャプション
 .sheet-caption {
+
   &.bottom-left,
   &.bottom-right {
     padding-bottom: 0.5em;
@@ -88,7 +92,7 @@
 
   &.bottom-right,
   &.top-right {
-    padding-right: 1em;
+    // padding-right: 1em;
   }
 }
 
@@ -127,21 +131,27 @@
 
 .sheet-column {
   columns: 2 auto;
+
   &.-column-size-auto {
     columns: auto auto;
   }
+
   &.-column-number-2 {
     columns: 2 auto;
   }
+
   &.-column-number-3 {
     columns: 3 auto;
   }
+
   &.-column-number-4 {
     columns: 4 auto;
   }
+
   &.-column-number-5 {
     columns: 5 auto;
   }
+
   &.-column-number-6 {
     columns: 6 auto;
   }
