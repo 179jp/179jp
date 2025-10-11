@@ -124,8 +124,24 @@
 }
 
 .sheet-vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
   p {
     line-height: 1.8;
+  }
+
+  &.-align-left {
+    justify-content: flex-end;
+  }
+
+  &.-align-right {
+    justify-content: flex-start;
+  }
+
+  &.-align-center {
+    justify-content: center;
   }
 }
 
