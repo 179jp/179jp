@@ -60047,7 +60047,7 @@ body {
   background-color: rgba(255, 255, 255, 0.025);
   -webkit-backdrop-filter: blur(10px);
           backdrop-filter: blur(10px);
-  border-radius: 4px;
+  border-radius: 10px;
 }
 
 .sheet-nombre {
@@ -60096,7 +60096,7 @@ body {
   rotate: 90deg;
   transform-origin: left top;
   width: 98svh;
-  translate: 34em 0;
+  translate: 33.5em 0;
 }
 
 .sheet-vertical {
