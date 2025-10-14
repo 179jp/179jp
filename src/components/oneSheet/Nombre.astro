@@ -1,6 +1,6 @@
 ---
 // props
-const { position = "bottom-left" } = Astro.props;
+const { position = "bottom-left", color = "" } = Astro.props;
 
 const positionClass = () => {
   switch (position) {
@@ -16,8 +16,9 @@ const positionClass = () => {
 };
 
 const classList = `sheet-nombre ${positionClass()} -fs_s`;
+const colorStyle = color ? `color: ${color}` : "";
 ---
 
-<p class={classList}>
+<p class={classList} style={colorStyle}>
   <slot />
 </p>
