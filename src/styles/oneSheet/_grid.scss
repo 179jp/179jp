@@ -12,7 +12,6 @@ $GRID_ROW_NUMBER: 20;
 
 // グリッドアイテムの幅と高さの組み合わせ
 @for $i from 1 through $GRID_COLUMN_NUMBER {
-
   // 幅のみ指定（高さは8固定）
   .-g-#{$i} {
     width: calc(var(--grid) * #{$i} + var(--grid-gap) * (#{$i} - 1));
@@ -45,7 +44,7 @@ $GRID_ROW_NUMBER: 20;
       @for $row from 1 through ($GRID_ROW_NUMBER - $height + 1) {
         .-g-#{$width}x#{$height}-pos-#{$col}-#{$row} {
           grid-column: #{$col} / span #{$width};
-          grid-row: #{$row} / span #{$height};
+          grid-row: #{$row} / span #{$height + 1};
         }
       }
     }
@@ -75,7 +74,6 @@ $GRID_ROW_NUMBER: 20;
 
 // レスポンシブ対応
 @media (max-width: $MOBILE_WIDTH) {
-
   // モバイル用の簡略化されたグリッド
   @for $i from 1 through 6 {
     .-g-mobile-#{$i} {

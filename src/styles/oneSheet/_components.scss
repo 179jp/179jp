@@ -74,7 +74,6 @@
 
 // キャプション
 .sheet-caption {
-
   &.bottom-left,
   &.bottom-right {
     padding-bottom: 0.5em;
@@ -121,6 +120,32 @@
   top: 0.75em;
   left: 1em;
   width: calc(100% - 2em);
+  &.top-center {
+    top: 0.75em;
+    left: 1em;
+    width: calc(100% - 2em);
+  }
+  &.bottom-center {
+    bottom: 0.75em;
+    left: 1em;
+    width: calc(100% - 2em);
+  }
+  &.left-center {
+    top: 1em;
+    left: 0.75em;
+    rotate: 90deg;
+    transform-origin: left top;
+    width: 98svh;
+    translate: 1em 0;
+  }
+  &.right-center {
+    top: 1em;
+    left: 0.75em;
+    rotate: 90deg;
+    transform-origin: left top;
+    width: 98svh;
+    translate: 34em 0;
+  }
 }
 
 .sheet-vertical {

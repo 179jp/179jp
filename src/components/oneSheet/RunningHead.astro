@@ -6,10 +6,11 @@ const {
   color = "",
   rotate = 0,
   align = "center",
+  position = "top-center",
 } = Astro.props;
 
-const style = `color: ${color}; rotate: ${rotate}deg;`;
-const classList = `sheet-running-head -font-${font} -fs_${size} -text-${align} -ls-l`;
+const style = `${color ? `color: ${color};` : ""} ${rotate ? `rotate: ${rotate}deg;` : ""}`;
+const classList = `sheet-running-head -font-${font} -fs_${size} -text-${align} -ls-l ${position}`;
 ---
 
 <p class={classList} style={style}>

@@ -1,0 +1,27 @@
+---
+title: "template"
+date: 2025-10-12
+image: "/img/photos/202510/IMG_2196.jpg"
+number: 0
+---
+
+import Sheet from "../../components/oneSheet/Sheet.astro";
+import Title from "../../components/oneSheet/Title.astro";
+import Text from "../../components/oneSheet/Text.astro";
+import Lead from "../../components/oneSheet/Lead.astro";
+import Image from "../../components/oneSheet/Image.astro";
+import Caption from "../../components/oneSheet/Caption.astro";
+import Nombre from "../../components/oneSheet/Nombre.astro";
+import RunningHead from "../../components/oneSheet/RunningHead.astro";
+import Vertical from "../../components/oneSheet/Vertical.astro";
+
+
+<Sheet bkg="#301201" color="#df009a">
+  <Title level={1} color="#df009a" size="l" row="17">Blanket on Blanket</Title>
+  <RunningHead position="right-center">2025 – 秋の昼寝</RunningHead>
+  <Caption color="#df009a" position="top-left">
+    少し連れの溜まってきた週末。出したばかりの毛布をかけてお昼寝していると、ぽんちょが来た。無言でズサっと毛布の上にやって来て、足の間に入り、一緒にお昼寝。最高に気持ちいい。ちょっと撫でていたら、すっかり裏返っておりました。
+  </Caption>
+  <Nombre position="bottom-left">Oct. 12</Nombre>
+  <Image src="/img/photos/202510/IMG_2196.jpg" alt="ぽんちょと毛布でお昼寝" size="full" />
+</Sheet>
