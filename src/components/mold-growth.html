@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>カビの成長シミュレーション</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+        }
+        canvas {
+            border: 2px solid #333;
+            background: #f5f5dc;
+            cursor: crosshair;
+        }
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 14px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        button.danger {
+            background: #f44336;
+        }
+        button.danger:hover {
+            background: #da190b;
+        }
+        .info {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+            color: #aaa;
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background: #2a2a2a;
+            color: white;
+            width: 200px;
+        }
+        label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🍄 カビの成長シミュレーション</h1>
+    <canvas id="moldCanvas" width="800" height="600"></canvas>
+    
+    <div class="controls">
+        <button id="startBtn">成長開始</button>
+        <button id="pauseBtn">一時停止</button>
+        <button class="danger" id="resetBtn">リセット</button>
+        <label>
+            <span>保護テキスト:</span>
+            <input type="text" id="textInput" value="SAFE ZONE" />
+        </label>
+        <button id="updateTextBtn">テキスト更新</button>
+    </div>
+    
+    <div class="info">
+        <p>キャンバスをクリックしてカビの胞子を追加できます</p>
+        <p>カビは文字の領域を避けて広がります</p>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('moldCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        let isRunning = false;
+        let moldCells = [];
+        let textMask = [];
+        let protectedText = 'SAFE ZONE';
+        
+        // カビの色のバリエーション
+        const moldColors = [
+            { r: 60, g: 100, b: 50 },   // 濃い緑
+            { r: 80, g: 120, b: 60 },   // 緑
+            { r: 100, g: 140, b: 70 },  // 明るい緑
+            { r: 70, g: 90, b: 40 },    // オリーブ
+            { r: 50, g: 80, b: 60 },    // 青緑
+        ];
+        
+        class MoldCell {
+            constructor(x, y, age = 0) {
+                this.x = x;
+                this.y = y;
+                this.age = age;
+                this.color = moldColors[Math.floor(Math.random() * moldColors.length)];
+                this.spread = false;
+            }
+            
+            draw() {
+                const alpha = Math.min(0.3 + (this.age / 100) * 0.7, 1);
+                ctx.fillStyle = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${alpha})`;
+                
+                // ふわふわした質感を出すために複数の円を描画
+                const size = 2 + Math.random() * 2;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, size, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // ランダムに小さな胞子を追加
+                if (Math.random() < 0.1) {
+                    ctx.fillStyle = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${alpha * 0.5})`;
+                    ctx.beginPath();
+                    ctx.arc(this.x + Math.random() * 4 - 2, this.y + Math.random() * 4 - 2, 1, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+            
+            grow() {
+                this.age++;
+                
+                // 一定の年齢になったら周囲に広がる
+                if (this.age > 5 && !this.spread && Math.random() < 0.3) {
+                    this.spread = true;
+                    const newCells = [];
+                    
+                    // 周囲8方向に広がる可能性
+                    for (let dx = -1; dx <= 1; dx++) {
+                        for (let dy = -1; dy <= 1; dy++) {
+                            if (dx === 0 && dy === 0) continue;
+                            
+                            if (Math.random() < 0.4) {
+                                const newX = this.x + dx * (3 + Math.random() * 3);
+                                const newY = this.y + dy * (3 + Math.random() * 3);
+                                
+                                // キャンバス内かつテキスト領域でない場合のみ追加
+                                if (newX >= 0 && newX < canvas.width && 
+                                    newY >= 0 && newY < canvas.height &&
+                                    !isProtectedArea(newX, newY)) {
+                                    newCells.push(new MoldCell(newX, newY));
+                                }
+                            }
+                        }
+                    }
+                    
+                    return newCells;
+                }
+                return [];
+            }
+        }
+        
+        function isProtectedArea(x, y) {
+            const index = Math.floor(y) * canvas.width + Math.floor(x);
+            return textMask[index] === 1;
+        }
+        
+        function updateTextMask() {
+            // マスクをリセット
+            textMask = new Array(canvas.width * canvas.height).fill(0);
+            
+            // テキストを描画してマスクを作成
+            ctx.save();
+            ctx.fillStyle = 'black';
+            ctx.font = 'bold 80px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            const textX = canvas.width / 2;
+            const textY = canvas.height / 2;
+            
+            ctx.fillText(protectedText, textX, textY);
+            
+            // ピクセルデータを取得してマスクを作成
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+            
+            for (let i = 0; i < data.length; i += 4) {
+                const alpha = data[i + 3];
+                if (alpha > 128) {
+                    const pixelIndex = i / 4;
+                    textMask[pixelIndex] = 1;
+                }
+            }
+            
+            ctx.restore();
+        }
+        
+        function drawProtectedText() {
+            ctx.save();
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.strokeStyle = 'rgba(100, 100, 100, 0.5)';
+            ctx.lineWidth = 2;
+            ctx.font = 'bold 80px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            const textX = canvas.width / 2;
+            const textY = canvas.height / 2;
+            
+            ctx.strokeText(protectedText, textX, textY);
+            ctx.fillText(protectedText, textX, textY);
+            ctx.restore();
+        }
+        
+        function animate() {
+            if (!isRunning) return;
+            
+            // カビのセルを描画
+            moldCells.forEach(cell => {
+                cell.draw();
+                const newCells = cell.grow();
+                moldCells.push(...newCells);
+            });
+            
+            // 保護されたテキストを再描画
+            drawProtectedText();
+            
+            // 古いセルを削除（パフォーマンス対策）
+            if (moldCells.length > 10000) {
+                moldCells = moldCells.slice(-8000);
+            }
+            
+            requestAnimationFrame(animate);
+        }
+        
+        function reset() {
+            ctx.fillStyle = '#f5f5dc';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            moldCells = [];
+            updateTextMask();
+            drawProtectedText();
+            
+            // 初期胞子を配置
+            for (let i = 0; i < 5; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                if (!isProtectedArea(x, y)) {
+                    moldCells.push(new MoldCell(x, y));
+                }
+            }
+        }
+        
+        // イベントリスナー
+        document.getElementById('startBtn').addEventListener('click', () => {
+            if (!isRunning) {
+                isRunning = true;
+                animate();
+            }
+        });
+        
+        document.getElementById('pauseBtn').addEventListener('click', () => {
+            isRunning = false;
+        });
+        
+        document.getElementById('resetBtn').addEventListener('click', reset);
+        
+        document.getElementById('updateTextBtn').addEventListener('click', () => {
+            const input = document.getElementById('textInput');
+            protectedText = input.value || 'SAFE ZONE';
+            reset();
+        });
+        
+        canvas.addEventListener('click', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            if (!isProtectedArea(x, y)) {
+                moldCells.push(new MoldCell(x, y));
+            }
+        });
+        
+        // 初期化
+        reset();
+    </script>
+</body>
+</html>

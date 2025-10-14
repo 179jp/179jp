@@ -1,0 +1,269 @@
+---
+// Moss
+---
+
+<div>
+  <div id="controls">
+    <input type="text" id="textInput" placeholder="保護するテキストを入力" value="MOLD">
+    <button id="setTextBtn">テキスト設定</button>
+    <button id="toggleBtn">停止</button>
+    <button id="resetBtn">リセット</button>
+</div>
+<canvas id="moldCanvas" width="800" height="600"></canvas>
+</div>
+
+<script is:inline>
+  const canvas = document.getElementById('moldCanvas');
+        const ctx = canvas.getContext('2d');
+        const toggleBtn = document.getElementById('toggleBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const setTextBtn = document.getElementById('setTextBtn');
+        const textInput = document.getElementById('textInput');
+        
+        const CELL_SIZE = 8;
+        const CANVAS_WIDTH = 800;
+        const CANVAS_HEIGHT = 600;
+        const COLS = Math.floor(CANVAS_WIDTH / CELL_SIZE);
+        const ROWS = Math.floor(CANVAS_HEIGHT / CELL_SIZE);
+        
+        let isGrowing = true;
+        let grid = [];
+        let colorVariation = [];
+        let textCells = new Set();
+        
+        // グリッドの初期化
+        function initGrid() {
+            grid = Array(ROWS).fill(null).map(() => Array(COLS).fill(0));
+            colorVariation = Array(ROWS).fill(null).map(() => Array(COLS).fill(0));
+            
+            // 初期のカビの種をランダムに配置
+            const seedCount = 8;
+            for (let i = 0; i < seedCount; i++) {
+                const row = Math.floor(Math.random() * ROWS);
+                const col = Math.floor(Math.random() * COLS);
+                grid[row][col] = Math.random() * 20 + 10;
+                colorVariation[row][col] = Math.random(); // 0-1の色バリエーション
+            }
+        }
+        
+        // テキスト領域を設定
+        function setTextArea(text) {
+            textCells.clear();
+            
+            // 一時的なcanvasでテキストを描画
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = CANVAS_WIDTH;
+            tempCanvas.height = CANVAS_HEIGHT;
+            const tempCtx = tempCanvas.getContext('2d');
+            
+            // テキストを描画
+            tempCtx.fillStyle = 'white';
+            tempCtx.font = 'bold 120px Arial';
+            tempCtx.textAlign = 'center';
+            tempCtx.textBaseline = 'middle';
+            tempCtx.fillText(text, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+            
+            // ピクセルデータを取得してテキスト領域を設定
+            const imageData = tempCtx.getImageData(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            const data = imageData.data;
+            
+            for (let row = 0; row < ROWS; row++) {
+                for (let col = 0; col < COLS; col++) {
+                    // セルの中心ピクセルをチェック
+                    const x = col * CELL_SIZE + CELL_SIZE / 2;
+                    const y = row * CELL_SIZE + CELL_SIZE / 2;
+                    const index = (Math.floor(y) * CANVAS_WIDTH + Math.floor(x)) * 4;
+                    
+                    // 白いピクセル（テキスト部分）を検出
+                    if (data[index] > 128) {
+                        textCells.add(`${row},${col}`);
+                    }
+                }
+            }
+        }
+        
+        // 緑の同系色を生成（色の差を抑える）
+        function getGreenShade(intensity, variation) {
+            const normalized = Math.min(intensity / 100, 1);
+            
+            // 色相の変化を小さく（緑系統に収める）
+            const hueShift = (variation - 0.5) * 30; // -15 to 15の範囲
+            
+            // 基本色（緑）からの変化を抑える
+            const r = Math.floor(25 + normalized * 45 + hueShift * 0.8);
+            const g = Math.floor(85 + normalized * 100 + hueShift * 0.3);
+            const b = Math.floor(30 + normalized * 55 + hueShift * 0.5);
+            
+            // 明度を滑らかに変化させる
+            const brightness = 0.5 + normalized * 0.5;
+            const finalR = Math.floor(r * brightness);
+            const finalG = Math.floor(g * brightness);
+            const finalB = Math.floor(b * brightness);
+            
+            return `rgb(${finalR}, ${finalG}, ${finalB})`;
+        }
+        
+        // グリッドを描画（滑らかに）
+        function drawGrid() {
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            
+            // カビを描画（エッジをぼかす）
+            for (let row = 0; row < ROWS; row++) {
+                for (let col = 0; col < COLS; col++) {
+                    if (grid[row][col] > 0) {
+                        const color = getGreenShade(grid[row][col], colorVariation[row][col]);
+                        ctx.fillStyle = color;
+                        
+                        // セルの境界を少し重ねて描画することでパキッとした感じを軽減
+                        ctx.fillRect(
+                            col * CELL_SIZE - 0.5, 
+                            row * CELL_SIZE - 0.5, 
+                            CELL_SIZE + 1, 
+                            CELL_SIZE + 1
+                        );
+                    }
+                }
+            }
+            
+            // テキストを半透明で描画
+            ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+            ctx.font = 'bold 120px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(textInput.value, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+        }
+        
+        // カビを成長させる
+        function growMold() {
+            const newCells = [];
+            
+            for (let row = 0; row < ROWS; row++) {
+                for (let col = 0; col < COLS; col++) {
+                    if (grid[row][col] > 0 && grid[row][col] < 100) {
+                        // 既存のカビを濃くする
+                        if (Math.random() < 0.08) {
+                            grid[row][col] = Math.min(grid[row][col] + Math.random() * 4, 100);
+                        }
+                        
+                        // 隣接セルに広がる
+                        if (Math.random() < 0.25) {
+                            const directions = [
+                                [-1, 0], [1, 0], [0, -1], [0, 1],
+                                [-1, -1], [-1, 1], [1, -1], [1, 1]
+                            ];
+                            
+                            const dir = directions[Math.floor(Math.random() * directions.length)];
+                            const newRow = row + dir[0];
+                            const newCol = col + dir[1];
+                            
+                            if (newRow >= 0 && newRow < ROWS && newCol >= 0 && newCol < COLS) {
+                                const cellKey = `${newRow},${newCol}`;
+                                
+                                if (grid[newRow][newCol] === 0) {
+                                    // テキスト領域では薄いカビしか生えない
+                                    const isTextCell = textCells.has(cellKey);
+                                    const maxIntensity = isTextCell ? 30 : 100;
+                                    
+                                    // 親セルから色バリエーションを継承しつつわずかに変化
+                                    const parentVariation = colorVariation[row][col];
+                                    const newVariation = parentVariation + (Math.random() - 0.5) * 0.15;
+                                    
+                                    newCells.push({
+                                        row: newRow,
+                                        col: newCol,
+                                        intensity: Math.random() * 12 + 5,
+                                        variation: Math.max(0, Math.min(1, newVariation)),
+                                        maxIntensity: maxIntensity
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // 新しいカビを追加
+            newCells.forEach(cell => {
+                grid[cell.row][cell.col] = cell.intensity;
+                colorVariation[cell.row][cell.col] = cell.variation;
+            });
+            
+            // テキスト領域のカビの成長を制限
+            textCells.forEach(cellKey => {
+                const [row, col] = cellKey.split(',').map(Number);
+                if (grid[row][col] > 30) {
+                    grid[row][col] = 30;
+                }
+            });
+        }
+        
+        // アニメーションループ
+        function animate() {
+            if (isGrowing) {
+                growMold();
+            }
+            drawGrid();
+            requestAnimationFrame(animate);
+        }
+        
+        // ボタンイベント
+        toggleBtn.addEventListener('click', () => {
+            isGrowing = !isGrowing;
+            toggleBtn.textContent = isGrowing ? '停止' : '再開';
+        });
+        
+        resetBtn.addEventListener('click', () => {
+            setTextArea(textInput.value);
+            initGrid();
+        });
+        
+        setTextBtn.addEventListener('click', () => {
+            setTextArea(textInput.value);
+            initGrid();
+        });
+        
+        // 初期化と開始
+        setTextArea(textInput.value);
+        initGrid();
+        animate();
+    </script>
+
+<style>
+  body {
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: sans-serif;
+  }
+  canvas {
+      border: 2px solid #2d4f2d;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  }
+  .controls {
+      margin-bottom: 20px;
+  }
+  button {
+      padding: 10px 20px;
+      background-color: #3d6b3d;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 0 5px;
+  }
+  button:hover {
+      background-color: #4d7f4d;
+  }
+  .info {
+      margin-top: 15px;
+      color: #6fb06f;
+      font-size: 14px;
+  }
+</style>

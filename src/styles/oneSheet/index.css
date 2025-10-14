@@ -60034,14 +60034,22 @@ body {
 }
 
 .sheet-caption.bottom-left, .sheet-caption.bottom-right {
-  padding-bottom: 0.5em;
+  padding-bottom: 0em;
 }
 .sheet-caption.top-left, .sheet-caption.top-right {
-  padding-top: 0.5em;
+  padding-top: 0em;
 }
 .sheet-caption.bottom-left, .sheet-caption.top-left {
-  padding-left: 1em;
+  padding-left: 0em;
 }
+.sheet-caption.background {
+  padding: 0.5em;
+  background-color: rgba(255, 255, 255, 0.025);
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  border-radius: 4px;
+}
+
 .sheet-nombre {
   display: inline-block;
   position: absolute;

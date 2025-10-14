@@ -5,6 +5,7 @@ const {
   size = "xs",
   color = "",
   position = "bottom-left",
+  isBackground = false,
 } = Astro.props;
 
 const style = `color: ${color}`;
@@ -26,7 +27,7 @@ const positionClass = () => {
       return "top-right -g-4x5-pos-7-1 -g-end";
   }
 };
-const classList = `sheet-caption ${positionClass()}  -font-${font} -fs_${size} -text-justify`;
+const classList = `sheet-caption ${positionClass()}  -font-${font} -fs_${size} -text-justify ${isBackground ? 'background' : ''}`;
 ---
 
 <div class={classList} style={style}>

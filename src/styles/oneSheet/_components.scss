@@ -76,22 +76,29 @@
 .sheet-caption {
   &.bottom-left,
   &.bottom-right {
-    padding-bottom: 0.5em;
+    padding-bottom: 0em;
   }
 
   &.top-left,
   &.top-right {
-    padding-top: 0.5em;
+    padding-top: 0em;
   }
 
   &.bottom-left,
   &.top-left {
-    padding-left: 1em;
+    padding-left: 0em;
   }
 
   &.bottom-right,
   &.top-right {
     // padding-right: 1em;
+  }
+
+  &.background {
+    padding: 0.5em;
+    background-color: rgba(255, 255, 255, 0.025);
+    backdrop-filter: blur(10px);
+    border-radius: 4px;
   }
 }
 
