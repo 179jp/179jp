@@ -3,16 +3,20 @@ import { type CollectionEntry, getCollection } from "astro:content";
 import { render } from "astro:content";
 
 import Layout from "../layouts/OneSheet.astro";
+import SheetUnit from "../components/oneSheet/SheetUnit.astro";
+import Navigation from "../components/oneSheet/Navigation.astro";
 
 const posts = (await getCollection("oneSheet")).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 );
-const latestPost = posts[0];
 
-// Markdownをレンダリング
-const { Content } = await render(latestPost);
 ---
 
 <Layout isTop={true} title="一七九">
-  <Content />
+  <article class="book">
+    <div class="book_inner" style={`--sheets: ${posts.length};`}>
+      {posts.map((post) => <SheetUnit post={post} />)}
+    </div>
+  </article>
+  <Navigation posts={posts} cuurent={posts[0]} />
 </Layout>

@@ -1,3 +1,61 @@
+.theme-202510 {
+  background-color: #111;
+  background: url("/img/photos/202510/L1017711.jpg") no-repeat center center /
+    cover;
+}
+
+.book {
+  width: 100%;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  scrollbar-color: rgba(0, 0, 0, 0.4) rgba(0, 0, 0, 0);
+  scrollbar-width: thin;
+  overscroll-behavior-x: none;
+
+  &_inner {
+    display: grid;
+    grid-template-columns: repeat(var(--sheets), 1fr);
+    --sheet-width: calc(750 * 94svh / 1280);
+    --sheet-gap: 8svw;
+    @media (max-width: 768px) {
+      --sheet-width: 98svw;
+      --sheet-gap: 2svw;
+      padding: 0 8svw 0 1svw;
+    }
+    padding: 0 0 0 calc((100svw - var(--sheet-width)) / 2);
+    width: calc(
+      var(--sheets) * var(--sheet-width) + var(--sheet-gap) *
+        (var(--sheets) - 1)
+    );
+    gap: var(--sheet-gap);
+  }
+}
+
+.the-nav {
+  width: 100%;
+  overflow-x: scroll;
+  scrollbar-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+  scrollbar-width: thin;
+  scroll-snap-type: x mandatory;
+
+  &_list {
+    display: flex;
+    gap: 1em;
+    width: calc(var(--length) * 8em + (var(--length) - 1) * 1em);
+    padding: 0 8svw 0 calc(50svw - 4em);
+  }
+  .nav-item {
+    width: 8em;
+    text-align: center;
+    opacity: 0.4;
+    transition: opacity 0.4s ease-out;
+    color: #fff;
+    &.is-active {
+      opacity: 1;
+    }
+  }
+}
+
 .sheet {
   aspect-ratio: 750/1280;
   background-color: var(--sheet-bkg-color);
@@ -80,7 +138,6 @@
 
 // キャプション
 .sheet-caption {
-
   &.bottom-left,
   &.bottom-right {
     padding-bottom: 0em;

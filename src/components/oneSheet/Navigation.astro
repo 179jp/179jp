@@ -1,0 +1,33 @@
+---
+const { posts, cuurent } = Astro.props;
+
+// 投稿の日付のうち日だけを表示する
+const postDates = posts.map((post) => {
+    const date = post.data.date;
+    const year = date.getFullYear().toString().slice(-2); // 年の下2桁
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 月（0ベースなので+1）
+    const day = date.getDate().toString().padStart(2, '0'); // 日
+    
+    return {
+      url: `${year}-${month}-${day}`,
+      date: post.data.date,
+      day: day,
+    };
+  });
+
+const currentIndex = postDates.findIndex((date) => date.url === cuurent.id);
+console.log({
+  currentIndex,
+  cuurent,
+})
+---
+
+<nav class="the-nav -fs_s">
+  <ul class="the-nav_list" style={`--length: ${postDates.length};`}>
+    {
+      postDates.map((date, index) => <li class="nav-item" class:list={[currentIndex === index ? "is-active" : ""]}>
+        <a href={`/one-sheet/${date.url}`}>{date.day}</a>
+      </li>
+      )}
+  </ul>
+</nav>
