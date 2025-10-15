@@ -59967,6 +59967,10 @@ body {
     height: calc(var(--grid) * 6 + var(--grid-gap) * 5);
   }
 }
+body {
+  background-color: #111;
+}
+
 .theme-202510 {
   background-color: #111;
   background: url("/img/photos/202510/L1017711.jpg") no-repeat center center/cover;
