@@ -59968,7 +59968,7 @@ body {
   }
 }
 body {
-  background-color: #111;
+  background-color: #111 !important;
 }
 
 .theme-202510 {
