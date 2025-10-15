@@ -3,4 +3,4 @@
 const { src = "", alt = "", size = "full" } = Astro.props;
 ---
 
-<img src={src} alt={alt} class={`sheet-img ${size}`} />
+<img src={src} alt={alt} class={`sheet-img ${size}`} loading="lazy" />
