@@ -90,7 +90,35 @@ const { className = "" } = Astro.props;
       }
     }
   }
-  body:has(.safari-26-2) {
+  .safari-26-3 {
+    header {
+      width: 98%;
+      top: 1em;
+      left: 1%;
+      border-radius: 8px;
+    }
+    main {
+      padding-top: 5em;
+    }
+    footer {
+      padding-bottom: env(safe-area-inset-bottom, 2em);
+      position: relative;
+      overflow: hidden;
+      height: 240px;
+      &::after {
+        content: "";
+        display: block;
+        width: 100%;
+        height: 10em;
+        background-color: #eaff82;
+        position: absolute;
+        bottom: calc(-1 * (env(safe-area-inset-bottom) + 10em));
+        left: 0;
+        z-index: 100;
+      }
+    }
+  }
+  body:has(.safari-26-2, .safari-26-3) {
     background: linear-gradient(
       to bottom,
       #b8b8b8 0%,
