@@ -24,16 +24,59 @@ const { className = "" } = Astro.props;
 </div>
 
 <script is:inline>
+  function observeElementVisibility(
+    el,
+    callback,
+    options = { root: null, threshold: 0, rootMargin: '0px' }
+  ) {
+    const io = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        callback(entry.isIntersecting, entry);
+      }
+    }, options);
+
+    io.observe(el);
+
+    return {
+      disconnect() {
+        io.disconnect();
+      }
+    };
+  }
   document.addEventListener("DOMContentLoaded", () => {
     const body = document.body;
     const bar = document.querySelector(".bar");
     // scroll
+    /*
     body.addEventListener("scroll", () => {
       bar.style.bottom = `calc(-1 * (env(safe-area-inset-bottom) + 1em))`;
     });
+    
     setTimeout(() => {
       bar.style.bottom = `calc(-1 * (env(safe-area-inset-bottom) + 5em))`;
     }, 1000);
+    */
+
+    const footer = document.querySelector('footer');
+    if (footer) {
+      const watcher = observeElementVisibility(footer, (visible) => {
+        if (visible) {
+          // フッターが画面内に入った
+          bar.style.opacity = 1;
+        } else {
+          // フッターが画面外に出た
+          bar.style.opacity = 0;
+        }
+      }, {
+        // 画面下に余白を持たせて「早めに判定」したい場合
+        root: null,
+        threshold: 0,
+        rootMargin: '0px 0px -20% 0px'
+      });
+
+      // 不要になったら
+      // watcher.disconnect();
+    }
   });
 </script>
 
