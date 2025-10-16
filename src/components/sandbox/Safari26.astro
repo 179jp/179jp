@@ -26,9 +26,6 @@ const { className = "" } = Astro.props;
 <script is:inline>
   document.addEventListener("DOMContentLoaded", () => {
     const body = document.body;
-
-    const bar = document.querySelector(".bar");
-    bar.style.bottom = `calc(-1 * (env(safe-area-inset-bottom) + 5em))`;
     // scroll
     body.addEventListener("scroll", () => {
       const bar = document.querySelector(".bar");
