@@ -24,23 +24,20 @@ const { className = "" } = Astro.props;
 </div>
 
 <script is:inline>
-  function observeElementVisibility(
-    el,
-    callback,
-    options = { root: null, threshold: 0, rootMargin: '0px' }
-  ) {
+  function onVisibilityChange(el, handler, options = { root: null, threshold: 0, rootMargin: '0px' }) {
+    let prev;
+
     const io = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        callback(entry.isIntersecting, entry);
+      const isVisible = entries.some((e) => e.target === el && e.isIntersecting);
+      if (isVisible !== prev) {
+        prev = isVisible;
+        handler(isVisible, entries[entries.length - 1]);
       }
     }, options);
 
     io.observe(el);
-
-    return {
-      disconnect() {
-        io.disconnect();
-      }
+    return function stop() {
+      io.disconnect();
     };
   }
   document.addEventListener("DOMContentLoaded", () => {
@@ -59,24 +56,24 @@ const { className = "" } = Astro.props;
 
     const footer = document.querySelector('footer');
     if (footer) {
-      const watcher = observeElementVisibility(footer, (visible) => {
-        if (visible) {
-          // フッターが画面内に入った
-          bar.style.opacity = 1;
-        } else {
-          // フッターが画面外に出た
-          bar.style.opacity = 0;
-        }
-      }, {
-        // 画面下に余白を持たせて「早めに判定」したい場合
-        root: null,
-        threshold: 0,
-        rootMargin: '0px 0px -20% 0px'
-      });
+    const stop = onVisibilityChange(footer, function(visible) {
+      if (visible) {
+        // フッターが画面内に入った
+        bar.style.opacity = 1;
+      } else {
+        // フッターが画面外に出た
+        bar.style.opacity = 0;
+      }
+    }, {
+      root: null,
+      threshold: 0,
+      // 早めに検知したいなら: rootMargin: '0px 0px -20% 0px'
+      rootMargin: '0px'
+    });
 
-      // 不要になったら
-      // watcher.disconnect();
-    }
+    // 不要になったら:
+    // stop();
+  }
   });
 </script>
 
