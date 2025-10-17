@@ -2,10 +2,24 @@ body {
   background-color: #111 !important;
 }
 .theme-202510 {
-  background-color: #111;
-  background: url("/img/photos/202510/L1017711.jpg") no-repeat center center /
-    cover;
   padding-bottom: 20svh;
+  width: 100svw;
+  height: 100svh;
+  position: relative;
+  overflow: hidden;
+  &::before {
+    display: inline-block;
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100svw;
+    height: 100%;
+    background-color: #111;
+    background: url("/img/photos/202510/L1017711.jpg") no-repeat center center /
+      cover;
+    filter: blur(2px) brightness(0.2);
+  }
 }
 
 .book {
