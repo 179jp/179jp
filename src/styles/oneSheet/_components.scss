@@ -28,24 +28,29 @@ body {
   scroll-snap-type: x mandatory;
   scrollbar-color: rgba(0, 0, 0, 0.4) rgba(0, 0, 0, 0);
   scrollbar-width: thin;
-  overscroll-behavior-x: none;
+
+  @media screen and (max-width: 768px) {
+    overflow-x: hidden;
+  }
 
   &_inner {
     display: grid;
     grid-template-columns: repeat(var(--sheets), 1fr);
     --sheet-width: calc(750 * 94svh / 1280);
     --sheet-gap: 8svw;
-    @media (max-width: 768px) {
-      --sheet-width: 98svw;
-      --sheet-gap: 2svw;
-      padding: 0 8svw 0 1svw;
-    }
     padding: 0 0 0 calc((100svw - var(--sheet-width)) / 2);
     width: calc(
       var(--sheets) * var(--sheet-width) + var(--sheet-gap) *
         (var(--sheets) - 1)
     );
     gap: var(--sheet-gap);
+    @media (max-width: 768px) {
+      --sheet-width: 98svw;
+      --sheet-gap: 2svw;
+      padding: 0 8svw 0 1svw;
+      display: block;
+      width: 100%;
+    }
   }
 }
 
