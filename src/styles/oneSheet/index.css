@@ -60233,6 +60233,18 @@ body {
        columns: 6 auto;
 }
 
+.align-right {
+  text-align: right;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.align-center {
+  text-align: center;
+}
+
 :root {
   --blog-grid-gap: var(--grid-base);
   --blog-grid-margin: var(--grid-base);
