@@ -20,6 +20,9 @@ body {
       cover;
     filter: blur(2px) brightness(0.2);
   }
+  @media screen and (max-width: 768px) {
+    height: auto;
+  }
 }
 
 .book {
@@ -47,7 +50,7 @@ body {
     @media (max-width: 768px) {
       --sheet-width: 98svw;
       --sheet-gap: 2svw;
-      padding: 0 8svw 0 1svw;
+      padding: 0 0 8svh;
       display: block;
       width: 100%;
     }

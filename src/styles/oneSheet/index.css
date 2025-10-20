@@ -59990,6 +59990,11 @@ body {
   background: url("/img/photos/202510/L1017711.jpg") no-repeat center center/cover;
   filter: blur(2px) brightness(0.2);
 }
+@media screen and (max-width: 768px) {
+  .theme-202510 {
+    height: auto;
+  }
+}
 
 .book {
   width: 100%;
@@ -60016,7 +60021,7 @@ body {
   .book_inner {
     --sheet-width: 98svw;
     --sheet-gap: 2svw;
-    padding: 0 8svw 0 1svw;
+    padding: 0 0 8svh;
     display: block;
     width: 100%;
   }
