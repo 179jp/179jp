@@ -254,9 +254,11 @@ body {
 }
 
 .sheet-vertical {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  &:not(.sheet-column) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
   p {
     line-height: 1.8;
