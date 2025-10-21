@@ -1,12 +1,14 @@
 body {
   background-color: #111 !important;
 }
+
 .theme-202510 {
   padding-bottom: 20svh;
   width: 100svw;
   height: 100svh;
   position: relative;
   overflow: hidden;
+
   &::before {
     display: inline-block;
     content: "";
@@ -16,10 +18,10 @@ body {
     width: 100svw;
     height: 100%;
     background-color: #111;
-    background: url("/img/photos/202510/L1017711.jpg") no-repeat center center /
-      cover;
-    filter: blur(2px) brightness(0.2);
+    background: url("/img/photos/202510/L1017711.jpg") no-repeat center center / cover;
+    filter: blur(4px) brightness(0.8);
   }
+
   @media screen and (max-width: 768px) {
     height: auto;
   }
@@ -42,11 +44,9 @@ body {
     --sheet-width: calc(750 * 94svh / 1280);
     --sheet-gap: 8svw;
     padding: 0 0 0 calc((100svw - var(--sheet-width)) / 2);
-    width: calc(
-      var(--sheets) * var(--sheet-width) + var(--sheet-gap) *
-        (var(--sheets) - 1)
-    );
+    width: calc(var(--sheets) * var(--sheet-width) + var(--sheet-gap) * (var(--sheets) - 1));
     gap: var(--sheet-gap);
+
     @media (max-width: 768px) {
       --sheet-width: 98svw;
       --sheet-gap: 2svw;
@@ -70,12 +70,14 @@ body {
     width: calc(var(--length) * 8em + (var(--length) - 1) * 1em);
     padding: 0 8svw 0 calc(50svw - 4em);
   }
+
   .nav-item {
     width: 8em;
     text-align: center;
     opacity: 0.4;
     transition: opacity 0.4s ease-out;
     color: #fff;
+
     &.is-active {
       opacity: 1;
     }
@@ -164,6 +166,7 @@ body {
 
 // キャプション
 .sheet-caption {
+
   &.bottom-left,
   &.bottom-right {
     padding-bottom: 0em;
@@ -303,9 +306,11 @@ body {
 .align-right {
   text-align: right;
 }
+
 .align-left {
   text-align: left;
 }
+
 .align-center {
   text-align: center;
 }
