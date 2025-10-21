@@ -1,0 +1,41 @@
+---
+title: "template"
+date: 2025-10-20
+image: "/img/photos/202510/L1017828.jpg"
+number: 0
+---
+
+import Sheet from "../../components/oneSheet/Sheet.astro";
+import Title from "../../components/oneSheet/Title.astro";
+import Text from "../../components/oneSheet/Text.astro";
+import Lead from "../../components/oneSheet/Lead.astro";
+import Image from "../../components/oneSheet/Image.astro";
+import Caption from "../../components/oneSheet/Caption.astro";
+import Nombre from "../../components/oneSheet/Nombre.astro";
+import RunningHead from "../../components/oneSheet/RunningHead.astro";
+import Vertical from "../../components/oneSheet/Vertical.astro";
+
+
+<Sheet bkg="#05090d" color="#e1ddd2">
+  <Title
+    level={1}
+    font="signature"
+    color="#fff"
+    size="l"
+    column="1"
+    row="7"
+    titleStyle="align-right">Fall has come.</Title>
+  <RunningHead>2025 – 寒さの訪れ</RunningHead>
+  <Vertical
+    align="left"
+    width="10"
+    height="4"
+    column="1"
+    row="14">
+    <Text size="xs" color="#e1ddd2">
+    心地よい涼しさから、急に寒くなってきた。冬の始まりだろうか。新しいズボンのせいか、今日はちょっと体を冷やした。これはリカバリーしないと体調崩しそう。<br />夜中、目が覚めたら、息子はきれいに腹を出して寝ていて、翌朝もなんともないとのこと。<br />些細なことで体を冷やし、体調を崩す繊細な中年と元気な若者の差を、ヒシヒシと感じた。
+    </Text>
+  </Vertical>
+  <Nombre position="bottom-right">Oct. 20</Nombre>
+  <Image src="/img/photos/202510/L1017828.jpg" alt="sample" size="full" />
+</Sheet>
