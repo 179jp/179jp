@@ -11,7 +11,7 @@ const {
   isVertical = false,
 } = Astro.props;
 
-const style = `color: ${color}`;
+const style = `${color ? `color: ${color};` : ""}`;
 const classList = `sheet-column -column-size-${columnSize} -column-number-${columnNumber} -g-${width}x${height}-pos-${column}-${row} ${isVertical ? "sheet-vertical -vt" : ""}`;
 ---
 
