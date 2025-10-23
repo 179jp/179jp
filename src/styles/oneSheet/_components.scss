@@ -200,6 +200,10 @@ body {
     backdrop-filter: blur(10px);
     border-radius: 10px;
   }
+
+  &.padding {
+    padding: 0 1em 2em;
+  }
 }
 
 // ノンブル
