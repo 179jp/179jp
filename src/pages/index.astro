@@ -26,6 +26,7 @@ const posts = (await getCollection("oneSheet")).sort(
     bookInner.addEventListener(
       "wheel",
       (e) => {
+        if (window.innerWidth < 768) return;
         if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
 
         const maxScrollLeft = book.scrollWidth - book.clientWidth;
