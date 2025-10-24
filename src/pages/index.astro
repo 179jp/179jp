@@ -9,7 +9,6 @@ import Navigation from "../components/oneSheet/Navigation.astro";
 const posts = (await getCollection("oneSheet")).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 );
-
 ---
 
 <Layout isTop={true} title="一七九">
@@ -18,5 +17,32 @@ const posts = (await getCollection("oneSheet")).sort(
       {posts.map((post) => <SheetUnit post={post} />)}
     </div>
   </article>
-  <Navigation posts={posts} cuurent={posts[0]} />
 </Layout>
+
+<script is:inline>
+  document.addEventListener("DOMContentLoaded", () => {
+    const book = document.querySelector(".book");
+    const bookInner = document.querySelector(".book_inner");
+    bookInner.addEventListener(
+      "wheel",
+      (e) => {
+        if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
+
+        const maxScrollLeft = book.scrollWidth - book.clientWidth;
+
+        // スクロールの境界チェック
+        const scrollLeftDelte = book.scrollLeft + e.deltaY;
+        if (scrollLeftDelte < 0) return;
+        const newScrollLeft =
+          scrollLeftDelte > maxScrollLeft ? maxScrollLeft : scrollLeftDelte;
+
+        e.preventDefault();
+        book.scrollTo({
+          left: newScrollLeft,
+          behavior: "smooth",
+        });
+      },
+      { passive: false },
+    );
+  });
+</script>
