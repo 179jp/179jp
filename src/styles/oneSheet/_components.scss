@@ -327,3 +327,7 @@ body {
 .align-center {
   text-align: center;
 }
+
+.color-invert {
+  mix-blend-mode: difference;
+}

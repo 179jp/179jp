@@ -1,9 +1,9 @@
 ---
 // props
-const { color = "", size = "s" } = Astro.props;
+const { color = "", size = "s", customStyle = "" } = Astro.props;
 
-const style = `color: ${color}`;
-const classList = `sheet-text -fs_${size} -text-justify`;
+const style = `${color ? `color: ${color};` : ""}`;
+const classList = `sheet-text -fs_${size} -text-justify ${customStyle}`;
 ---
 
 <div class={classList} style={style}>
