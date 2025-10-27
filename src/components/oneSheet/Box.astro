@@ -1,0 +1,15 @@
+---
+// props
+const {
+  width = 5,
+  height = 2,
+  column = 1,
+  row = 1,
+} = Astro.props;
+
+const classList = `sheet-box -g-${width}x${height}-pos-${column}-${row}`;
+---
+
+<div class={classList}>
+  <slot />
+</div>

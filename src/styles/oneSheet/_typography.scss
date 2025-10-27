@@ -37,6 +37,7 @@ body {
 
 .-fs_xl {
   font-size: 3.4rem;
+  line-height: 1;
 }
 
 .-fs_huge {
@@ -100,4 +101,17 @@ body {
   font-family: "lindsey-signature", sans-serif;
   font-weight: 400;
   font-style: normal;
+}
+
+.-font-norman-regular {
+  font-family: norman-variable, sans-serif;
+  font-variation-settings: "wght" 520;
+}
+.-font-norman-bold {
+  font-family: norman-variable, sans-serif;
+  font-variation-settings: "wght" 700;
+}
+.-font-norman-fat {
+  font-family: norman-variable, sans-serif;
+  font-variation-settings: "wght" 800;
 }
