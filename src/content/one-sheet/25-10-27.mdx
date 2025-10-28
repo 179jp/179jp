@@ -1,0 +1,35 @@
+---
+title: "浴龍池"
+date: 2025-10-27
+image: "/img/photos/stock/L1016901.jpg"
+number: 0
+---
+
+import Sheet from "../../components/oneSheet/Sheet.astro";
+import Title from "../../components/oneSheet/Title.astro";
+import Text from "../../components/oneSheet/Text.astro";
+import Lead from "../../components/oneSheet/Lead.astro";
+import Image from "../../components/oneSheet/Image.astro";
+import Caption from "../../components/oneSheet/Caption.astro";
+import Nombre from "../../components/oneSheet/Nombre.astro";
+import RunningHead from "../../components/oneSheet/RunningHead.astro";
+import Vertical from "../../components/oneSheet/Vertical.astro";
+
+
+<Sheet bkg="#111" color="#fff">
+  <RunningHead>修学院離宮 浴龍池</RunningHead>
+  <Vertical
+    align="left"
+    width="10"
+    height="4"
+    column="1"
+    row="14">
+    <Title level={1} size="s" color="#fff">浴龍池</Title>
+    <Text size="xs" color="#fff">
+    タイチが小学校で修学院離宮の見学に行った。小学校三年生が大量に見学して、庭園を破壊しないか心配だ。夜、感想を聞いたら「綺麗だった」「楽しかった」とよかったようで、浴龍池（よくりゅうち）という池が確かに龍の形に見えたと言っていた。<br />
+    LEGOでシンカリオンばかり作っているのに、文化的な建築・庭園も楽しめるんだなと感心。きっと事前の説明や巻き込み方が上手いのかもしれない。
+    </Text>
+  </Vertical>
+  <Nombre position="bottom-right">Oct. 27</Nombre>
+  <Image src="/img/photos/stock/L1016901.jpg" alt="sample" size="full" />
+</Sheet>
