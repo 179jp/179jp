@@ -18,7 +18,8 @@ body {
     width: 100svw;
     height: 100%;
     background-color: #111;
-    background: url("/img/photos/202510/L1017711.jpg") no-repeat center center / cover;
+    background: url("/img/photos/202510/L1017711.jpg") no-repeat center center /
+      cover;
     filter: blur(4px) brightness(0.8);
   }
 
@@ -43,7 +44,10 @@ body {
     --sheet-width: calc(750 * 94svh / 1280);
     --sheet-gap: 8svw;
     padding: 0 0 0 calc((100svw - var(--sheet-width)) / 2);
-    width: calc(var(--sheets) * var(--sheet-width) + var(--sheet-gap) * (var(--sheets) - 1));
+    width: calc(
+      var(--sheets) * var(--sheet-width) + var(--sheet-gap) *
+        (var(--sheets) - 1)
+    );
     gap: var(--sheet-gap);
 
     @media (max-width: 768px) {
@@ -96,7 +100,7 @@ body {
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(20, 1fr);
   gap: 1em;
-  padding: 0.5em 1em;
+  padding: 1em 1em;
 
   @media screen and (min-width: 769px) {
     height: 94svh;
@@ -172,7 +176,6 @@ body {
 
 // キャプション
 .sheet-caption {
-
   &.bottom-left,
   &.bottom-right {
     padding-bottom: 0em;
