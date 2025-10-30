@@ -14,10 +14,18 @@ import Caption from "../../components/oneSheet/Caption.astro";
 import Nombre from "../../components/oneSheet/Nombre.astro";
 import RunningHead from "../../components/oneSheet/RunningHead.astro";
 import Vertical from "../../components/oneSheet/Vertical.astro";
+import Box from "../../components/oneSheet/Box.astro";
 
 
 <Sheet bkg="#123123" color="#fff">
-  <Title level={1} size="l">The Sightseeing</Title>
+  <Title
+    level={1}
+    size="l"
+    width="5"
+    height="4"
+    column="4"
+    row="4"
+    font="norman-regular">something<br />crazy</Title>
   <RunningHead>2025 – 夏のお出かけ</RunningHead>
   <Caption color="#fff">
     久しぶりのザ・観光地「金閣寺」に行きました。入場料が上がってなくて（むしろ下がった？）500円なのは、うれしい驚き。金ピカに光る金閣寺を夢中でみんな撮っていて、<a href="https://www.kyotographie.jp/programs/2025/martin-parr-1/">今年のKYOTO GRAPHIEで見たMartin Parr</a>の写真を思い浮かべながら、観光地感を味わいました。
