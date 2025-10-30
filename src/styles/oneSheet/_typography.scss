@@ -107,11 +107,17 @@ body {
   font-family: norman-variable, sans-serif;
   font-variation-settings: "wght" 520;
 }
+
 .-font-norman-bold {
   font-family: norman-variable, sans-serif;
   font-variation-settings: "wght" 700;
 }
+
 .-font-norman-fat {
   font-family: norman-variable, sans-serif;
   font-variation-settings: "wght" 800;
+}
+
+.-color-difference {
+  mix-blend-mode: difference;
 }
