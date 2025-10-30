@@ -1,0 +1,38 @@
+---
+title: "チョコエッグ"
+date: 2025-10-30
+image: "/img/photos/202510/IMG_2938.jpeg"
+number: 0
+---
+
+import Sheet from "../../components/oneSheet/Sheet.astro";
+import Title from "../../components/oneSheet/Title.astro";
+import Text from "../../components/oneSheet/Text.astro";
+import Lead from "../../components/oneSheet/Lead.astro";
+import Image from "../../components/oneSheet/Image.astro";
+import Caption from "../../components/oneSheet/Caption.astro";
+import Nombre from "../../components/oneSheet/Nombre.astro";
+import RunningHead from "../../components/oneSheet/RunningHead.astro";
+import Vertical from "../../components/oneSheet/Vertical.astro";
+import Box from "../../components/oneSheet/Box.astro";
+
+
+<Sheet bkg="#123123" color="#fff">
+  <Title
+    level={1}
+    size="l"
+    align="right"
+    width="5"
+    height="2"
+    column="6"
+    row="10"
+    font="norman-regular"
+    customStyle="-lh-12">figure of<br />PIKUMIN</Title>
+  <RunningHead>チョコエッグ</RunningHead>
+  <Caption color="#fff">
+    お昼にセブンイレブンでおやつを探していたら、ピクミンのチョコエッグを見つけた。一年くらい前に販売されて、一度スーパーで見たきり、見かけなくなったレアお菓子。帰りに買おうと思ってたら、すっかり忘れて、帰宅すると「なんで買ってきてないの？」と怒られた。夕飯後、近所のセブンイレブンに息子と探しに行くと、売っていて、三人分購入。<br />
+    奥さんは欲しいと思ったチャッピーが出て、タイチもお気に入りの様子。
+  </Caption>
+  <Nombre position="bottom-right">Oct. 30</Nombre>
+  <Image src="/img/photos/202510/IMG_2938.jpeg" alt="チョコエッグ" size="full" />
+</Sheet>

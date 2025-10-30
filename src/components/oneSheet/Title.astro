@@ -2,6 +2,7 @@
 // props
 const {
   level = 1,
+  align = "",
   font = "serif",
   size = "md",
   color = "",
@@ -14,7 +15,7 @@ const {
 } = Astro.props;
 
 const style = `${color ? `color: ${color};` : ""} ${rotate ? `rotate: ${rotate}deg;` : ""}`;
-const classList = `sheet-title -font-${font} -fs_${size} -g-${width}x${height}-pos-${column}-${row} ${customStyle}`;
+const classList = `sheet-title -font-${font} -fs_${size} -g-${width}x${height}-pos-${column}-${row} ${align ? `-align-${align}` : ""} ${customStyle}`;
 ---
 
 <h1 class={classList} style={style}>

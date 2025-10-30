@@ -18,8 +18,7 @@ body {
     width: 100svw;
     height: 100%;
     background-color: #111;
-    background: url("/img/photos/202510/L1017711.jpg") no-repeat center center /
-      cover;
+    background: url("/img/photos/202510/L1017711.jpg") no-repeat center center / cover;
     filter: blur(4px) brightness(0.8);
   }
 
@@ -44,10 +43,7 @@ body {
     --sheet-width: calc(750 * 94svh / 1280);
     --sheet-gap: 8svw;
     padding: 0 0 0 calc((100svw - var(--sheet-width)) / 2);
-    width: calc(
-      var(--sheets) * var(--sheet-width) + var(--sheet-gap) *
-        (var(--sheets) - 1)
-    );
+    width: calc(var(--sheets) * var(--sheet-width) + var(--sheet-gap) * (var(--sheets) - 1));
     gap: var(--sheet-gap);
 
     @media (max-width: 768px) {
@@ -176,6 +172,7 @@ body {
 
 // キャプション
 .sheet-caption {
+
   &.bottom-left,
   &.bottom-right {
     padding-bottom: 0em;
@@ -318,18 +315,37 @@ body {
   }
 }
 
-.align-right {
+.align-right,
+.-align-right {
   text-align: right;
 }
 
-.align-left {
+.align-left,
+.-align-left {
   text-align: left;
 }
 
-.align-center {
+.align-center,
+.-align-center {
   text-align: center;
 }
 
 .color-invert {
   mix-blend-mode: difference;
+}
+
+.-lh-12 {
+  line-height: 1.2;
+}
+
+.-lh-14 {
+  line-height: 1.4;
+}
+
+.-lh-16 {
+  line-height: 1.6;
+}
+
+.-lh-18 {
+  line-height: 1.8;
 }
