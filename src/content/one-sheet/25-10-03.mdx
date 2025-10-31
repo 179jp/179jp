@@ -1,0 +1,32 @@
+---
+title: "template"
+date: 2025-10-03
+image: "/img/photos/stock/L1004207.jpg"
+number: 0
+---
+
+import Sheet from "../../components/oneSheet/Sheet.astro";
+import Title from "../../components/oneSheet/Title.astro";
+import Text from "../../components/oneSheet/Text.astro";
+import Lead from "../../components/oneSheet/Lead.astro";
+import Image from "../../components/oneSheet/Image.astro";
+import Caption from "../../components/oneSheet/Caption.astro";
+import Nombre from "../../components/oneSheet/Nombre.astro";
+import RunningHead from "../../components/oneSheet/RunningHead.astro";
+import Vertical from "../../components/oneSheet/Vertical.astro";
+import Box from "../../components/oneSheet/Box.astro";
+
+
+<Sheet bkg="#123123" color="#fff">
+  <Title
+    level={1}
+    size="m"
+    width="5"
+    height="2"
+    column="1"
+    row="13"
+    font="norman-regular">something<br />good</Title>
+  <RunningHead>GRASS</RunningHead>
+  <Nombre position="bottom-right">Oct. 3</Nombre>
+  <Image src="/img/photos/stock/L1004207.jpg" alt="キッチンにて" size="full" />
+</Sheet>

@@ -1,0 +1,36 @@
+---
+title: "ラップ"
+date: 2025-10-02
+image: "/img/photos/202510/IMG_1716.jpeg"
+number: 0
+---
+
+import Sheet from "../../components/oneSheet/Sheet.astro";
+import Title from "../../components/oneSheet/Title.astro";
+import Text from "../../components/oneSheet/Text.astro";
+import Lead from "../../components/oneSheet/Lead.astro";
+import Image from "../../components/oneSheet/Image.astro";
+import Caption from "../../components/oneSheet/Caption.astro";
+import Nombre from "../../components/oneSheet/Nombre.astro";
+import RunningHead from "../../components/oneSheet/RunningHead.astro";
+import Vertical from "../../components/oneSheet/Vertical.astro";
+import Box from "../../components/oneSheet/Box.astro";
+
+
+<Sheet bkg="#123123" color="#fff">
+  <Title
+    level={1}
+    size="l"
+    width="5"
+    height="4"
+    column="1"
+    row="8"
+    font="norman-regular"
+    customStyle="-lh-12">wrapped WINDOW</Title>
+  <RunningHead>ラップされた生活</RunningHead>
+  <Caption color="#fff">
+    窓の外に半透明のビニルがかけられていて、窓から見える景色がぼやけたような、抽象画のような景色になっていた。見た目的には悪くないけど、空気が抜けないから何だか暑い。
+  </Caption>
+  <Nombre position="bottom-right">Oct. 2</Nombre>
+  <Image src="/img/photos/202510/IMG_1716.jpeg" alt="ラップされた窓" size="full" />
+</Sheet>
