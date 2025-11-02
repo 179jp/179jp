@@ -1,7 +1,7 @@
 ---
 title: "template"
-date: 2025-08-26
-image: "/img/photos/photo/L1001466"
+date: 2025-11-01
+image: "/img/photos/202510/L1018173.jpg"
 number: 0
 edition: "2025-11"
 ---
@@ -21,17 +21,34 @@ import Credit from "../../components/oneSheet/Credit.astro";
 
 <Sheet bkg="#123123" color="#fff">
   <Title
+    color="#fff"
     level={1}
-    size="l"
+    size="huge"
     width="5"
     height="4"
-    column="4"
-    row="4"
-    font="norman-regular">something<br />crazy</Title>
-  <RunningHead>2025 – 夏のお出かけ</RunningHead>
-  <Caption color="#fff">
-    久しぶりのザ・観光地「金閣寺」に行きました。入場料が上がってなくて（むしろ下がった？）500円なのは、うれしい驚き。金ピカに光る金閣寺を夢中でみんな撮っていて、<a href="https://www.kyotographie.jp/programs/2025/martin-parr-1/">今年のKYOTO GRAPHIEで見たMartin Parr</a>の写真を思い浮かべながら、観光地感を味わいました。
-  </Caption>
+    column="1"
+    row="15"
+    font="norman-regular">11</Title>
+  <RunningHead>NOVEMBER</RunningHead>
+  <Vertical
+    align="left"
+    width="5"
+    height="4"
+    column="3"
+    row="3">
+    <Text size="xs" color="#c89749">
+    今月は一日一枚を継続しつつ、もう少し細かい要素を足していくことが目標。レイアウトも毎日ひとつ、何かしら新しい試みができるようにしたい。
+    </Text>
+  </Vertical>
+  <Credit
+    align="right"
+    width="5"
+    height="4"
+    column="6"
+    row="17">
+    CAMERA: Leica M typ.246<br />
+    PLACE: Parking of Seven Eleven 
+    </Credit>
   <Nombre position="bottom-right">Nov. 1</Nombre>
-  <Image src="/img/photos/202508/L1016134.jpg" alt="sample" size="full" />
+  <Image src="/img/photos/202510/L1018173.jpg" alt="sample" size="full" />
 </Sheet>

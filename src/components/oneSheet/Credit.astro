@@ -1,0 +1,18 @@
+---
+// props
+const {
+  width = 5,
+  height = 2,
+  column = 1,
+  row = 1,
+  align = "left",
+  color = "",
+} = Astro.props;
+
+const classList = `sheet-credit -g-${width}x${height}-pos-${column}-${row} -fs_xxs -align-${align}`;
+const style = `${color ? `color: ${color};` : ""}`;
+---
+
+<div class={classList} style={style}>
+  <slot />
+</div>
