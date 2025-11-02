@@ -1,0 +1,44 @@
+---
+title: "ぽんちょ"
+date: 2025-10-31
+image: "/img/photos/202510/L1018219.jpg"
+number: 0
+---
+
+import Sheet from "../../components/oneSheet/Sheet.astro";
+import Title from "../../components/oneSheet/Title.astro";
+import Text from "../../components/oneSheet/Text.astro";
+import Lead from "../../components/oneSheet/Lead.astro";
+import Image from "../../components/oneSheet/Image.astro";
+import Caption from "../../components/oneSheet/Caption.astro";
+import Nombre from "../../components/oneSheet/Nombre.astro";
+import RunningHead from "../../components/oneSheet/RunningHead.astro";
+import Vertical from "../../components/oneSheet/Vertical.astro";
+import Box from "../../components/oneSheet/Box.astro";
+
+
+<Sheet bkg="#123123" color="#fff">
+  <Title
+    level={1}
+    size="l"
+    align="right"
+    width="5"
+    height="4"
+    column="6"
+    row="14"
+    font="norman-regular">Complete</Title>
+  <RunningHead>一ヶ月達成</RunningHead>
+  <Vertical
+    align="left"
+    width="5"
+    height="4"
+    column="1"
+    row="14">
+    <Text size="xs" color="#fff">
+    お昼にぽんちょを撮影。部屋の照明もあって、光の陰影や背景のボケ具合など、いい感じに撮れた。うれしい。<br />
+    今日で密かに続けていた一ヶ月、一日一枚の目標がコンプリート。途中、若干のチートしたけど、毎日、写真を選び、レイアウトを考え、文章を書くのは楽しかった。
+    </Text>
+  </Vertical>
+  <Nombre position="bottom-right">Oct. 31</Nombre>
+  <Image src="/img/photos/202510/L1018219.jpg" alt="ぽんちょ" size="full" />
+</Sheet>
