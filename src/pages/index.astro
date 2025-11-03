@@ -6,6 +6,7 @@ import Layout from "../layouts/OneSheet.astro";
 import SheetUnit from "../components/oneSheet/SheetUnit.astro";
 import Navigation from "../components/oneSheet/Navigation.astro";
 
+// post は日付順で、number は小さい順でソート
 const posts = (await getCollection("oneSheet")).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 );
