@@ -6,10 +6,10 @@ import Layout from "../layouts/OneSheet.astro";
 import SheetUnit from "../components/oneSheet/SheetUnit.astro";
 import Navigation from "../components/oneSheet/Navigation.astro";
 
-// post は日付順で、number は小さい順でソート
-const posts = (await getCollection("oneSheet")).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-);
+// post は日付順で、number は大きい順でソート
+const posts = (await getCollection("oneSheet"))
+  .sort((a, b) => (a.data.number ?? 0) - (b.data.number ?? 0))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
 <Layout isTop={true} title="一七九">
