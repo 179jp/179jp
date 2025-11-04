@@ -1,0 +1,55 @@
+---
+title: "銀閣寺"
+date: 2025-11-03
+image: "/img/photos/202511/L1018598.jpg"
+number: 0
+edition: "2025-11"
+---
+
+import Sheet from "../../components/oneSheet/Sheet.astro";
+import Title from "../../components/oneSheet/Title.astro";
+import Text from "../../components/oneSheet/Text.astro";
+import Lead from "../../components/oneSheet/Lead.astro";
+import Image from "../../components/oneSheet/Image.astro";
+import Caption from "../../components/oneSheet/Caption.astro";
+import Nombre from "../../components/oneSheet/Nombre.astro";
+import RunningHead from "../../components/oneSheet/RunningHead.astro";
+import Vertical from "../../components/oneSheet/Vertical.astro";
+import Box from "../../components/oneSheet/Box.astro";
+import Credit from "../../components/oneSheet/Credit.astro";
+
+
+<Sheet bkg="#333" color="#fff">
+  <Title
+    level={1}
+    size="l"
+    width="5"
+    height="5"
+    column="2"
+    row="8"
+    font="norman-regular">better<br /><span style="padding-left: 1em;">than</span><br />gold</Title>
+  <RunningHead>銀閣寺</RunningHead>
+  <Vertical
+    align="right"
+    width="10"
+    height="4"
+    column="1"
+    row="14">
+    <Text size="xs" color="#fff">
+    三連休最終日、夕方水泳があるので、近場へお出かけ。最近、修学院離宮や鷺の森神社など、少しずつ歴史の名所に興味を持ち始めてそうなので、銀閣寺へ。<br />
+    金ピカの金閣寺と銀閣寺、どちらがいいと尋ねると、タイチは砂の山がスゴいから「銀閣寺」だと言った。予想外の理由。山ポイント意外と高い。銀閣寺の由来など、説明したかったけど、歴史的な知識が足らなかった。これからは予習が必要かもしれない。<br />
+    久しぶりの銀閣寺、金閣寺に比べるとコンパクトだけど、庭園の苔が美しく、写真欲が湧き出て、楽しいひとときだった。
+    </Text>
+  </Vertical>
+  <Nombre position="bottom-left">Nov. 3</Nombre>
+  <Credit
+    align="left"
+    width="5"
+    height="2"
+    column="1"
+    row="6">
+    Camera. Leica M typ.246<br />
+    Prace. Ginkaku-ji
+    </Credit>
+  <Image src="/img/photos/202511/L1018598.jpg" alt="銀閣寺" size="full" />
+</Sheet>
