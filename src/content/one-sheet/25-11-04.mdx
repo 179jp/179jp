@@ -1,0 +1,47 @@
+---
+title: "苔の陰影"
+date: 2025-11-04
+image: "/img/photos/202511/L1018671.jpeg"
+number: 0
+edition: "2025-11"
+---
+
+import Sheet from "../../components/oneSheet/Sheet.astro";
+import Title from "../../components/oneSheet/Title.astro";
+import Text from "../../components/oneSheet/Text.astro";
+import Lead from "../../components/oneSheet/Lead.astro";
+import Image from "../../components/oneSheet/Image.astro";
+import Caption from "../../components/oneSheet/Caption.astro";
+import Nombre from "../../components/oneSheet/Nombre.astro";
+import RunningHead from "../../components/oneSheet/RunningHead.astro";
+import Vertical from "../../components/oneSheet/Vertical.astro";
+import Box from "../../components/oneSheet/Box.astro";
+import Credit from "../../components/oneSheet/Credit.astro";
+
+
+<Sheet bkg="#546a15" color="#fff">
+  <Title
+    level={1}
+    size="m"
+    align="right"
+    width="8"
+    height="4"
+    column="3"
+    row="11"
+    font="norman-regular">Lights & shadows<br />on the <span class="-fs_xl">MOSS</span></Title>
+  <RunningHead>苔の陰影</RunningHead>
+  <Caption color="#fff">
+    週末撮った、たくさんの写真。中でも苔の陰影の写真が多かった。苔のグリーンは昔から好きだなぁ。
+  </Caption>
+  <Nombre position="bottom-right">Nov. 4</Nombre>
+  <Credit
+    align="right"
+    width="5"
+    height="2"
+    column="6"
+    row="15">
+    Camera. Leica M typ.246<br />
+    at Ginkaku-ji
+    </Credit>
+  <Image src="/img/photos/202511/L1018671.jpeg" alt="苔の陰影" size="full" />
+</Sheet>
