@@ -216,7 +216,7 @@ body {
   z-index: 2;
 
   &.bottom-left {
-    bottom: 0.5em;
+    bottom: 1em;
     left: 1em;
   }
 
@@ -231,18 +231,18 @@ body {
   display: inline-block;
   position: absolute;
   z-index: 2;
-  top: 0.75em;
+  top: 1em;
   left: 1em;
   width: calc(100% - 2em);
 
   &.top-center {
-    top: 0.75em;
+    top: 1em;
     left: 1em;
     width: calc(100% - 2em);
   }
 
   &.bottom-center {
-    bottom: 0.75em;
+    bottom: 1em;
     left: 1em;
     width: calc(100% - 2em);
   }
