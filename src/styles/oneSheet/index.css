@@ -60019,6 +60019,7 @@ body {
   height: 140%;
   background-color: #111;
   background: url("/img/photos/202510/L1017711.jpg") no-repeat center center/cover;
+  scale: 1.4;
   filter: blur(4px) brightness(0.8);
 }
 @media screen and (max-width: 768px) {
