@@ -60095,6 +60095,7 @@ body {
   grid-template-rows: repeat(20, 1fr);
   gap: 1em;
   padding: 1em 1em;
+  border: 1px solid rgb(48, 48, 48);
 }
 @media screen and (min-width: 769px) {
   .sheet {
