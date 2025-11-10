@@ -19,8 +19,9 @@ const oneSheet = defineCollection({
     title: z.string(),
     date: z.coerce.date(),
     image: z.string().optional(),
-    number: z.number().optional(),
-    edition: z.string().optional(),
+    number: z.number(),
+    edition: z.string(),
+    draft: z.boolean().default(false),
   }),
 });
 

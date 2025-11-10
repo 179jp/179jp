@@ -13,6 +13,6 @@ const style = `${color ? `color: ${color};` : ""} ${rotate ? `rotate: ${rotate}d
 const classList = `sheet-running-head -font-${font} -fs_${size} -text-${align} -ls-l ${position}`;
 ---
 
-<p class={classList} style={style}>
+<div class={classList} style={style}>
   <slot />
-</p>
+</div>

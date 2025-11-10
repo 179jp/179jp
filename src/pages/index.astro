@@ -8,14 +8,22 @@ import Navigation from "../components/oneSheet/Navigation.astro";
 
 // post は日付順で、number は大きい順でソート
 const posts = (await getCollection("oneSheet"))
-  .sort((a, b) => (a.data.number ?? 0) - (b.data.number ?? 0))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  .filter((post) => !post.data.draft && post.data.number >= 0);
+
+const edition10 = posts
+  .filter((post) => post.data.edition === "2025-10")
+  .sort((a, b) => b.data.number - a.data.number);
+const edition11 = posts
+  .filter((post) => post.data.edition === "2025-11")
+  .sort((a, b) => b.data.number - a.data.number);
+
+const articles = [...edition11, ...edition10];
 ---
 
 <Layout isTop={true} title="一七九">
   <article class="book">
-    <div class="book_inner" style={`--sheets: ${posts.length};`}>
-      {posts.map((post) => <SheetUnit post={post} />)}
+    <div class="book_inner" style={`--sheets: ${articles.length};`}>
+      {articles.map((article) => <SheetUnit post={article} />)}
     </div>
   </article>
 </Layout>
