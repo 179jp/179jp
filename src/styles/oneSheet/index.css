@@ -60215,6 +60215,7 @@ body {
   width: calc(100% - 2em);
 }
 .sheet-running-head.bottom-center {
+  top: auto;
   bottom: 1em;
   left: 1em;
   width: calc(100% - 2em);
