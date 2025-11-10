@@ -1,0 +1,46 @@
+---
+title: "図書館の窓"
+date: 2025-11-08
+image: "/img/photos/202511/L1019251.jpeg"
+number: 0
+edition: "2025-11"
+---
+
+import Sheet from "../../components/oneSheet/Sheet.astro";
+import Title from "../../components/oneSheet/Title.astro";
+import Text from "../../components/oneSheet/Text.astro";
+import Lead from "../../components/oneSheet/Lead.astro";
+import Image from "../../components/oneSheet/Image.astro";
+import Caption from "../../components/oneSheet/Caption.astro";
+import Nombre from "../../components/oneSheet/Nombre.astro";
+import RunningHead from "../../components/oneSheet/RunningHead.astro";
+import Vertical from "../../components/oneSheet/Vertical.astro";
+import Box from "../../components/oneSheet/Box.astro";
+import Credit from "../../components/oneSheet/Credit.astro";
+
+
+<Sheet bkg="#123123" color="#fff">
+  <Title
+    level={1}
+    size="l"
+    width="5"
+    height="3"
+    column="3"
+    row="12"
+    font="norman-regular">window of<br />wander</Title>
+  <RunningHead>不思議な図書館の窓</RunningHead>
+  <Caption color="#fff" position="bottom-right">
+    よく利用する小さな図書館。その窓は、何かを塗って曇りガラスにしたような窓がある。近隣への配慮だろうか。そもそもブラインドも付いている。角度によっては、虹色に見えたりもして、不思議。子どもがホネホネザウルスを読んでいる間、窓を眺めていた。
+  </Caption>
+  <Nombre position="bottom-left">Nov. 8</Nombre>
+  <Credit
+    align="left"
+    width="5"
+    height="2"
+    column="3"
+    row="15">
+    by Leica M typ.240<br />
+    at Iwakura Library
+    </Credit>
+  <Image src="/img/photos/202511/L1019251.jpeg" alt="図書館の窓" size="full" />
+</Sheet>
