@@ -30,6 +30,12 @@ const articles = [...edition11, ...edition10];
 
 <script is:inline>
   document.addEventListener("DOMContentLoaded", () => {
+    // 画面サイズの取得
+    let screenWidth = window.innerWidth;
+    window.addEventListener('resize', () => {
+      screenWidth = window.innerWidth;
+    });
+
     const wrapper = document.querySelector('.theme-202510');
     setTimeout(() => {
       wrapper.style.setProperty('--background-scale', '1.8');
@@ -61,5 +67,19 @@ const articles = [...edition11, ...edition10];
       },
       { passive: false },
     );
+
+    const sheets = document.querySelectorAll('.sheet');
+    sheets.forEach(sheet => {
+      sheet.addEventListener('click', () => {
+        if (screenWidth < 768) return;
+        const sheetWidth = sheet.clientWidth;
+        const sheetIndex = Array.from(sheets).indexOf(sheet);
+        const newScrollLeft = sheetIndex * (sheetWidth + screenWidth * 0.08);
+        book.scrollTo({
+          left: newScrollLeft,
+          behavior: 'smooth',
+        });
+      });
+    });
   });
 </script>
