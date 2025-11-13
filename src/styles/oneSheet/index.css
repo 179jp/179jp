@@ -60010,17 +60010,23 @@ body {
   overflow: hidden;
 }
 .theme-202510::before {
+  --background-scale: 1.2;
+  --background-opacity: 0.2;
+  --background-translate-y: 0;
   display: inline-block;
   content: "";
   position: fixed;
-  top: -10%;
+  top: 0;
   left: 0;
   width: 100svw;
   height: 140%;
   background-color: #111;
   background: url("/img/photos/202510/L1017711.jpg") no-repeat center center/cover;
-  scale: 1.4;
+  scale: var(--background-scale);
+  opacity: var(--background-opacity);
+  translate: 0 var(--background-translate-y);
   filter: blur(4px) brightness(0.8);
+  transition: scale 0.4s ease-out, opacity 0.4s ease-out, translate 0.4s ease-out;
 }
 @media screen and (max-width: 768px) {
   .theme-202510 {
@@ -60186,6 +60192,7 @@ body {
   display: inline-block;
   position: absolute;
   z-index: 2;
+  font-feature-settings: "palt";
 }
 .sheet-nombre.bottom-left {
   bottom: 1em;

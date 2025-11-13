@@ -12,10 +12,11 @@ body {
   &::before {
     --background-scale: 1.2;
     --background-opacity: 0.2;
+    --background-translate-y: 0;
     display: inline-block;
     content: "";
     position: fixed;
-    top: -10%;
+    top: 0;
     left: 0;
     width: 100svw;
     height: 140%;
@@ -24,8 +25,10 @@ body {
       cover;
     scale: var(--background-scale);
     opacity: var(--background-opacity);
+    translate: 0 var(--background-translate-y);
     filter: blur(4px) brightness(0.8);
-    transition: scale 0.4s ease-out, opacity 0.4s ease-out;
+    transition: scale 0.4s ease-out, opacity 0.4s ease-out,
+      translate 0.4s ease-out;
   }
 
   @media screen and (max-width: 768px) {

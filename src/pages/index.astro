@@ -32,8 +32,9 @@ const articles = [...edition11, ...edition10];
   document.addEventListener("DOMContentLoaded", () => {
     const wrapper = document.querySelector('.theme-202510');
     setTimeout(() => {
-      wrapper.style.setProperty('--background-scale', '1.5');
+      wrapper.style.setProperty('--background-scale', '1.8');
       wrapper.style.setProperty('--background-opacity', '0.5');
+      wrapper.style.setProperty('--background-translate-y', '-15%');
     }, 1000);
 
     const book = document.querySelector(".book");
