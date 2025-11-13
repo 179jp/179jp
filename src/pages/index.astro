@@ -30,6 +30,12 @@ const articles = [...edition11, ...edition10];
 
 <script is:inline>
   document.addEventListener("DOMContentLoaded", () => {
+    const wrapper = document.querySelector('.theme-202510');
+    setTimeout(() => {
+      wrapper.style.setProperty('--background-scale', '1.5');
+      wrapper.style.setProperty('--background-opacity', '0.5');
+    }, 1000);
+
     const book = document.querySelector(".book");
     const bookInner = document.querySelector(".book_inner");
     bookInner.addEventListener(

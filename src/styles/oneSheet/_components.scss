@@ -10,6 +10,8 @@ body {
   overflow: hidden;
 
   &::before {
+    --background-scale: 1.2;
+    --background-opacity: 0.2;
     display: inline-block;
     content: "";
     position: fixed;
@@ -20,8 +22,10 @@ body {
     background-color: #111;
     background: url("/img/photos/202510/L1017711.jpg") no-repeat center center /
       cover;
-    scale: 1.4;
+    scale: var(--background-scale);
+    opacity: var(--background-opacity);
     filter: blur(4px) brightness(0.8);
+    transition: scale 0.4s ease-out, opacity 0.4s ease-out;
   }
 
   @media screen and (max-width: 768px) {
@@ -216,6 +220,7 @@ body {
   display: inline-block;
   position: absolute;
   z-index: 2;
+  font-feature-settings: "palt";
 
   &.bottom-left {
     bottom: 1em;
