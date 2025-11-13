@@ -2,6 +2,7 @@
 import BaseHead from "../components/BaseHead.astro";
 import Logo from "../components/oneSheet/Logo.astro";
 import Nav from "../components/oneSheet/Nav.astro";
+import Analytics from "../components/Analytics.astro";
 import "../styles/oneSheet/index.css";
 
 const { isTop = false, title = "", slug = "" } = Astro.props;
@@ -11,6 +12,7 @@ const { isTop = false, title = "", slug = "" } = Astro.props;
   <head>
     <meta name="theme-color" content="#111" />
     <BaseHead title="179" description="179.jp is web design & engineer." />
+    <Analytics />
   </head>
   <body>
     <main class="theme-202510">
