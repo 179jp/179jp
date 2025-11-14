@@ -68,7 +68,7 @@ const articles = [...edition11, ...edition10];
       { passive: false },
     );
 
-    const sheets = document.querySelectorAll('.sheet');
+    const sheets = document.querySelectorAll('.sheet:not(.sheet-float-grid)');
     sheets.forEach(sheet => {
       sheet.addEventListener('click', () => {
         if (screenWidth < 768) return;
