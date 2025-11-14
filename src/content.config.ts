@@ -20,6 +20,7 @@ const oneSheet = defineCollection({
     date: z.coerce.date(),
     image: z.string().optional(),
     number: z.number(),
+    tags: z.array(z.string()).optional(),
     edition: z.string(),
     draft: z.boolean().default(false),
   }),
