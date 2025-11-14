@@ -1,0 +1,49 @@
+---
+title: "電線作業"
+date: 2025-11-14
+image: "/img/photos/202511/L1019410.jpg"
+edition: "2025-11"
+tags: ["about"]
+number: 14.3
+---
+
+import Sheet from "../../components/oneSheet/Sheet.astro";
+import Title from "../../components/oneSheet/Title.astro";
+import Text from "../../components/oneSheet/Text.astro";
+import Lead from "../../components/oneSheet/Lead.astro";
+import Image from "../../components/oneSheet/Image.astro";
+import Caption from "../../components/oneSheet/Caption.astro";
+import Nombre from "../../components/oneSheet/Nombre.astro";
+import RunningHead from "../../components/oneSheet/RunningHead.astro";
+import Vertical from "../../components/oneSheet/Vertical.astro";
+import Box from "../../components/oneSheet/Box.astro";
+import Credit from "../../components/oneSheet/Credit.astro";
+import Column from "../../components/oneSheet/Column.astro"
+
+
+<Sheet bkg="#425EB3" color="#fff">
+  <Title
+    level={1}
+    align="right"
+    size="xl"
+    width="5"
+    height="4"
+    column="5"
+    row="4"
+    font="norman-regular">electric wire</Title>
+  <RunningHead>電線作業</RunningHead>
+  <Caption color="#fff" position="bottom-right">
+    建物の2階にあるオフィスで仕事をしていたら、突然にゅっと、目線の高さに人が現れた。電線の作業の人らしい。電線に、もう一本追加する作業をしているようだ。電線って一本かと思ったら、ただ束ねているだけ。追加するときは、その束に入れ込んで、長い電線をどんどん押し込んでいく、すごくアナログな作業。おもしろいものが見れた。
+  </Caption>
+  <Nombre position="bottom-left">Nov.14</Nombre>
+  <Credit
+    align="left"
+    width="5"
+    height="1"
+    column="1"
+    row="9">
+    by Leica M typ.240<br />
+    at my office
+    </Credit>
+  <Image src="/img/photos/202511/L1019410.jpg" alt="朝日が昇る" size="full" />
+</Sheet>
