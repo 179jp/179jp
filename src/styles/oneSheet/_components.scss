@@ -21,8 +21,7 @@ body {
     width: 100svw;
     height: 140%;
     background-color: #111;
-    background: url("/img/photos/202510/L1017711.jpg") no-repeat center center /
-      cover;
+    background: url("/img/photos/202510/L1017711.jpg") no-repeat center center / cover;
     scale: var(--background-scale);
     opacity: var(--background-opacity);
     translate: 0 var(--background-translate-y);
@@ -52,10 +51,7 @@ body {
     --sheet-width: calc(750 * 94svh / 1280);
     --sheet-gap: 8svw;
     padding: 0 0 0 calc((100svw - var(--sheet-width)) / 2);
-    width: calc(
-      var(--sheets) * var(--sheet-width) + var(--sheet-gap) *
-        (var(--sheets) - 1)
-    );
+    width: calc(var(--sheets) * var(--sheet-width) + var(--sheet-gap) * (var(--sheets) - 1));
     gap: var(--sheet-gap);
 
     @media (max-width: 768px) {
@@ -115,6 +111,7 @@ body {
   cursor: pointer;
   filter: brightness(1);
   transition: filter 0.8s ease-out;
+
   &:hover {
     filter: brightness(0.7);
     transition: filter 0.3s ease-out;
@@ -131,8 +128,7 @@ body {
 }
 
 // 全体
-.sheet
-  *:not(.sheet-img, .sheet-nombre, .sheet-running-head, .sheet-float-grid) {
+.sheet *:not(.sheet-img, .sheet-nombre, .sheet-running-head, .sheet-float-grid) {
   position: relative;
   z-index: 2;
 }
@@ -177,7 +173,7 @@ body {
     padding: 1em;
     width: 100%;
     height: 100%;
-    border-radius: calc(16px + 1em);
+    border-radius: calc(16px + 0.5em);
   }
 }
 
@@ -225,6 +221,7 @@ body {
 
 // キャプション
 .sheet-caption {
+
   &.bottom-left,
   &.bottom-right {
     padding-bottom: 0em;
@@ -289,6 +286,7 @@ body {
     left: 1em;
     width: calc(100% - 2em);
   }
+
   &.top-left {
     top: 1em;
     left: 1em;
