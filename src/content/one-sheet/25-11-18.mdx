@@ -1,0 +1,47 @@
+---
+title: "bzine"
+date: 2025-11-18
+image: "/img/photos/202511/L1019236.jpg"
+edition: "2025-11"
+number: 18
+---
+
+import Sheet from "../../components/oneSheet/Sheet.astro";
+import Title from "../../components/oneSheet/Title.astro";
+import Text from "../../components/oneSheet/Text.astro";
+import Lead from "../../components/oneSheet/Lead.astro";
+import Image from "../../components/oneSheet/Image.astro";
+import Caption from "../../components/oneSheet/Caption.astro";
+import Nombre from "../../components/oneSheet/Nombre.astro";
+import RunningHead from "../../components/oneSheet/RunningHead.astro";
+import Vertical from "../../components/oneSheet/Vertical.astro";
+import Box from "../../components/oneSheet/Box.astro";
+import Credit from "../../components/oneSheet/Credit.astro";
+
+
+<Sheet bkg="#123123" color="#fff">
+  <Title
+    level={1}
+    size="l"
+    align="right"
+    width="5"
+    height="3"
+    column="6"
+    row="6"
+    font="norman-regular">bzine <span class="-fs_m">or</span> bine</Title>
+  <RunningHead>about blog</RunningHead>
+  <Caption color="#fff">
+    blogという言葉をつくった人はすごい。webのbを取るのは、不思議でしかない。でもblogという完全に新しい、摩訶不思議な名前がついたことで、勢いがついた気がする。私が今書いてるのも、blogだけど、あえてzineのweb版ということで bzine とか bine とか名乗ってみたらと妄想する。
+  </Caption>
+  <Nombre position="bottom-right">Nov.18</Nombre>
+  <Credit
+    align="right"
+    width="5"
+    height="2"
+    column="6"
+    row="9">
+    by Leica M typ.240<br />
+    at Home
+    </Credit>
+  <Image src="/img/photos/202511/L1019236.jpg" alt="sample" size="full" />
+</Sheet>
