@@ -1,0 +1,47 @@
+---
+title: "熊ではなく鹿"
+date: 2025-11-20
+image: "/img/photos/202511/L1019914.jpeg"
+edition: "2025-11"
+number: 20
+---
+
+import Sheet from "../../components/oneSheet/Sheet.astro";
+import Title from "../../components/oneSheet/Title.astro";
+import Text from "../../components/oneSheet/Text.astro";
+import Lead from "../../components/oneSheet/Lead.astro";
+import Image from "../../components/oneSheet/Image.astro";
+import Caption from "../../components/oneSheet/Caption.astro";
+import Nombre from "../../components/oneSheet/Nombre.astro";
+import RunningHead from "../../components/oneSheet/RunningHead.astro";
+import Vertical from "../../components/oneSheet/Vertical.astro";
+import Box from "../../components/oneSheet/Box.astro";
+import Credit from "../../components/oneSheet/Credit.astro";
+
+
+<Sheet bkg="#123123" color="#fff">
+  <Title
+    level={1}
+    align="left"
+    size="l"
+    width="10"
+    height="4"
+    column="1"
+    row="12"
+    font="norman-regular">not BEAR, but DEER</Title>
+  <RunningHead>熊ではなく鹿</RunningHead>
+  <Caption color="#fff" position="bottom-right">
+    熊目撃情報の翌朝、たまたま旗振り当番だったので、子どもと一緒に学校まで行く。「熊出たらどうする？」とかワイワイ言いながら登校。帰りに熊目撃情報のあった高野川を見ていたら、ガサゴソと物音が。熊か！と思ったが鹿だった。
+  </Caption>
+  <Nombre position="bottom-left">Nov.20</Nombre>
+  <Credit
+    align="left"
+    width="5"
+    height="2"
+    column="1"
+    row="15">
+    by Leica M typ.240<br />
+    at Takano river, Kyoto
+    </Credit>
+  <Image src="/img/photos/202511/L1019914.jpeg" alt="熊ではなく鹿" size="size-125" position="center-bottom" />
+</Sheet>
