@@ -46,6 +46,11 @@ body {
     font-size: 1.4svh;
   }
 }
+@media screen and (max-width: 768px) {
+  .-theme-2 .-fs_xs {
+    font-size: 0.6875rem;
+  }
+}
 
 .-fs_s {
   font-size: 0.875rem;
@@ -60140,6 +60145,9 @@ body {
   .sheet {
     margin: 6svh auto 0;
   }
+}
+.sheet.-theme-2 {
+  gap: 0.5em;
 }
 
 .sheet *:not(.sheet-img, .sheet-nombre, .sheet-running-head, .sheet-float-grid) {
