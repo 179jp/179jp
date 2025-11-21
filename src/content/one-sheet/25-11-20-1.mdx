@@ -1,0 +1,55 @@
+---
+title: "足場消える"
+date: 2025-11-20
+image: "/img/photos/202511/L1019237-bw.jpeg"
+edition: "2025-11"
+number: 20.2
+---
+
+import Sheet from "../../components/oneSheet/Sheet.astro";
+import Title from "../../components/oneSheet/Title.astro";
+import Text from "../../components/oneSheet/Text.astro";
+import Lead from "../../components/oneSheet/Lead.astro";
+import Image from "../../components/oneSheet/Image.astro";
+import Caption from "../../components/oneSheet/Caption.astro";
+import Nombre from "../../components/oneSheet/Nombre.astro";
+import RunningHead from "../../components/oneSheet/RunningHead.astro";
+import Vertical from "../../components/oneSheet/Vertical.astro";
+import Box from "../../components/oneSheet/Box.astro";
+import Credit from "../../components/oneSheet/Credit.astro";
+
+
+<Sheet bkg="#1c1c1c" color="#fff" themeVersion={2}>
+  <Title
+    level={1}
+    align="left"
+    size="xl"
+    width="10"
+    height="5"
+    column="1"
+    row="9"
+    font="norman-regular">Goodbye,<br /><span style="padding-left: 2em;" class="-lh-14">Scaffold</span></Title>
+  <RunningHead>足場消える</RunningHead>
+  <Vertical
+    align="right"
+    width="10"
+    height="4"
+    column="1"
+    row="15">
+    <Text size="xs" color="#fff">
+    夜、帰宅したら、妻と息子が「足場がなくなった！」と教えてくれた。立てる時は何日かかけて立てていたけど、一日できれいになくなった。<br />
+    ベランダに人が突然現れる状況は、リビングが自分の家ではなくなってしまう。ようやく、リビングが戻ってきて、日当たりも戻ってくる。よかった。
+    </Text>
+  </Vertical>
+  <Nombre position="bottom-left">Nov.20</Nombre>
+  <Credit
+    align="left"
+    width="5"
+    height="2"
+    column="1"
+    row="15">
+    by Leica M typ.240<br />
+    at Home with Scaffold
+    </Credit>
+  <Image src="/img/photos/202511/L1019237-bw.jpeg" alt="侵入されるベランダ" size="full" position="right-center" />
+</Sheet>
