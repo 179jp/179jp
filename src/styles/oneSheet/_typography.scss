@@ -28,8 +28,11 @@ body {
 
 .-fs_xs {
   font-size: 0.6875rem;
-  font-weight: 300;
   letter-spacing: 0.04em;
+
+  &-light {
+    font-size: 0.64rem;
+  }
 
   @media screen and (max-width: 768px) {
     font-size: 1.4svh;
@@ -136,6 +139,30 @@ body {
 .-font-norman-fat {
   font-family: norman-variable, sans-serif;
   font-variation-settings: "wght" 800;
+}
+
+.-font-avenir {
+  font-family: avenir-next-lt-pro-condensed, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.-font-avenir-light {
+  font-family: avenir-next-lt-pro-condensed, sans-serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.-font-avenir-italic {
+  font-family: avenir-next-lt-pro-condensed, sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.-font-avenir-heavy {
+  font-family: avenir-next-lt-pro-condensed, sans-serif;
+  font-weight: 900;
+  font-style: normal;
 }
 
 .-color-difference {
