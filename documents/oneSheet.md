@@ -33,3 +33,19 @@
     </Text>
   </Vertical>
 ```
+
+```
+  <Vertical
+    align="right"
+    width="5"
+    height="7"
+    column="1"
+    row="4">
+    <Title
+      level={1}
+      size="l"
+      font="norman-regular"
+      color="#19DA43"
+      customStyle="-align-left">the stealth<br /><span class="-fs_xl" style="padding-top: 0.6em;">nose hair</span></Title>
+  </Vertical>
+```
