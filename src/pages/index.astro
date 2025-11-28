@@ -2,84 +2,23 @@
 import { type CollectionEntry, getCollection } from "astro:content";
 import { render } from "astro:content";
 
-import Layout from "../layouts/OneSheet.astro";
-import SheetUnit from "../components/oneSheet/SheetUnit.astro";
-import Navigation from "../components/oneSheet/Navigation.astro";
+import Layout from "../layouts/SimpleTop.astro";
 
-// post は日付順で、number は大きい順でソート
-const posts = (await getCollection("oneSheet"))
-  .filter((post) => !post.data.draft && post.data.number >= 0);
-
-const edition10 = posts
-  .filter((post) => post.data.edition === "2025-10")
-  .sort((a, b) => b.data.number - a.data.number);
-const edition11 = posts
-  .filter((post) => post.data.edition === "2025-11")
-  .sort((a, b) => b.data.number - a.data.number);
-
-const articles = [...edition11, ...edition10];
 ---
 
-<Layout isTop={true} title="一七九">
-  <article class="book">
-    <div class="book_inner" style={`--sheets: ${articles.length};`}>
-      {articles.map((article) => <SheetUnit post={article} />)}
+<Layout isTop={true} title="179.jp">
+  <main class="top179">
+    <h1 class="top179_title">179<sup>jp</sup></h1>
+    <nav class="top179_nav">
+      <ul class="top179_nav_list">
+        <li>
+          <a href="//somrthing-about.jp/days/">bine(blog)</a>
+        </li>
+      </ul>
+    </nav>
+    <div class="top179_description">
+      <p>179は、憧れつつも、ついに一度も180cmと言われず、身長が179cmであることに由来します。web のデザインとエンジニアリングを中心に、サイト制作、Shopifyのカスタマイズ、コンテンツ制作をしています。趣味で写真を撮り、ブログを書くことをライフワークにしています。
+      </p>
     </div>
-  </article>
+  </main>
 </Layout>
-
-<script is:inline>
-  document.addEventListener("DOMContentLoaded", () => {
-    // 画面サイズの取得
-    let screenWidth = window.innerWidth;
-    window.addEventListener('resize', () => {
-      screenWidth = window.innerWidth;
-    });
-
-    const wrapper = document.querySelector('.theme-202510');
-    setTimeout(() => {
-      wrapper.style.setProperty('--background-scale', '1.8');
-      wrapper.style.setProperty('--background-opacity', '0.5');
-      wrapper.style.setProperty('--background-translate-y', '-15%');
-    }, 1000);
-
-    const book = document.querySelector(".book");
-    const bookInner = document.querySelector(".book_inner");
-    bookInner.addEventListener(
-      "wheel",
-      (e) => {
-        if (window.innerWidth < 768) return;
-        if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
-
-        const maxScrollLeft = book.scrollWidth - book.clientWidth;
-
-        // スクロールの境界チェック
-        const scrollLeftDelte = book.scrollLeft + e.deltaY;
-        if (scrollLeftDelte < 0) return;
-        const newScrollLeft =
-          scrollLeftDelte > maxScrollLeft ? maxScrollLeft : scrollLeftDelte;
-
-        e.preventDefault();
-        book.scrollTo({
-          left: newScrollLeft,
-          behavior: "smooth",
-        });
-      },
-      { passive: false },
-    );
-
-    const sheets = document.querySelectorAll('.sheet:not(.sheet-float-grid)');
-    sheets.forEach(sheet => {
-      sheet.addEventListener('click', () => {
-        if (screenWidth < 768) return;
-        const sheetWidth = sheet.clientWidth;
-        const sheetIndex = Array.from(sheets).indexOf(sheet);
-        const newScrollLeft = sheetIndex * (sheetWidth + screenWidth * 0.08);
-        book.scrollTo({
-          left: newScrollLeft,
-          behavior: 'smooth',
-        });
-      });
-    });
-  });
-</script>
