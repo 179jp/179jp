@@ -1,0 +1,16 @@
+:root {
+  // Colors
+  --color-text: #363636;
+
+
+
+  // Wall
+  --wall-size: 100vw;
+  --wall-height: 120vh;
+
+  @media (width > 800px) {
+    --wall-size: 480px;
+  }
+
+
+}

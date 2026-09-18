@@ -1,0 +1,35 @@
+---
+// props
+const {
+  column = 2,
+  row = 2,
+  color = "",
+  colorRGB = "",
+  bkg = "",
+  bkgRGB = "",
+} = Astro.props;
+
+// Class
+const classArray = [`exh-grid`, `col-${column}`, `row-${row}`];
+if (color) {
+  classArray.push(`c-${color}`);
+}
+if (bkg) {
+  classArray.push(`bkg-${bkg}`);
+}
+const classList = classArray.join(" ");
+
+// Style
+const styleArray = [];
+if (colorRGB) {
+  styleArray.push(`color: ${colorRGB}`);
+}
+if (bkgRGB) {
+  styleArray.push(`background-color: ${bkgRGB}`);
+}
+const styleList = styleArray.join(";");
+---
+
+<div class={classList} style={styleList}>
+  <slot />
+</div>

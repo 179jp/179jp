@@ -1,0 +1,34 @@
+---
+// props
+const {
+  width = 100,
+  color = "",
+  colorRGB = "",
+  bkg = "",
+  bkgRGB = "",
+} = Astro.props;
+
+// Class
+const classArray = [`exh-wall`, `w-${width}`];
+if (color) {
+  classArray.push(`c-${color}`);
+}
+if (bkg) {
+  classArray.push(`bkg-${bkg}`);
+}
+const classList = classArray.join(" ");
+
+// Style
+const styleArray = [];
+if (colorRGB) {
+  styleArray.push(`color: ${colorRGB}`);
+}
+if (bkgRGB) {
+  styleArray.push(`background-color: ${bkgRGB}`);
+}
+const styleList = styleArray.join(";");
+---
+
+<div class={classList} style={styleList}>
+  <slot />
+</div>

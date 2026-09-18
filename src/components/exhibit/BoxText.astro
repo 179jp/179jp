@@ -1,0 +1,35 @@
+---
+// props
+const {
+  size = "m",
+  font = "",
+  align = "center",
+  vertical = false,
+  color = "",
+  colorRGB = "",
+} = Astro.props;
+
+// Class
+const classArray = [`exh-box-text`, `size-${size}`, `align-${align}`];
+if (font) {
+  classArray.push(`font-${font}`);
+}
+if (vertical) {
+  classArray.push(`exh-text-vertical`);
+}
+if (color) {
+  classArray.push(`color-${color}`);
+}
+const classList = classArray.join(" ");
+
+// Style
+const styleArray = [];
+if (colorRGB) {
+  styleArray.push(`color: ${colorRGB}`);
+}
+const styleList = styleArray.join(";");
+---
+
+<div class={classList} style={styleList}>
+  <slot />
+</div>

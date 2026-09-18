@@ -1,0 +1,22 @@
+---
+// props
+const { width = 1, height = "5vh", color = "", colorRGB = "" } = Astro.props;
+
+// Class
+const classArray = [`exh-border`];
+if (color) {
+  classArray.push(`bkg-${color}`);
+}
+const classList = classArray.join(" ");
+
+// Style
+const styleArray = [];
+styleArray.push(`width: ${width}`);
+styleArray.push(`height: ${height}`);
+if (colorRGB) {
+  styleArray.push(`background-color: ${colorRGB}`);
+}
+const styleList = styleArray.join(";");
+---
+
+<hr class={classList} style={styleList} />

@@ -1,0 +1,17 @@
+.f-regular {
+  font-family: "momochidori", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.f-c-regular {
+  font-family: "momochidori-condensed", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.f-w-regular {
+  font-family: "momochidori-wide", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}

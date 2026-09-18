@@ -1,0 +1,15 @@
+---
+// props
+const {} = Astro.props;
+
+// style
+import "../../styles/exhibit/index.css";
+
+const classList = `exhibit`;
+---
+
+<article class={classList}>
+  <div class="exh-room">
+    <slot />
+  </div>
+</article>

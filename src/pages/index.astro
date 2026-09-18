@@ -1,24 +1,38 @@
 ---
-import { type CollectionEntry, getCollection } from "astro:content";
-import { render } from "astro:content";
+import { getCollection, render } from "astro:content";
 
-import Layout from "../layouts/SimpleTop.astro";
+import Layout from "../layouts/NewsPapper.astro";
 
+import Exhibit from "../components/exhibit/Exhibit.astro";
+
+const posts = (await getCollection("exhibitBlog"))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 30);
+
+const exhibits = await Promise.all(
+  posts.map(async (post) => (await render(post)).Content),
+);
 ---
 
 <Layout isTop={true} title="179.jp">
-  <main class="top179">
-    <h1 class="top179_title">179<sup>jp</sup></h1>
-    <nav class="top179_nav">
-      <ul class="top179_nav_list">
-        <li>
-          <a href="//somrthing-about.jp/days/">bine(blog)</a>
-        </li>
-      </ul>
-    </nav>
-    <div class="top179_description">
-      <p>179は、憧れつつも、ついに一度も180cmと言われず、身長が179cmであることに由来します。web のデザインとエンジニアリングを中心に、サイト制作、Shopifyのカスタマイズ、コンテンツ制作をしています。趣味で写真を撮り、ブログを書くことをライフワークにしています。
-      </p>
-    </div>
+  <h1 class="np179_title f-w-regular">179.jp</h1>
+  <main class="np179_wrapper">
+    <section class="np179 f-c-regular vt">
+      <div class="np179_signature f-c-regular">
+        <p><span class="ls-xs">一</span>七九</p>
+      </div>
+      <div class="np179_unit">
+        <p>
+          はじめまして。ようこそお越しくださいました。このサイトは、デザイン・エンジニアの山下
+          浩一郎のサイトです。<br />
+          ウェブを中心に、サイト制作からECサイトの構築・カスタマイズ、アプリ、コンテンツ制作まで幅広く手掛けています。大阪出身の京都在住です。身長が一七九cmで、ついに一度も一八〇cmと言われなかったことがトラウマでした。しかし、偶然この三文字のドメインが空いてることを見つけて以来、この数字に大変な愛着を持っています。小学生の息子と妻、猫の三人と一匹家族で暮らしています。<br
+          />
+          趣味は、愛用のLeicaで何気ない日常の写真を撮ること。ウェブで表現して遊ぶこと。メモを取り、アイデアを考えることも好きです。プレミアリーグを中心としたサッカー観戦、散歩、読書、コーヒー好きです。コーヒーは時々自家焙煎もしてます。最近はAIを活用して自作のメモ・アプリをつくり、愛用しています。
+        </p>
+      </div>
+    </section>
+    <Exhibit>
+      {exhibits.map((Content) => <Content />)}
+    </Exhibit>
   </main>
 </Layout>

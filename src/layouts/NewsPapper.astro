@@ -1,0 +1,15 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import "../styles/newsPapper/index.css";
+
+const { title } = Astro.props;
+---
+
+<html lang="ja">
+  <head>
+    <BaseHead title={title} description="179" webFontType="newsPapper" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,13 @@
+---
+// props
+const { caption = "", captionSub = "", captionAlign = "left" } = Astro.props;
+
+// Class
+const classArray = [`exh-caption`, `caption-${captionAlign}`];
+const classList = classArray.join(" ");
+---
+
+<figcaption class={classList}>
+  <p>{caption}</p>
+  {captionSub && <p class="exh-caption-sub">{captionSub}</p>}
+</figcaption>

@@ -1,0 +1,44 @@
+---
+// props
+const {
+  src = "",
+  alt = "",
+  size = "full",
+  position = "center",
+  caption = "",
+  captionSub = "",
+  captionAlign = "left",
+  color = "",
+  colorRGB = "",
+} = Astro.props;
+
+// Import
+import Caption from "./Caption.astro";
+
+// Class
+const classArray = [`exh-frame`, `size-${size}`, `position-${position}`];
+if (color) {
+  classArray.push(`color-${color}`);
+}
+const classList = classArray.join(" ");
+
+// Style
+const styleArray = [];
+if (colorRGB) {
+  styleArray.push(`color: ${colorRGB}`);
+}
+const styleList = styleArray.join(";");
+---
+
+<figure class={classList} style={styleList}>
+  <img src={src} alt={alt} />
+  {
+    caption && (
+      <Caption
+        caption={caption}
+        captionSub={captionSub}
+        captionAlign={captionAlign}
+      />
+    )
+  }
+</figure>

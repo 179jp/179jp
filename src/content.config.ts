@@ -13,6 +13,17 @@ const sandBox = defineCollection({
   }),
 });
 
+// Exhibit Blog
+const exhibitBlog = defineCollection({
+  loader: glob({ base: "./src/content/exhibit-blog/", pattern: "**/*.{md,mdx}" }),
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+
+  }),
+});
+
 export const collections = {
   sandBox,
+  exhibitBlog,
 };

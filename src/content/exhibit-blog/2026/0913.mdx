@@ -1,0 +1,51 @@
+---
+title: "また新しいブログを..."
+date: 2026-09-13
+---
+
+import Border from "../../../components/exhibit/Border.astro";
+import Box from "../../../components/exhibit/BoxText.astro";
+import Grid from "../../../components/exhibit/Grid.astro";
+import Image from "../../../components/exhibit/Image.astro";
+import Text from "../../../components/exhibit/Text.astro";
+import Wall from "../../../components/exhibit/Wall.astro";
+
+<Wall
+  width="100"
+  color="white">
+  <Text size="s" font="momochidori">9.13</Text>
+  <Text size="xs" font="momochidori">Sun</Text>
+  <Border color="white" />
+  <Text size="xl" font="gunter">EXHIBIT</Text>
+  <Text level="h1" size="m">また新しいブログを...</Text>
+  <Image
+    position="absolute"
+    src="/img/exhibit/2026/09/L1011951.jpg"
+    />
+</Wall>
+<Wall
+  width="120"
+  bkg="off-gray">
+  <Image
+    src="/img/exhibit/2026/09/L1011932.jpg"
+    />
+</Wall>
+<Wall
+  width="100"
+  bkg="off-gray">
+  <Grid
+    column="1"
+    row="2"
+    >
+    <Image
+      size="m"
+      position="center-bottom"
+      src="/img/exhibit/2026/09/L1011936.jpg"
+      />
+    <Text font="momochidori" vertical={true} size="s" height="16em">
+    五年ぶりとなる免許の更新。<br />
+    優良ドライバーではなくなってしまったので、遠い方の免許センターに、八時に家を出て向かう。<br />
+    たぶん十年ぶりくらいの免許センターは、レガシーだけど、自然光がふわっと入り、保健室みたいなブルーの衝立が印象的だった。
+    </Text>
+  </Grid>
+</Wall>
