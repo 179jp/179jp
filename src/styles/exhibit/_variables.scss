@@ -9,7 +9,8 @@
   --wall-height: 120vh;
 
   @media (width > 800px) {
-    --wall-size: 480px;
+    --wall-size: 520px;
+    --wall-height: calc(var(--wall-size) * 18 / 9);
   }
 
 

@@ -9,6 +9,22 @@ wrapper
   overflow-y: hidden;
   direction: rtl;
   position: relative;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.05);
+    height: 0.25em;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 14px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
 }
 
 .exh-room {
@@ -30,10 +46,6 @@ wall
   justify-content: center;
   height: 100%;
   padding: 0;
-
-  @media (width > 800px) {
-    padding: 0 calc(var(--wall-size) * 0.4);
-  }
 }
 
 .w-100 {
@@ -144,6 +156,7 @@ image
   height: 100%;
   object-fit: contain;
   border-radius: 0;
+  pointer-events: none;
 }
 
 .exh-frame.position-absolute img {
