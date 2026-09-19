@@ -7,7 +7,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "make": "node scripts/make-blog.cjs"
+    "make": "node scripts/make-blog.cjs",
+    "deploy": "astro build && wrangler deploy",
+    "preview:cf": "astro build && wrangler dev"
   },
   "overrides": {
     "picomatch": "^4.0.3"
@@ -21,5 +23,11 @@
     "puppeteer": "^24.9.0",
     "svelte": "^5.22.6",
     "tailwindcss": "^3.4.17"
+  },
+  "devDependencies": {
+    "wrangler": "^4.135.0"
+  },
+  "allowScripts": {
+    "workerd@1.20260918.1": true
   }
 }
