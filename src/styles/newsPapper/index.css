@@ -13,9 +13,11 @@
 .np179 {
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   flex-shrink: 0;
-  margin: 0 2em 25vh;
+  margin: 0 0 25vh;
   gap: 0 1em;
+  width: 100%;
 }
 
 .np179_title {
@@ -45,4 +47,9 @@
   padding-top: 1em;
   text-align: justify;
   hanging-punctuation: allow-end;
+
+  @media (width < 800px) {
+    height: 44em;
+    column-count: 2;
+  }
 }
