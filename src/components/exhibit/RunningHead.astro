@@ -1,0 +1,55 @@
+---
+// props
+const {
+  level = "p",
+  size = "xs",
+  font = "",
+  align = "center",
+  vertical = false,
+  color = "",
+  colorRGB = "",
+  width = "",
+  height = "",
+} = Astro.props;
+
+// Class
+const classArray = [`exh-running-head`, `font-size-${size}`, `align-${align}`];
+if (font) {
+  classArray.push(`font-${font}`);
+}
+if (vertical) {
+  classArray.push(`exh-text-vertical`);
+}
+if (color) {
+  classArray.push(`color-${color}`);
+}
+const classList = classArray.join(" ");
+
+// Style
+const styleArray = [];
+if (colorRGB) {
+  styleArray.push(`color: ${colorRGB}`);
+}
+if (width) {
+  styleArray.push(`width: ${width}`);
+}
+if (height) {
+  styleArray.push(`height: ${height}`);
+}
+const styleList = styleArray.join(";");
+---
+
+{
+  level === "p" && (
+    <div class={classList} style={styleList}>
+      <slot />
+    </div>
+  )
+}
+{
+  level === "h1" && (
+    <h1 class={classList} style={styleList}>
+      <slot />
+    </h1>
+  )
+}
