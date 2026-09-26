@@ -175,11 +175,16 @@ image
 }
 
 .exh-frame.size-m img {
+  width: 82%;
+  height: 82%;
+}
+
+.exh-frame.size-s img {
   width: 64%;
   height: 64%;
 }
 
-.exh-frame.size-s img {
+.exh-frame.size-xs img {
   width: 40%;
   height: 40%;
 }
@@ -223,9 +228,7 @@ image
 /*
 text
 -------------------------------------------------- */
-.exh-text {
-  padding-block: 2em;
-}
+.exh-text {}
 
 .exh-box-text {
   width: calc(100% - 6em * 2);

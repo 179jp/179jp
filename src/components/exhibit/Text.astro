@@ -10,6 +10,7 @@ const {
   colorRGB = "",
   width = "",
   height = "",
+  padding = "",
 } = Astro.props;
 
 // Class
@@ -35,6 +36,9 @@ if (width) {
 }
 if (height) {
   styleArray.push(`height: ${height}`);
+}
+if (padding) {
+  styleArray.push(`padding: ${padding}`);
 }
 const styleList = styleArray.join(";");
 ---
