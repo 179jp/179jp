@@ -136,7 +136,7 @@ grid
 image
 -------------------------------------------------- */
 .exh-frame {
-  width: calc(100% - 4em * 2);
+  width: calc(100% - var(--wall-grid) * 2);
   height: 100%;
   display: flex;
   align-items: center;
@@ -149,6 +149,14 @@ image
   grid-template-rows: auto 1fr;
   gap: 0.25em;
   padding: 6vh 0;
+}
+
+.exh-grid .exh-frame {
+  width: 100%;
+}
+
+.exh-grid .exh-frame:has(figcaption) {
+  padding: 0 var(--wall-grid);
 }
 
 .exh-frame.position-absolute {
