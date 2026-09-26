@@ -7,7 +7,7 @@
   // Wall
   --wall-size: 100vw;
   --wall-height: 120vh;
-  --wall-grid: calc(var(--wall-size) * 2 / 10);
+  --wall-grid: calc(var(--wall-size) * 1 / 10);
 
   @media (width > 800px) {
     --wall-size: 520px;
