@@ -13,7 +13,12 @@ const {
 } = Astro.props;
 
 // Class
-const classArray = [`exh-running-head`, `font-size-${size}`, `align-${align}`];
+const classArray = [
+  `exh-running-head`,
+  `font-size-${size}`,
+  `text-align-${align}`,
+  `align-${align}`,
+];
 if (font) {
   classArray.push(`font-${font}`);
 }

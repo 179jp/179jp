@@ -259,7 +259,17 @@ text
   width: calc(100% - 2em * 2);
 }
 
+.exh-text.text-align-center {
+  text-align: center;
+}
 
+.exh-text.text-align-left {
+  text-align: left;
+}
+
+.exh-text.text-align-right {
+  text-align: right;
+}
 
 /*
 border

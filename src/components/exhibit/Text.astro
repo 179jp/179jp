@@ -5,6 +5,7 @@ const {
   size = "m",
   font = "",
   align = "center",
+  textAlign = "left",
   vertical = false,
   color = "",
   colorRGB = "",
@@ -14,7 +15,12 @@ const {
 } = Astro.props;
 
 // Class
-const classArray = [`exh-text`, `font-size-${size}`, `align-${align}`];
+const classArray = [
+  `exh-text`,
+  `font-size-${size}`,
+  `align-${align}`,
+  `text-align-${textAlign}`,
+];
 if (font) {
   classArray.push(`font-${font}`);
 }
