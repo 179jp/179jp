@@ -144,8 +144,11 @@ image
   flex-direction: column;
 }
 
-.exh-frame.size-full {
-  height: calc(100% - 4em * 2);
+.exh-frame:has(figcaption) {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 0.25em;
+  padding: 6vh 0;
 }
 
 .exh-frame.position-absolute {
@@ -217,7 +220,8 @@ image
 
 
 .exh-frame figcaption {
-  font-size: 9px;
+  font-size: 10px;
+  align-self: self-start;
 }
 
 .exh-frame figcaption p {
@@ -254,7 +258,7 @@ text
 
 .exh-running-head {
   position: absolute;
-  top: 4em;
+  top: 4vh;
   left: 2em;
   width: calc(100% - 2em * 2);
 }
