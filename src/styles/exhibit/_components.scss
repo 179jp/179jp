@@ -148,7 +148,7 @@ image
   display: grid;
   grid-template-rows: auto 1fr;
   gap: 0.25em;
-  padding: 6vh 0;
+  padding: 9vh 0;
 }
 
 .exh-grid .exh-frame {
@@ -266,7 +266,7 @@ text
 
 .exh-running-head {
   position: absolute;
-  top: 4vh;
+  top: 6vh;
   left: 2em;
   width: calc(100% - 2em * 2);
 }
