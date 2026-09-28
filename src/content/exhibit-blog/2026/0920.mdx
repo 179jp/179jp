@@ -1,0 +1,37 @@
+---
+title: "雪国"
+date: 2026-09-20
+---
+
+import Border from "../../../components/exhibit/Border.astro";
+import Box from "../../../components/exhibit/BoxText.astro";
+import Grid from "../../../components/exhibit/Grid.astro";
+import Image from "../../../components/exhibit/Image.astro";
+import RunningHead from "../../../components/exhibit/RunningHead.astro";
+import Space from "../../../components/exhibit/Space.astro";
+import Text from "../../../components/exhibit/Text.astro";
+import Wall from "../../../components/exhibit/Wall.astro";
+
+<Wall
+  width="120"
+  color="white">
+  <Image
+    position="absolute"
+    src="/img/exhibit/2026/09/L1012213.jpg"
+    />
+</Wall>
+<Wall
+  width="80"
+  bkgRGB="#010101"
+  colorRGB="#C6C5C4">
+  <Grid
+    column="1"
+    row="2"
+    >
+    <space />
+    <Text font="momochidori" vertical={true} size="s" height="20em">
+    九月二十日（日）<br />
+    金沢へ向かう。途中の高島のローソンはまだトイレが閉鎖中で、向かいの道の駅に歩く。大きな雪かき用の重機が置いてあり、雪の積もる時期以外は稼働しないで錆びたりしないのかなと疑問に思う。
+    </Text>
+  </Grid>
+</Wall>

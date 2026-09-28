@@ -49,6 +49,10 @@ wall
   position: relative;
 }
 
+.w-80 {
+  width: calc(var(--wall-size) * 0.8);
+}
+
 .w-100 {
   width: calc(var(--wall-size) * 1.2);
 }
@@ -190,6 +194,11 @@ image
   height: 82%;
 }
 
+.exh-frame.size-m2 img {
+  width: 72%;
+  height: 72%;
+}
+
 .exh-frame.size-s img {
   width: 64%;
   height: 64%;
@@ -256,6 +265,10 @@ text
 .exh-text-vertical {
   writing-mode: vertical-rl;
   font-feature-settings: "vpal";
+}
+
+.exh-text-vertical p {
+  text-align: justify;
 }
 
 .exh-uprightText {
