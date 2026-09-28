@@ -260,6 +260,24 @@ text
   align-items: center;
   justify-content: center;
   text-align: justify;
+  margin: 0 auto;
+}
+
+.exh-box-text.box-size-full {
+  width: 100%;
+  height: 100%;
+}
+
+.exh-box-text.box-size-m {
+  width: 82%;
+}
+
+.exh-box-text.box-size-m2 {
+  width: 72%;
+}
+
+.exh-box-text.box-size-s {
+  width: 64%;
 }
 
 .exh-text-vertical {

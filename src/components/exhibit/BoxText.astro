@@ -1,6 +1,7 @@
 ---
 // props
 const {
+  boxSize = "m",
   size = "m",
   font = "",
   align = "center",
@@ -10,7 +11,12 @@ const {
 } = Astro.props;
 
 // Class
-const classArray = [`exh-box-text`, `size-${size}`, `align-${align}`];
+const classArray = [
+  `exh-box-text`,
+  `box-size-${boxSize}`,
+  `font-size-${size}`,
+  `align-${align}`,
+];
 if (font) {
   classArray.push(`font-${font}`);
 }
