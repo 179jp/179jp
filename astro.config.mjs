@@ -10,6 +10,9 @@ import partytown from "@astrojs/partytown";
 // https://astro.build/config
 export default defineConfig({
   site: "https://179.jp",
+  server: {
+    port: 4179,
+  },
   integrations: [
     tailwind(),
     mdx(),
