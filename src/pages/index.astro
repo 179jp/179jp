@@ -12,6 +12,8 @@ const posts = (await getCollection("exhibitBlog"))
 const exhibits = await Promise.all(
   posts.map(async (post) => (await render(post)).Content),
 );
+
+const roomWidth = posts.reduce((sum, post) => sum + post.data.width, 0);
 ---
 
 <Layout isTop={true} title="179.jp">
@@ -31,7 +33,7 @@ const exhibits = await Promise.all(
         </p>
       </div>
     </section>
-    <Exhibit>
+    <Exhibit width={roomWidth}>
       {exhibits.map((Content) => <Content />)}
     </Exhibit>
   </main>

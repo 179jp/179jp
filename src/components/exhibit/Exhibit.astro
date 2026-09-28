@@ -1,15 +1,18 @@
 ---
 // props
-const {} = Astro.props;
+const { width = 0 } = Astro.props;
 
 // style
 import "../../styles/exhibit/index.css";
 
 const classList = `exhibit`;
+const roomStyle = width
+  ? `width: calc(var(--wall-size) * 1.2 * ${width} / 100)`
+  : "";
 ---
 
 <article class={classList}>
-  <div class="exh-room">
+  <div class="exh-room" style={roomStyle}>
     <slot />
   </div>
 </article>

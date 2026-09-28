@@ -19,7 +19,7 @@ const exhibitBlog = defineCollection({
   schema: z.object({
     title: z.string(),
     date: z.coerce.date(),
-
+    width: z.coerce.number().default(0),
   }),
 });
 
