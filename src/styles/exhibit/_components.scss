@@ -49,6 +49,10 @@ wall
   position: relative;
 }
 
+.exh-wall:has(.exh-grid) {
+  justify-content: flex-start;
+}
+
 .w-80 {
   width: calc(var(--wall-size) * 0.8);
 }
@@ -96,10 +100,15 @@ grid
 
 .exh-grid {
   width: 100%;
-  height: calc(100% - 4em * 2);
+  height: 100vh;
   display: grid;
   gap: 0.25em;
   margin: auto;
+
+  @media (width <=800px) {
+    padding-top: 6vh;
+    margin: 0 auto;
+  }
 }
 
 .exh-grid.col-1 {
