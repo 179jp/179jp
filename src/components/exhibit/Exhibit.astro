@@ -20,10 +20,61 @@ const roomStyle = width
 <script>
   // deltaMode: 1 = line, 2 = page
   const LINE_HEIGHT = 16;
+  // 横スクロールの追従率。小さいほど余韻が長くなる
+  const FOLLOW = 0.12;
+  // 中央寄せにかける時間 (ms)
+  const ALIGN_DURATION = 700;
+  // これ以上ずれていたら中央寄せする (px)
+  const ALIGN_THRESHOLD = 4;
+
+  const easeInOutCubic = (t: number) =>
+    t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
   document.querySelectorAll<HTMLElement>(".exhibit").forEach((exhibit) => {
+    const room = exhibit.querySelector<HTMLElement>(".exh-room");
+    if (!room) return;
+
     // .exhibit は direction: rtl なので、進む方向は scrollLeft のマイナス側
     const sign = getComputedStyle(exhibit).direction === "rtl" ? -1 : 1;
+
+    let targetLeft = exhibit.scrollLeft;
+    let frame = 0;
+    let align: { from: number; to: number; start: number } | null = null;
+
+    // .exh-room が画面の中央に来るときのページのスクロール位置
+    const centeredScrollY = () => {
+      const rect = room.getBoundingClientRect();
+      const center =
+        rect.top + window.scrollY + rect.height / 2 - window.innerHeight / 2;
+      const limit = document.documentElement.scrollHeight - window.innerHeight;
+      return Math.max(0, Math.min(limit, center));
+    };
+
+    const tick = () => {
+      frame = 0;
+      let running = false;
+
+      const remain = targetLeft - exhibit.scrollLeft;
+      if (Math.abs(remain) > 0.5) {
+        exhibit.scrollLeft += remain * FOLLOW;
+        running = true;
+      } else {
+        exhibit.scrollLeft = targetLeft;
+      }
+
+      if (align) {
+        const t = Math.min(
+          1,
+          (performance.now() - align.start) / ALIGN_DURATION,
+        );
+        const y = align.from + (align.to - align.from) * easeInOutCubic(t);
+        window.scrollTo(0, y);
+        if (t < 1) running = true;
+        else align = null;
+      }
+
+      if (running) frame = requestAnimationFrame(tick);
+    };
 
     exhibit.addEventListener(
       "wheel",
@@ -41,11 +92,30 @@ const roomStyle = width
         const delta = event.deltaY * unit;
         if (!delta) return;
 
-        const before = exhibit.scrollLeft;
-        exhibit.scrollLeft = before + delta * sign;
+        // スクロールバーやタッチで動かされた分を拾い直す
+        if (!frame) targetLeft = exhibit.scrollLeft;
+
+        const distance = exhibit.scrollWidth - exhibit.clientWidth;
+        const next = Math.max(
+          sign < 0 ? -distance : 0,
+          Math.min(sign < 0 ? 0 : distance, targetLeft + delta * sign),
+        );
 
         // 端まで来たらページの縦スクロールに戻す
-        if (exhibit.scrollLeft !== before) event.preventDefault();
+        if (Math.abs(next - targetLeft) < 1) return;
+
+        event.preventDefault();
+        targetLeft = next;
+
+        // 横スクロールに入るとき、.exh-room を画面の中央へ寄せる
+        if (!align) {
+          const to = centeredScrollY();
+          if (Math.abs(to - window.scrollY) > ALIGN_THRESHOLD) {
+            align = { from: window.scrollY, to, start: performance.now() };
+          }
+        }
+
+        if (!frame) frame = requestAnimationFrame(tick);
       },
       { passive: false },
     );

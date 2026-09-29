@@ -1,0 +1,44 @@
+---
+title: "芝生"
+date: 2026-09-22
+width: 200
+---
+
+import Border from "../../../components/exhibit/Border.astro";
+import Box from "../../../components/exhibit/BoxText.astro";
+import Grid from "../../../components/exhibit/Grid.astro";
+import Image from "../../../components/exhibit/Image.astro";
+import RunningHead from "../../../components/exhibit/RunningHead.astro";
+import Space from "../../../components/exhibit/Space.astro";
+import Text from "../../../components/exhibit/Text.astro";
+import Wall from "../../../components/exhibit/Wall.astro";
+
+<Wall
+  width="120"
+  colorRGB="#EDEDED">
+  <Image
+    position="absolute"
+    src="/img/exhibit/2026/09/L1012399.jpg"
+    />
+</Wall>
+<Wall
+  width="80"
+  bkgRGB="#b2cdeb"
+  colorRGB="#626262">
+  <Grid
+    column="1"
+    row="2"
+    >
+    <Image
+      size="m2"
+      position="center-bottom"
+      src="/img/exhibit/2026/09/L1012415.jpg"
+      />
+    <Text font="momochidori" vertical={true} align="center" size="s" height="16em">
+    九月二十二日（火）<br />
+    金沢最終日。ようやく晴れた。今年の秋は、涼しいのはいいが雨ばっかり。<br />
+    県庁近くの芝生の公園で、歳の近い従姉妹三人がダイナミックに遊んだ。金沢の公園はどうして、あんなに芝生がきれいなんだろう。最高過ぎる。<br />
+    めいっぱい遊んで、徳光PAの金のトイレを見て帰った。
+    </Text>
+  </Grid>
+</Wall>
