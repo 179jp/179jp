@@ -16,3 +16,38 @@ const roomStyle = width
     <slot />
   </div>
 </article>
+
+<script>
+  // deltaMode: 1 = line, 2 = page
+  const LINE_HEIGHT = 16;
+
+  document.querySelectorAll<HTMLElement>(".exhibit").forEach((exhibit) => {
+    // .exhibit は direction: rtl なので、進む方向は scrollLeft のマイナス側
+    const sign = getComputedStyle(exhibit).direction === "rtl" ? -1 : 1;
+
+    exhibit.addEventListener(
+      "wheel",
+      (event) => {
+        // ピンチズームと横方向のスクロールはブラウザにまかせる
+        if (event.ctrlKey) return;
+        if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+
+        const unit =
+          event.deltaMode === 1
+            ? LINE_HEIGHT
+            : event.deltaMode === 2
+              ? exhibit.clientHeight
+              : 1;
+        const delta = event.deltaY * unit;
+        if (!delta) return;
+
+        const before = exhibit.scrollLeft;
+        exhibit.scrollLeft = before + delta * sign;
+
+        // 端まで来たらページの縦スクロールに戻す
+        if (exhibit.scrollLeft !== before) event.preventDefault();
+      },
+      { passive: false },
+    );
+  });
+</script>
