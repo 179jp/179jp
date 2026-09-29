@@ -11,6 +11,8 @@
 .align-left-bottom {
   align-items: flex-start;
   justify-content: flex-end;
+  justify-self: right;
+  align-self: end;
 }
 
 .align-right-bottom {
