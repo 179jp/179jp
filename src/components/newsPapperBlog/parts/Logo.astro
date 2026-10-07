@@ -1,0 +1,50 @@
+---
+// 題字（ロゴ）。slot には題字の下に置くもの（その日の欄など）を入れる
+import Text from "./Text.astro";
+import type { Area, BrandData } from "../types";
+import { place } from "../utils";
+
+interface Props {
+  area: Area;
+  brand: BrandData;
+}
+
+const { area, brand } = Astro.props;
+---
+
+<div class="logo" style={place(area)}>
+  <img src={brand.logo.src} alt={brand.logo.alt} />
+  <h1>{brand.name}</h1>
+  <p><Text text={brand.tagline} /></p>
+  <p>{brand.credit}</p>
+  <slot />
+</div>
+
+<style>
+  .logo {
+    direction: ltr;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
+    text-align: center;
+  }
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    object-position: top;
+  }
+  h1,
+  p {
+    margin: 0;
+    font-size: var(--np-fs-micro);
+    line-height: 1.2;
+  }
+  h1 {
+    margin-top: 0.5em;
+    font-weight: bold;
+  }
+  p {
+    font-weight: normal;
+  }
+</style>

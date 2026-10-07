@@ -1,0 +1,74 @@
+---
+// 木の箱のイラスト
+interface Props {
+  label: string;
+}
+
+const { label } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 170 260"
+  preserveAspectRatio="xMidYMid slice"
+  role="img"
+  aria-label={label}
+>
+  <defs>
+    <pattern
+      id="np-dot-s"
+      width="5"
+      height="5"
+      patternUnits="userSpaceOnUse"
+    >
+      <circle cx="2.5" cy="2.5" r="0.9" fill="currentColor"></circle>
+    </pattern>
+    <pattern
+      id="np-dot-m"
+      width="5"
+      height="5"
+      patternUnits="userSpaceOnUse"
+    >
+      <circle cx="2.5" cy="2.5" r="1.6" fill="currentColor"></circle>
+    </pattern>
+    <pattern
+      id="np-dot-l"
+      width="5"
+      height="5"
+      patternUnits="userSpaceOnUse"
+    >
+      <circle cx="2.5" cy="2.5" r="2.2" fill="currentColor"></circle>
+    </pattern>
+  </defs>
+  <rect width="170" height="260" class="bg"></rect>
+  <rect width="170" height="175" fill="url(#np-dot-s)"></rect>
+  <rect y="175" width="170" height="85" fill="url(#np-dot-m)"></rect>
+  <g stroke="currentColor" stroke-width="1.5" stroke-linejoin="round">
+    <polygon points="34,150 114,166 114,214 34,198" class="bg"
+    ></polygon>
+    <polygon
+      points="114,166 142,148 142,196 114,214"
+      fill="url(#np-dot-l)"></polygon>
+    <polygon points="34,150 62,134 142,148 114,166" class="bg"
+    ></polygon>
+    <polygon points="30,130 58,112 140,128 112,146" class="bg"
+    ></polygon>
+    <polygon
+      points="30,130 112,146 112,153 30,137"
+      fill="url(#np-dot-m)"></polygon>
+    <polygon
+      points="112,146 140,128 140,135 112,153"
+      fill="url(#np-dot-l)"></polygon>
+  </g>
+</svg>
+
+<style>
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: var(--np-color-ink);
+  }
+  .bg {
+    fill: var(--np-color-photo);
+  }
+</style>

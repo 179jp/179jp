@@ -1,0 +1,24 @@
+---
+import { getCollection, render } from "astro:content";
+
+import Layout from "../layouts/NewsPapper.astro";
+
+import Contenna from "../components/gridStudy/Contenna.astro";
+import NewsPapper from "../components/gridStudy/newsPapper.astro";
+---
+
+<Layout isTop={true} title="179.jp">
+  <h1 class="np179_title f-w-regular">GRID STUDY</h1>
+  <main class="grid_study_wrapper">
+    <Contenna />
+    <NewsPapper />
+  </main>
+</Layout>
+
+<style>
+  .grid_study_wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 100px;
+  }
+</style>

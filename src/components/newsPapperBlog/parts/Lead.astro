@@ -1,0 +1,34 @@
+---
+// トップ記事の見出し。main = 大見出し、sub = 副見出し
+import Text from "./Text.astro";
+import type { Area, RichText } from "../types";
+import { place } from "../utils";
+
+interface Props {
+  area: Area;
+  text: RichText;
+  size?: "main" | "sub";
+}
+
+const { area, text, size = "main" } = Astro.props;
+---
+
+<p class:list={["np-cell", "lead", size]} style={place(area)}>
+  <Text text={text} />
+</p>
+
+<style>
+  .lead {
+    margin: 0;
+    font-weight: bold;
+    text-align: left;
+  }
+  .main {
+    font-size: var(--np-fs-4xl);
+    display: flex;
+    align-items: center;
+  }
+  .sub {
+    font-size: var(--np-fs-m);
+  }
+</style>

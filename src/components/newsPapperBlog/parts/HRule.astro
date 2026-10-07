@@ -1,0 +1,23 @@
+---
+// 段のあいだの横罫。Area の開始段の上、段間の真ん中に引く
+import type { Area } from "../types";
+import { place } from "../utils";
+
+interface Props {
+  area: Area;
+}
+
+const { area } = Astro.props;
+---
+
+<div class="hrule" style={place(area)}></div>
+
+<style>
+  .hrule {
+    align-self: start;
+    height: var(--np-rule-width);
+    margin-top: calc(var(--np-tier-gap) / -2);
+    margin-inline: calc(var(--np-half-leading) * -1);
+    background-color: var(--np-color-rule);
+  }
+</style>

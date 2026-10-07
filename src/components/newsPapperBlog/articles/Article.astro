@@ -1,0 +1,50 @@
+---
+// 1 段の記事。見出し（3 列、sub も kicker もなければ 2 列）＋本文。
+// 写真があれば 写真＋キャプション（1 列）を末尾に置く
+import Head from "../parts/Head.astro";
+import Body from "../parts/Body.astro";
+import Photo from "../parts/Photo.astro";
+import Caption from "../parts/Caption.astro";
+import type { ArticleData, Area } from "../types";
+
+interface Props {
+  area: Area;
+  story: ArticleData;
+  /** 写真に使う列数 */
+  photoCols?: number;
+}
+
+// 見出しの列数。sub か kicker があれば 2 列目に置き、なければ見出しだけの 2 列にして本文に回す
+const HEAD_COLS = { withSub: 3, titleOnly: 2 };
+const CAPTION_COLS = 1;
+
+const { area, story, photoCols = 8 } = Astro.props;
+const [start, end] = area.col;
+const headCols =
+  story.sub || story.kicker ? HEAD_COLS.withSub : HEAD_COLS.titleOnly;
+const bodyStart = start + headCols;
+const captionStart = story.caption ? end - CAPTION_COLS : end;
+const photoStart = story.photo ? captionStart - photoCols : captionStart;
+---
+
+<Head
+  area={{ col: [start, bodyStart], row: area.row }}
+  title={story.title}
+  sub={story.sub}
+  kicker={story.kicker}
+  size={story.titleSize}
+/>
+<Body area={{ col: [bodyStart, photoStart], row: area.row }} paragraphs={story.body} />
+{
+  story.photo && (
+    <Photo
+      area={{ col: [photoStart, captionStart], row: area.row }}
+      photo={story.photo}
+    />
+  )
+}
+{
+  story.caption && (
+    <Caption area={{ col: [captionStart, end], row: area.row }} text={story.caption} />
+  )
+}

@@ -1,5 +1,6 @@
 import { glob } from "astro/loaders";
 import { defineCollection, z } from "astro:content";
+import { issueSchema } from "./components/newsPapperBlog/schema";
 
 // Sandbox
 const sandBox = defineCollection({
@@ -23,7 +24,14 @@ const exhibitBlog = defineCollection({
   }),
 });
 
+// News Papper Blog（1 号 = 1 ファイル）
+const newsPapperBlog = defineCollection({
+  loader: glob({ base: "./src/content/news-papper-blog/", pattern: "**/*.{yaml,yml}" }),
+  schema: issueSchema,
+});
+
 export const collections = {
   sandBox,
   exhibitBlog,
+  newsPapperBlog,
 };

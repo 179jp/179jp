@@ -1,0 +1,195 @@
+---
+// 題字の下に置く、その日の欄（日付・天気・記録）。横組み
+import Icon from "./Icon.astro";
+import { formatDate, solarTermOf } from "../calendar";
+import { skiesOf, weatherLabel } from "../weather";
+import type { ActivityData, WeatherData } from "../types";
+
+interface Props {
+  date: Date;
+  weather?: WeatherData;
+  activity?: ActivityData;
+}
+
+const { date, weather, activity } = Astro.props;
+const { year, month, day, weekday } = formatDate(date);
+const term = solarTermOf(date);
+const hasTemp = weather?.high !== undefined || weather?.low !== undefined;
+const hasActivity =
+  activity?.steps !== undefined || activity?.run !== undefined;
+---
+
+<div class="day">
+  <section class="block date" aria-label="日付">
+    <p class="year">{year}</p>
+    <p class="month-day">
+      <span class="num">{month}</span>月<span class="num">{day}</span>日
+    </p>
+    <p class="weekday">{weekday}</p>
+    <p class="term">{term}</p>
+  </section>
+
+  {
+    weather && (
+      <section class="block weather" aria-label="天気">
+        {weather.place && (
+          <p class="place">
+            <span class="pin"><Icon name="pin" /></span>
+            {weather.place}
+          </p>
+        )}
+        <p class="sky" role="img" aria-label={weatherLabel(weather)}>
+          {skiesOf(weather).map((sky, i) => (
+            <>
+              {i > 0 && <span class="then" aria-hidden="true">/</span>}
+              <Icon name={sky} />
+            </>
+          ))}
+        </p>
+        {hasTemp && (
+          <p class="temp">
+            <span class="high" aria-label="最高気温">{weather.high ?? "-"}°</span>
+            <span class="sep" aria-hidden="true">/</span>
+            <span class="low" aria-label="最低気温">{weather.low ?? "-"}°</span>
+          </p>
+        )}
+      </section>
+    )
+  }
+
+  {
+    hasActivity && (
+      <dl class="block activity" aria-label="記録">
+        {activity?.steps !== undefined && (
+          <div>
+            <dt>歩数</dt>
+            <dd>{activity.steps.toLocaleString("ja-JP")}<small>歩</small></dd>
+          </div>
+        )}
+        {activity?.run !== undefined && (
+          <div>
+            <dt>ラン</dt>
+            <dd>{activity.run}<small>km</small></dd>
+          </div>
+        )}
+      </dl>
+    )
+  }
+</div>
+
+<style>
+  .day {
+    margin-top: 0.25em;
+    line-height: 1.3;
+  }
+  .block {
+    margin: 0;
+    padding-block: 0.3em;
+    border-top: var(--np-rule);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15em;
+    p {
+      margin: 0;
+    }
+  }
+
+  /* 日付 */
+  .year {
+    font-size: var(--np-fs-xs);
+    letter-spacing: var(--np-ls-m);
+  }
+  .month-day {
+    font-size: var(--np-fs-xs);
+    font-weight: bold;
+    line-height: 1;
+  }
+  .num {
+    font-size: 1.6em;
+    margin-inline: 0.05em;
+  }
+  .weekday {
+    font-size: var(--np-fs-xs);
+  }
+  .term {
+    align-self: stretch;
+    margin-top: 0.2em;
+    padding: 0.15em 0;
+    font-size: var(--np-fs-xs);
+    letter-spacing: var(--np-ls-m);
+    text-align: center;
+    border: 1px solid var(--np-color-rule-faint);
+  }
+
+  /* 天気。枠で囲んで、ほかの欄と分ける */
+  .weather {
+    margin-block: 0.15em;
+    padding: 0.2em 0.3em;
+    border: var(--np-rule);
+  }
+  /* 枠が区切りになるので、次の欄の罫は引かない */
+  .weather + .block {
+    border-top: 0;
+  }
+  .place {
+    align-self: stretch;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.15em;
+    padding-bottom: 0.2em;
+    font-size: var(--np-fs-xs);
+    border-bottom: 1px solid var(--np-color-rule-faint);
+  }
+  .pin {
+    font-size: 1.2em;
+  }
+  .sky {
+    display: flex;
+    align-items: center;
+    gap: 0.1em;
+    font-size: 1.5em; /* アイコンの大きさ */
+  }
+  .then {
+    font-size: var(--np-fs-xs);
+  }
+  .then,
+  .sep {
+    color: var(--np-color-ink-soft);
+  }
+  .temp {
+    font-size: var(--np-fs-2xs);
+  }
+  .high {
+    font-weight: bold;
+  }
+  .low {
+    color: var(--np-color-ink-soft);
+  }
+
+  /* 記録 */
+  .activity {
+    align-items: stretch;
+    div {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.4em;
+    }
+    dt {
+      font-size: var(--np-fs-xs);
+      color: var(--np-color-ink-soft);
+    }
+    dd {
+      margin: 0;
+      font-size: var(--np-fs-s);
+      font-weight: bold;
+    }
+    small {
+      margin-left: 0.1em;
+      font-size: 0.8em;
+      font-weight: normal;
+    }
+  }
+</style>

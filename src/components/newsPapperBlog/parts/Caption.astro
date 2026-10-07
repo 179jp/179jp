@@ -1,0 +1,28 @@
+---
+// 写真のキャプション。段の下端にそろえる
+import Text from "./Text.astro";
+import type { Area, RichText } from "../types";
+import { place } from "../utils";
+
+interface Props {
+  area: Area;
+  text: RichText;
+}
+
+const { area, text } = Astro.props;
+---
+
+<p class="np-cell caption" style={place(area)}>
+  <Text text={text} />
+</p>
+
+<style>
+  .caption {
+    margin: 0;
+    align-self: end;
+    justify-self: center;
+    font-size: var(--np-fs-xs);
+    line-height: 1;
+    color: var(--np-color-ink-soft);
+  }
+</style>

@@ -1,0 +1,110 @@
+---
+// 記事の見出し
+//   default : 1 段記事の見出し。kicker は罫で囲む
+//   photo   : 写真記事の見出し。sub は少し下げて置く
+//   band    : 白抜きの帯見出し（連載）
+//   boxed   : 角丸の罫で囲む見出し（天声AI語）
+import Text from "./Text.astro";
+import type { Area, RichText } from "../types";
+import { place } from "../utils";
+
+interface Props {
+  area: Area;
+  title: RichText;
+  sub?: RichText;
+  kicker?: RichText;
+  variant?: "default" | "photo" | "band" | "boxed";
+  size?: "m" | "l";
+}
+
+const {
+  area,
+  title,
+  sub,
+  kicker,
+  variant = "default",
+  size = "m",
+} = Astro.props;
+---
+
+<div class:list={["np-cell", "head", variant, `size-${size}`]} style={place(area)}>
+  {kicker && <span class="kicker"><Text text={kicker} /></span>}
+  <h3><Text text={title} /></h3>
+  {sub && <p class="sub"><Text text={sub} /></p>}
+</div>
+
+<style>
+  .head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4em;
+    h3 {
+      margin: 0;
+      font-size: var(--np-fs-l);
+      font-weight: bold;
+      line-height: 1;
+    }
+  }
+  .sub {
+    margin: 0;
+    font-size: var(--np-fs-s);
+    font-weight: bold;
+  }
+  .kicker {
+    font-size: var(--np-fs-xs);
+    letter-spacing: var(--np-ls-m);
+  }
+
+  /* default */
+  .default {
+    .kicker {
+      align-self: flex-start;
+      padding: 0.3em 0.15em;
+      font-weight: bold;
+      border: 1px solid var(--np-color-ink);
+    }
+    &.size-l h3 {
+      font-size: var(--np-fs-2xl);
+      letter-spacing: var(--np-ls-m);
+    }
+  }
+
+  /* photo */
+  .photo {
+    gap: 0.5em;
+    h3 {
+      font-size: var(--np-fs-3xl);
+    }
+    .sub {
+      padding-top: 2.5em;
+      line-height: 1.4;
+    }
+  }
+
+  /* band */
+  .band {
+    justify-content: center;
+    gap: 0.1em;
+    padding: 1em 0;
+    background-color: var(--np-color-band);
+    color: var(--np-color-paper);
+    h3 {
+      font-size: var(--np-fs-xl);
+      letter-spacing: var(--np-ls-m);
+    }
+  }
+
+  /* boxed */
+  .boxed {
+    flex-direction: row;
+    align-items: center;
+    h3 {
+      padding: 0.6em 0.3em;
+      font-size: var(--np-fs-m);
+      font-weight: 300;
+      letter-spacing: var(--np-ls-s);
+      border: 1px solid var(--np-color-ink);
+      border-radius: 12px;
+    }
+  }
+</style>

@@ -1,0 +1,52 @@
+---
+// RichText を描画する。記法は richText.ts を参照（改行・{{縦中横}}・[リンク](URL)）
+import { parseRichText } from "../richText";
+import type { RichText } from "../types";
+
+interface Props {
+  text: RichText;
+}
+
+const { text } = Astro.props;
+const tokens = parseRichText(text);
+---
+
+{
+  tokens.map((t) =>
+    t.type === "br" ? (
+      <br />
+    ) : t.type === "tcy" ? (
+      <span class="tcy">{t.value}</span>
+    ) : t.type === "link" ? (
+      <a
+        class="link"
+        href={t.href}
+        {...(t.external && { target: "_blank", rel: "noopener noreferrer" })}
+      >
+        {t.children.map((c) =>
+          c.type === "tcy" ? <span class="tcy">{c.value}</span> : c.value,
+        )}
+      </a>
+    ) : (
+      t.value
+    ),
+  )
+}
+
+<style>
+  .tcy {
+    text-combine-upright: all;
+  }
+  .link {
+    color: inherit;
+    text-decoration-line: underline;
+    text-decoration-color: var(--np-color-link-underline);
+    text-decoration-thickness: var(--np-rule-width);
+    text-underline-offset: 0.2em;
+    /* 縦組みでは行の左側に引く（横組みでは下） */
+    text-underline-position: under left;
+    &:hover {
+      text-decoration-color: currentColor;
+    }
+  }
+</style>

@@ -1,0 +1,53 @@
+---
+// アイコン（Material Symbols / Apache-2.0）。SVG はビルド時に埋め込む。
+// 大きさは 1em 四方。呼び出す側の font-size で決める。
+// 飾りとして置くので、読み上げのことばは呼び出す側で付ける
+import sunny from "@material-symbols/svg-400/outlined/sunny.svg?raw";
+import partlyCloudy from "@material-symbols/svg-400/outlined/partly_cloudy_day.svg?raw";
+import cloudy from "@material-symbols/svg-400/outlined/cloud.svg?raw";
+import rainy from "@material-symbols/svg-400/outlined/rainy.svg?raw";
+import snowy from "@material-symbols/svg-400/outlined/weather_snowy.svg?raw";
+import thunder from "@material-symbols/svg-400/outlined/thunderstorm.svg?raw";
+import foggy from "@material-symbols/svg-400/outlined/foggy.svg?raw";
+import pin from "@material-symbols/svg-400/outlined/location_on.svg?raw";
+import type { Sky } from "../types";
+
+type IconName = Sky | "pin";
+
+interface Props {
+  name: IconName;
+}
+
+const ICONS: Record<IconName, string> = {
+  sunny,
+  "partly-cloudy": partlyCloudy,
+  cloudy,
+  rainy,
+  snowy,
+  thunder,
+  foggy,
+  pin,
+};
+
+const { name } = Astro.props;
+// 元の width / height を外し、色は文字色に合わせる
+const markup = ICONS[name]
+  .replace(/ (width|height)="\d+"/g, "")
+  .replace("<svg", '<svg fill="currentColor" aria-hidden="true"');
+---
+
+<span class="icon" set:html={markup} />
+
+<style>
+  .icon {
+    display: block;
+    flex-shrink: 0;
+    width: 1em;
+    height: 1em;
+  }
+  .icon :global(svg) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+</style>

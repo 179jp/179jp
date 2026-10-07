@@ -1,0 +1,57 @@
+/* 新聞紙面（newsPapperBlog）のデザイントークン */
+:root {
+  /* ---- 紙面の骨格 ----
+     グリッドの 1 列 = 1 行、1 段 = 12 字。
+     --np-lines / --np-tiers を変えたら newsPapperBlog/config.ts も合わせる */
+  --np-lines: 54; /* 1 段あたりの行数 */
+  --np-chars: 12; /* 1 行の文字数 */
+  --np-tiers: 4; /* 段数 */
+  --np-lh: 1.6; /* 行送り（単位なし） */
+
+  /* 紙面まわりの基準サイズ。枠の余白や --np-font-size の計算に使う */
+  --np-base-font-size: 14px;
+  /* 紙面の文字サイズ。横幅いっぱいに --np-lines 行が収まる大きさ */
+  --np-font-size: calc((100cqw - 7em) / (var(--np-lines) * var(--np-lh)));
+  --np-tier-height: calc(var(--np-chars) * 1em); /* 1 段の高さ */
+  --np-tier-gap: 1.25em; /* 段と段のあいだ */
+  --np-line-gap: calc((var(--np-lh) - 1) * 1em); /* 行と行のあいだ */
+  --np-half-leading: calc((var(--np-lh) - 1) / 2 * 1em); /* 行の上下に付く余白 */
+  /* 小数の丸めで最後の 1 行が次の段へ落ちないよう、本文の行末側に足すゆとり */
+  --np-line-slack: 2px;
+
+  /* ---- 色 ---- */
+  --np-color-paper: #dcdcdc;
+  --np-color-ink: #282828;
+  --np-color-ink-soft: #555;
+  --np-color-band: #4c4c4c;
+  --np-color-rule: #949494;
+  --np-color-rule-faint: rgb(40 40 40 / 0.12); /* ごく薄い罫（暦の囲みなど） */
+  --np-color-link-underline: var(--np-color-rule); /* リンクの下線 */
+  --np-color-guide: rgb(253 121 12 / 0.15);
+  --np-color-guide-strong: rgb(253 121 12 / 0.2);
+  --np-color-guide-number: #e14d17;
+  --np-color-photo: #ebebeb; /* 写真・イラストの地 */
+
+  /* ---- 罫 ---- */
+  --np-rule-width: 1px;
+  --np-rule: var(--np-rule-width) solid var(--np-color-rule);
+
+  /* ---- 文字サイズ（本文 = 1em 基準） ---- */
+  --np-fs-2xs: 0.65em; /* 気温など、ごく小さな添え字 */
+  --np-fs-xs: 0.75em; /* キャプション・肩書き */
+  --np-fs-s: 0.85em; /* 小見出し・クレジット */
+  --np-fs-m: 1.25em; /* 副見出し */
+  --np-fs-l: 1.4em; /* 記事見出し */
+  --np-fs-xl: 1.5em; /* 帯見出し */
+  --np-fs-2xl: 1.6em; /* 記事見出し（大） */
+  --np-fs-3xl: 1.75em; /* 写真記事見出し */
+  --np-fs-4xl: 2em; /* トップ見出し */
+  /* 紙面サイズに連動しない固定サイズ（題字まわり） */
+  --np-fs-meta: 11px;
+  --np-fs-micro: 9px;
+
+  /* ---- 字間 ---- */
+  --np-ls-s: 0.05em;
+  --np-ls-m: 0.1em;
+  --np-ls-l: 0.2em;
+}

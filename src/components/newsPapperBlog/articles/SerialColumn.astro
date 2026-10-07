@@ -1,0 +1,25 @@
+---
+// 連載コラム。白抜きの帯見出し（3 列）＋本文
+import Head from "../parts/Head.astro";
+import Body from "../parts/Body.astro";
+import type { Area, SerialData } from "../types";
+
+interface Props {
+  area: Area;
+  story: SerialData;
+}
+
+const HEAD_COLS = 3;
+
+const { area, story } = Astro.props;
+const [start, end] = area.col;
+const bodyStart = start + HEAD_COLS;
+---
+
+<Head
+  area={{ col: [start, bodyStart], row: area.row }}
+  title={story.title}
+  kicker={story.kicker}
+  variant="band"
+/>
+<Body area={{ col: [bodyStart, end], row: area.row }} paragraphs={story.body} />

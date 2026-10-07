@@ -1,0 +1,61 @@
+---
+// ガイドの表示切り替え（ボタン or G キー）。状態はブラウザに覚えておく
+---
+
+<button class="toggle" type="button" aria-pressed="true" data-np-guide-toggle>
+  GUIDE
+</button>
+
+<style>
+  .toggle {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 10;
+    padding: 0.5em 1em;
+    font-size: var(--np-fs-meta);
+    letter-spacing: var(--np-ls-l);
+    color: var(--np-color-ink);
+    background-color: var(--np-color-paper);
+    border: 1px solid var(--np-color-ink);
+    cursor: pointer;
+    &[aria-pressed="true"] {
+      color: var(--np-color-paper);
+      background-color: var(--np-color-ink);
+    }
+  }
+</style>
+
+<script>
+  const KEY = "np-guide";
+  const button = document.querySelector<HTMLButtonElement>(
+    "[data-np-guide-toggle]",
+  );
+  const frames = document.querySelectorAll<HTMLElement>("[data-np-frame]");
+
+  const isOn = () => button?.getAttribute("aria-pressed") === "true";
+  const setGuide = (on: boolean) => {
+    frames.forEach((frame) => (frame.dataset.guide = on ? "on" : "off"));
+    button?.setAttribute("aria-pressed", String(on));
+    try {
+      localStorage.setItem(KEY, on ? "on" : "off");
+    } catch {}
+  };
+
+  let saved: string | null = null;
+  try {
+    saved = localStorage.getItem(KEY);
+  } catch {}
+  setGuide(saved !== "off");
+
+  button?.addEventListener("click", () => setGuide(!isOn()));
+  window.addEventListener("keydown", (e) => {
+    if (e.key !== "g" || e.metaKey || e.ctrlKey || e.altKey) return;
+    if (
+      e.target instanceof Element &&
+      e.target.closest("input, textarea, [contenteditable]")
+    )
+      return;
+    setGuide(!isOn());
+  });
+</script>

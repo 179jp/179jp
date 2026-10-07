@@ -1,0 +1,114 @@
+---
+// 紙面の外枠。題字欄・枠・グリッド・ガイドを用意し、記事は slot に並べる
+import Masthead from "./Masthead.astro";
+import Guide from "./Guide.astro";
+import GuideToggle from "./GuideToggle.astro";
+import type { MastheadData } from "./types";
+
+interface Props {
+  masthead: MastheadData;
+  /** 下書きの号なら、画面の隅に DRAFT と出す（開発サーバーでだけ見える） */
+  draft?: boolean;
+}
+
+const { masthead, draft = false } = Astro.props;
+---
+
+<div class="paper">
+  <Masthead {...masthead} />
+  <GuideToggle />
+  {draft && <p class="draft">DRAFT</p>}
+  <div class="frame" data-np-frame>
+    <div class="grid">
+      <Guide />
+      <slot />
+    </div>
+  </div>
+</div>
+
+{
+  import.meta.env.DEV && (
+    <script is:inline>
+      // 開発中だけ：本文が枠に入りきらない記事に赤枠を付ける
+      const markOverflow = () =>
+        document.querySelectorAll("[data-np-body]").forEach((el) => {
+          const over =
+            el.scrollWidth > el.clientWidth + 1 ||
+            el.scrollHeight > el.clientHeight + 1;
+          el.style.outline = over ? "2px solid #e14d17" : "";
+          el.title = over ? "本文が入りきっていません" : "";
+        });
+      addEventListener("load", markOverflow);
+      addEventListener("resize", markOverflow);
+    </script>
+  )
+}
+
+<style>
+  .paper {
+    font-size: var(--np-base-font-size);
+    width: 100%;
+    padding: 1em 0;
+    background-color: var(--np-color-paper);
+    color: var(--np-color-ink);
+  }
+
+  .draft {
+    position: fixed;
+    right: 1rem;
+    bottom: 3.5rem;
+    z-index: 10;
+    margin: 0;
+    padding: 0.5em 1em;
+    font-size: var(--np-fs-meta);
+    letter-spacing: var(--np-ls-l);
+    color: var(--np-color-paper);
+    background-color: var(--np-color-guide-number);
+  }
+
+  .frame {
+    position: relative;
+    width: calc(100% - 4em);
+    margin: 0 auto;
+    padding: 1em;
+    border-block: var(--np-rule);
+    /* hidden だと縦にスクロールバーが出て、ガイドの行番号ではみ出したときに紙面がずれる */
+    overflow-x: clip;
+    /* 左右の縦罫 */
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: var(--np-rule-width);
+      height: 100%;
+      background-color: var(--np-color-rule);
+    }
+    &::before {
+      left: 0;
+    }
+    &::after {
+      right: 0;
+    }
+  }
+
+  .grid {
+    position: relative;
+    font-size: var(--np-font-size);
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1em;
+    grid-template-rows: repeat(var(--np-tiers), var(--np-tier-height));
+    gap: var(--np-tier-gap) var(--np-line-gap);
+    /* 行の上下に付く half-leading 分、両端を空けて本文の行位置に合わせる */
+    padding-inline: var(--np-half-leading);
+    /* 右から列を並べる */
+    direction: rtl;
+  }
+
+  /* 縦組みで置く部品の共通設定 */
+  .grid :global(.np-cell) {
+    direction: ltr;
+    writing-mode: vertical-rl;
+  }
+</style>

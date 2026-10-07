@@ -1,0 +1,27 @@
+---
+import { getCollection, render } from "astro:content";
+
+import Layout from "../layouts/NewsPapper.astro";
+
+import Contenna from "../components/gridStudy/Contenna.astro";
+import Issue from "../components/newsPapperBlog/Issue.astro";
+import { getLatestIssue } from "../components/newsPapperBlog/issues";
+
+// 最新号（date がいちばん新しい号）を出す
+const issue = await getLatestIssue();
+---
+
+<Layout isTop={true} title="179.jp">
+  <h1 class="np179_title f-w-regular">NEWS PAPPER STUDY</h1>
+  <main class="grid_study_wrapper">
+    <Issue issue={issue.data} />
+  </main>
+</Layout>
+
+<style>
+  .grid_study_wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 100px;
+  }
+</style>

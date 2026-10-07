@@ -1,0 +1,56 @@
+---
+// 組版用のガイド。グリッドに重ねて、行と段の位置を見せる
+import { PAPER } from "./config";
+---
+
+<div class="guide" aria-hidden="true">
+  {
+    Array.from({ length: PAPER.lines }, (_, i) => (
+      <div class="line">
+        <span>{i + 1}</span>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .guide {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1em;
+    gap: var(--np-line-gap);
+    padding-inline: var(--np-half-leading);
+    direction: rtl;
+  }
+  :global([data-guide="off"]) .guide {
+    display: none;
+  }
+  .line {
+    position: relative;
+    background-color: var(--np-color-guide);
+    /* 段のあいだを少し濃くして、段の区切りも見えるようにする */
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0 var(--np-tier-height),
+      var(--np-color-guide-strong) var(--np-tier-height)
+        calc(var(--np-tier-height) + var(--np-tier-gap))
+    );
+  }
+  /* 行番号は欄外（グリッドの下）に出す */
+  span {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    translate: -50% 0;
+    padding-top: 0.5em;
+    writing-mode: vertical-rl;
+    text-combine-upright: digits 2;
+    font-size: 0.8em;
+    line-height: 1;
+    color: var(--np-color-guide-number);
+  }
+</style>

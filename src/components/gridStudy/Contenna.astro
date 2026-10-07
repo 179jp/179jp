@@ -1,0 +1,96 @@
+---
+
+---
+
+<div class="w">
+  <div class="inner grid-line">
+    <div class="item grid-line">
+      <div class="box"></div>
+      <div class="box grid-line only-left"></div>
+    </div>
+  </div>
+  <div class="inner-2 grid-line">
+    <div class="item grid-line">
+      <div class="box grid-line"></div>
+    </div>
+  </div>
+  <div class="inner-3 grid-line">
+    <div class="item grid-line">
+      <div class="box grid-line only-right"></div>
+      <div class="box grid-line"></div>
+      <div class="box grid-line only-left"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .w {
+    background-color: #000;
+    width: 100%;
+    height: 180vh;
+  }
+  .grid-line {
+    position: relative;
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 1px;
+      height: 100%;
+      background-color: #282828;
+    }
+    &::before {
+      left: 0;
+    }
+    &::after {
+      right: 0;
+    }
+  }
+  .grid-line.only-left {
+    &::after {
+      display: none;
+    }
+  }
+  .grid-line.only-right {
+    &::before {
+      display: none;
+    }
+  }
+  .inner,
+  .inner-2,
+  .inner-3 {
+    width: calc(100% - 60px);
+    max-width: 1400px;
+    height: 60vh;
+    margin: 0 auto;
+    border-top: 1px solid #282828;
+  }
+
+  .item {
+    width: calc(100% - 40px);
+    max-width: 1112px;
+    height: 100%;
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+  }
+
+  .inner-2 .item {
+    display: block;
+  }
+  .inner-2 .box {
+    max-width: 795px;
+    margin-inline: auto;
+    height: 100%;
+  }
+
+  .inner-3 .item {
+    grid-template-columns: repeat(3, 29%);
+    justify-content: space-between;
+  }
+  .inner-3 .box {
+    height: 100%;
+  }
+</style>

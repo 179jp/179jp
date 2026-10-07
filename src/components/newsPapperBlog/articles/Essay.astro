@@ -1,0 +1,35 @@
+---
+// 囲み見出しのエッセイ（天声AI語）。見出し（2 列）＋本文＋クレジット
+import Head from "../parts/Head.astro";
+import Body from "../parts/Body.astro";
+import Text from "../parts/Text.astro";
+import type { Area, EssayData } from "../types";
+
+interface Props {
+  area: Area;
+  story: EssayData;
+}
+
+const HEAD_COLS = 2;
+
+const { area, story } = Astro.props;
+const [start, end] = area.col;
+const bodyStart = start + HEAD_COLS;
+---
+
+<Head
+  area={{ col: [start, bodyStart], row: area.row }}
+  title={story.title}
+  variant="boxed"
+/>
+<Body area={{ col: [bodyStart, end], row: area.row }} paragraphs={story.body}>
+  <p class="credit"><Text text={story.credit} /></p>
+</Body>
+
+<style>
+  .credit {
+    margin: 0;
+    text-align: end;
+    font-size: var(--np-fs-s);
+  }
+</style>

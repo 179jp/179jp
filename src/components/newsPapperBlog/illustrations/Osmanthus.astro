@@ -1,0 +1,77 @@
+---
+// 金木犀の枝のイラスト
+interface Props {
+  label: string;
+}
+
+const { label } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 120 186"
+  preserveAspectRatio="xMidYMid slice"
+  role="img"
+  aria-label={label}
+>
+  <defs>
+    <pattern
+      id="np-c-dot-s"
+      width="5"
+      height="5"
+      patternUnits="userSpaceOnUse"
+    >
+      <circle cx="2.5" cy="2.5" r="0.9" fill="currentColor"></circle>
+    </pattern>
+    <pattern
+      id="np-c-dot-l"
+      width="4"
+      height="4"
+      patternUnits="userSpaceOnUse"
+    >
+      <circle cx="2" cy="2" r="1.4" fill="currentColor"></circle>
+    </pattern>
+  </defs>
+  <rect width="120" height="186" class="bg"></rect>
+  <rect width="120" height="186" fill="url(#np-c-dot-s)"></rect>
+  <g
+    stroke="currentColor"
+    stroke-width="2.5"
+    stroke-linecap="round"
+    fill="none"
+  >
+    <path d="M120,20 C90,50 70,90 20,170"></path>
+    <path d="M88,58 C70,52 50,56 34,48"></path>
+    <path d="M62,110 C80,112 96,124 104,140"></path>
+  </g>
+  <g stroke="currentColor" stroke-width="1.2" class="bg">
+    <circle cx="40" cy="46" r="5"></circle><circle cx="50" cy="56" r="5"
+    ></circle><circle cx="34" cy="58" r="4.5"></circle>
+    <circle cx="44" cy="66" r="4"></circle><circle cx="76" cy="66" r="5"
+    ></circle><circle cx="68" cy="78" r="4.5"></circle>
+    <circle cx="96" cy="128" r="5"></circle><circle
+      cx="86"
+      cy="118"
+      r="4.5"></circle><circle cx="104" cy="142" r="4.5"></circle>
+    <circle cx="90" cy="136" r="4"></circle><circle
+      cx="50"
+      cy="128"
+      r="5"></circle><circle cx="40" cy="140" r="4.5"></circle>
+  </g>
+  <g fill="url(#np-c-dot-l)" stroke="currentColor" stroke-width="1.2">
+    <path d="M100,54 q12,-8 8,10 q-12,6 -8,-10z"></path>
+    <path d="M58,96 q-14,-4 -6,12 q12,2 6,-12z"></path>
+    <path d="M74,150 q10,-10 12,6 q-10,8 -12,-6z"></path>
+  </g>
+</svg>
+
+<style>
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: var(--np-color-ink);
+  }
+  .bg {
+    fill: var(--np-color-photo);
+  }
+</style>

@@ -1,0 +1,52 @@
+---
+// 題字欄。紙面と同じ行のグリッドに載せて位置をそろえる
+import type { MastheadData } from "./types";
+
+type Props = MastheadData;
+
+const { number, date, title, note, frequency } = Astro.props;
+---
+
+<header class="masthead">
+  <p class="number">{number}</p>
+  <p class="date">{date}</p>
+  <p class="title">{title}</p>
+  <p class="note">{note}</p>
+  <p class="frequency">{frequency}</p>
+</header>
+
+<style>
+  .masthead {
+    width: calc(100% - 4em);
+    margin-inline: auto;
+    font-size: var(--np-font-size);
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1em;
+    align-items: end;
+    gap: var(--np-tier-gap) var(--np-line-gap);
+    padding-inline: 1em;
+    p {
+      grid-row: 1;
+      font-size: var(--np-fs-meta);
+    }
+  }
+  .number {
+    grid-column: 1 / 6;
+  }
+  .date {
+    grid-column: 9 / 20;
+  }
+  .title {
+    grid-column: 20 / 38;
+    text-align: center;
+  }
+  .masthead .note {
+    grid-column: 38 / 52;
+    font-size: var(--np-fs-micro);
+  }
+  .frequency {
+    grid-column: 52 / 56;
+    text-align: right;
+  }
+</style>

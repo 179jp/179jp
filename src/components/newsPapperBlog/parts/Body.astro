@@ -1,0 +1,51 @@
+---
+// 本文。Area の段数ぶん段組みし、1 列 = 1 行、1 段 = 12 字で流す
+import Text from "./Text.astro";
+import type { Area, RichText } from "../types";
+import { place, tiersOf } from "../utils";
+
+interface Props {
+  area: Area;
+  paragraphs: RichText[];
+}
+
+const { area, paragraphs } = Astro.props;
+---
+
+<div
+  class="np-cell body"
+  style={`${place(area)} --tiers: ${tiersOf(area)};`}
+  data-np-body
+>
+  {
+    paragraphs.map((p) => (
+      <p>
+        <Text text={p} />
+      </p>
+    ))
+  }
+  <slot />
+</div>
+
+<style>
+  .body {
+    line-height: var(--np-lh);
+    text-align: justify;
+    /* 行の half-leading 分だけ左右へはみ出させ、行の中心をグリッド列にそろえる。
+       行の終わり側（左）にはゆとりを足して、最後の 1 行が次の段へ落ちないようにする */
+    margin-left: calc(var(--np-half-leading) * -1 - var(--np-line-slack));
+    margin-right: calc(var(--np-half-leading) * -1);
+    column-count: var(--tiers);
+    column-gap: var(--np-tier-gap);
+    column-fill: auto;
+    /* 新聞なので、段の終わり・始まりに 1 行だけ残っても詰める（既定の 2 だと段の最後が 1 行空く） */
+    orphans: 1;
+    widows: 1;
+    /* 入りきらない分は隠す（隠さないと下の段の記事に重なる）。開発中は Paper で赤枠を付けて知らせる */
+    overflow: clip;
+    p {
+      margin: 0;
+      text-indent: 1em;
+    }
+  }
+</style>

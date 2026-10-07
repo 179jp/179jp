@@ -1,0 +1,30 @@
+---
+// news-papper-blog のページ（トップ・号ごと）共通のレイアウト
+// 背景を紙面の色で上から下までそろえ、紙面を天地中央に置く
+import Layout from "./NewsPapper.astro";
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<Layout title={title}>
+  <main class="main">
+    <slot />
+  </main>
+</Layout>
+
+<style>
+  /* このレイアウトを使うページだけに読み込まれる */
+  :global(body) {
+    background-color: var(--np-color-paper);
+  }
+  .main {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+</style>

@@ -1,0 +1,31 @@
+---
+// トップ記事。右から 大見出し（3 列）・副見出し（3 列、なければ置かない）・本文（残り）
+import Lead from "../parts/Lead.astro";
+import Body from "../parts/Body.astro";
+import type { Area, TopStoryData } from "../types";
+
+interface Props {
+  area: Area;
+  story: TopStoryData;
+}
+
+const LEAD_COLS = 3;
+const SUB_COLS = 3;
+
+const { area, story } = Astro.props;
+const [start, end] = area.col;
+const subStart = start + LEAD_COLS;
+const bodyStart = subStart + (story.sub ? SUB_COLS : 0);
+---
+
+<Lead area={{ col: [start, subStart], row: area.row }} text={story.lead} />
+{
+  story.sub && (
+    <Lead
+      area={{ col: [subStart, bodyStart], row: area.row }}
+      text={story.sub}
+      size="sub"
+    />
+  )
+}
+<Body area={{ col: [bodyStart, end], row: area.row }} paragraphs={story.body} />

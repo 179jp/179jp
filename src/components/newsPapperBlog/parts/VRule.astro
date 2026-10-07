@@ -1,0 +1,25 @@
+---
+// 記事のあいだの縦罫。1 列ぶんの真ん中に引く
+import type { Area } from "../types";
+import { place } from "../utils";
+
+interface Props {
+  area: Area;
+}
+
+const { area } = Astro.props;
+---
+
+<div class="vrule" style={place(area)}></div>
+
+<style>
+  .vrule {
+    display: flex;
+    justify-content: center;
+    &::before {
+      content: "";
+      width: var(--np-rule-width);
+      background-color: var(--np-color-rule);
+    }
+  }
+</style>

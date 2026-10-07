@@ -1,0 +1,22 @@
+---
+// 新聞ブログ 1 号分のページ。src/content/news-papper-blog/<id>.yaml → /news-papper-blog/<id>
+import type { CollectionEntry } from "astro:content";
+import Layout from "../../layouts/NewsPapperBlog.astro";
+import Issue from "../../components/newsPapperBlog/Issue.astro";
+import { getIssues } from "../../components/newsPapperBlog/issues";
+
+export async function getStaticPaths() {
+  const issues = await getIssues();
+  return issues.map((issue) => ({
+    params: { id: issue.id },
+    props: issue,
+  }));
+}
+type Props = CollectionEntry<"newsPapperBlog">;
+
+const issue = Astro.props;
+---
+
+<Layout title={`${issue.data.top.lead} | 179.jp`}>
+  <Issue issue={issue.data} />
+</Layout>
