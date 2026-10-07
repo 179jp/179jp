@@ -1,0 +1,111 @@
+---
+// 紙面の下。左に「← 前の日」、右に「次の日 →」（その号があるときだけ）、中央に RSS
+import type { IssueLink } from "./issues";
+
+interface Props {
+  prev?: IssueLink;
+  next?: IssueLink;
+}
+
+const { prev, next } = Astro.props;
+const md = (date: Date) => `${date.getUTCMonth() + 1}/${date.getUTCDate()}`;
+---
+
+<footer class="footer">
+  <nav class="pager" aria-label="前後の号">
+    {
+      prev && (
+        <a class="link prev" href={prev.href} rel="prev">
+          <span class="arrow" aria-hidden="true" />
+          <span class="label">前の日（{md(prev.date)}）</span>
+        </a>
+      )
+    }
+    {
+      next && (
+        <a class="link next" href={next.href} rel="next">
+          <span class="label">次の日（{md(next.date)}）</span>
+          <span class="arrow" aria-hidden="true" />
+        </a>
+      )
+    }
+  </nav>
+  <a class="link rss" href="/rss.xml"><span class="label">RSS</span></a>
+</footer>
+
+<style>
+  .footer {
+    /* 枠（.frame）と同じ幅。文字サイズが違うので em ではなく基準サイズで計算する */
+    width: calc(100% - 4 * var(--np-base-font-size));
+    margin: 0 auto;
+    padding-top: 0.4em;
+    /* 矢印の長さを紙面の行（グリッド）に合わせるため、紙面と同じ文字サイズにする */
+    font-size: var(--np-font-size);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+  }
+  /* nav の中身を、footer のグリッドの左右の列に直接並べる */
+  .pager {
+    display: contents;
+  }
+  /* リンクは紙面の文字サイズのまま（矢印の長さの基準）。文字だけ小さくする */
+  .link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    color: inherit;
+    text-decoration: none;
+    &:hover .label {
+      text-decoration: underline;
+      text-decoration-color: var(--np-color-link-underline);
+      text-underline-offset: 0.3em;
+    }
+  }
+  .label {
+    font-size: var(--np-fs-micro);
+    letter-spacing: var(--np-ls-m);
+  }
+  .prev {
+    grid-column: 1;
+    justify-self: start;
+  }
+  .rss {
+    grid-column: 2;
+    .label {
+      letter-spacing: var(--np-ls-l);
+    }
+  }
+  .next {
+    grid-column: 3;
+    justify-self: end;
+  }
+
+  /* 棒の長い矢印。棒は 2 行（グリッド 2 つ）ぶん */
+  .arrow {
+    position: relative;
+    width: calc(var(--np-lh) * 2em);
+    height: var(--np-rule-width);
+    background-color: currentColor;
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 0.45em;
+      height: 0.45em;
+      border-top: var(--np-rule-width) solid currentColor;
+    }
+  }
+  .prev .arrow::before {
+    left: 0;
+    border-left: var(--np-rule-width) solid currentColor;
+    transform: translateY(-50%) translateX(0.08em) rotate(-45deg);
+    transform-origin: center;
+  }
+  .next .arrow::before {
+    right: 0;
+    border-right: var(--np-rule-width) solid currentColor;
+    transform: translateY(-50%) translateX(-0.08em) rotate(45deg);
+    transform-origin: center;
+  }
+</style>

@@ -16,16 +16,20 @@ import SerialColumn from "./articles/SerialColumn.astro";
 import Essay from "./articles/Essay.astro";
 import Article from "./articles/Article.astro";
 import type { IssueData } from "./types";
+import type { IssueLink } from "./issues";
 
 interface Props {
   issue: IssueData;
+  /** 前の日・次の日の号 */
+  prev?: IssueLink;
+  next?: IssueLink;
 }
 
-const { issue } = Astro.props;
+const { issue, prev, next } = Astro.props;
 const [first, second] = issue.articles;
 ---
 
-<Paper masthead={issue.masthead} draft={issue.draft}>
+<Paper masthead={issue.masthead} draft={issue.draft} prev={prev} next={next}>
   <!-- 1〜3 段目 -->
   <Logo area={{ col: [1, 5], row: [1, 4] }} brand={issue.brand}>
     <DayInfo

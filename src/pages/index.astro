@@ -2,11 +2,12 @@
 // トップページ。news-papper-blog の最新号（date がいちばん新しい号）を出す
 import Layout from "../layouts/NewsPapperBlog.astro";
 import Issue from "../components/newsPapperBlog/Issue.astro";
-import { getLatestIssue } from "../components/newsPapperBlog/issues";
+import { getLatestIssue, getNeighbors } from "../components/newsPapperBlog/issues";
 
 const latest = await getLatestIssue();
+const { prev, next } = await getNeighbors(latest.id);
 ---
 
 <Layout title="179.jp">
-  <Issue issue={latest.data} />
+  <Issue issue={latest.data} prev={prev} next={next} />
 </Layout>

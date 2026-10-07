@@ -3,7 +3,7 @@
 import type { CollectionEntry } from "astro:content";
 import Layout from "../../layouts/NewsPapperBlog.astro";
 import Issue from "../../components/newsPapperBlog/Issue.astro";
-import { getIssues } from "../../components/newsPapperBlog/issues";
+import { getIssues, getNeighbors } from "../../components/newsPapperBlog/issues";
 
 export async function getStaticPaths() {
   const issues = await getIssues();
@@ -15,8 +15,9 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<"newsPapperBlog">;
 
 const issue = Astro.props;
+const { prev, next } = await getNeighbors(issue.id);
 ---
 
 <Layout title={`${issue.data.top.lead} | 179.jp`}>
-  <Issue issue={issue.data} />
+  <Issue issue={issue.data} prev={prev} next={next} />
 </Layout>

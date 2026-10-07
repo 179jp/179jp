@@ -15,3 +15,26 @@ export const getLatestIssue = async () => {
   if (!latest) throw new Error("src/content/news-papper-blog に公開できる号がありません");
   return latest;
 };
+
+/** 前後の号へのリンク。prev = 前の日（古い号）、next = 次の日（新しい号） */
+export interface IssueLink {
+  href: string;
+  date: Date;
+}
+
+const linkOf = (entry: { id: string; data: { date: Date } }): IssueLink => ({
+  href: `/news-papper-blog/${entry.id}`,
+  date: entry.data.date,
+});
+
+/** id の号の、前の日・次の日の号（なければ undefined） */
+export const getNeighbors = async (id: string) => {
+  const issues = await getIssues(); // 新しい順
+  const i = issues.findIndex((issue) => issue.id === id);
+  const older = i >= 0 ? issues[i + 1] : undefined;
+  const newer = i > 0 ? issues[i - 1] : undefined;
+  return {
+    prev: older && linkOf(older),
+    next: newer && linkOf(newer),
+  };
+};

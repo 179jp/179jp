@@ -3,15 +3,20 @@
 import Masthead from "./Masthead.astro";
 import Guide from "./Guide.astro";
 import GuideToggle from "./GuideToggle.astro";
+import Footer from "./Footer.astro";
+import type { IssueLink } from "./issues";
 import type { MastheadData } from "./types";
 
 interface Props {
   masthead: MastheadData;
   /** 下書きの号なら、画面の隅に DRAFT と出す（開発サーバーでだけ見える） */
   draft?: boolean;
+  /** 前の日・次の日の号 */
+  prev?: IssueLink;
+  next?: IssueLink;
 }
 
-const { masthead, draft = false } = Astro.props;
+const { masthead, draft = false, prev, next } = Astro.props;
 ---
 
 <div class="paper">
@@ -24,6 +29,7 @@ const { masthead, draft = false } = Astro.props;
       <slot />
     </div>
   </div>
+  <Footer prev={prev} next={next} />
 </div>
 
 {
