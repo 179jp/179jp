@@ -8,11 +8,13 @@ import type { Area, EssayData } from "../types";
 interface Props {
   area: Area;
   story: EssayData;
+  /** クレジットを本文の最後に出すか。別の場所に置くときは false */
+  showCredit?: boolean;
 }
 
 const HEAD_COLS = 2;
 
-const { area, story } = Astro.props;
+const { area, story, showCredit = true } = Astro.props;
 const [start, end] = area.col;
 const bodyStart = start + HEAD_COLS;
 ---
@@ -23,7 +25,7 @@ const bodyStart = start + HEAD_COLS;
   variant="boxed"
 />
 <Body area={{ col: [bodyStart, end], row: area.row }} paragraphs={story.body}>
-  <p class="credit"><Text text={story.credit} /></p>
+  {showCredit && <p class="credit"><Text text={story.credit} /></p>}
 </Body>
 
 <style>

@@ -7,14 +7,19 @@ import { place } from "../utils";
 interface Props {
   area: Area;
   photo: PhotoData;
+  /** 右（見出し側）へ広げる量。例 "0.8em"。見出しとの間を詰めたいときに使う */
+  extendRight?: string;
 }
 
-const { area, photo } = Astro.props;
+const { area, photo, extendRight } = Astro.props;
 const Illustration =
   "illustration" in photo ? illustrations[photo.illustration] : null;
 ---
 
-<figure class="photo" style={place(area)}>
+<figure
+  class="photo"
+  style={place(area) + (extendRight ? ` margin-right: calc(${extendRight} * -1);` : "")}
+>
   {
     Illustration ? (
       <Illustration label={photo.alt} />

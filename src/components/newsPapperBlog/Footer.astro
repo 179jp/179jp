@@ -30,7 +30,7 @@ const md = (date: Date) => `${date.getUTCMonth() + 1}/${date.getUTCDate()}`;
       )
     }
   </nav>
-  <a class="link rss" href="/rss.xml"><span class="label">RSS</span></a>
+  <a class="link rss" href="/rss.xml"><span class="label">RSS FEED</span></a>
 </footer>
 
 <style>
@@ -91,21 +91,22 @@ const md = (date: Date) => `${date.getUTCMonth() + 1}/${date.getUTCDate()}`;
       content: "";
       position: absolute;
       top: 50%;
-      width: 0.45em;
-      height: 0.45em;
+      /* 矢じり（< >）の長さ */
+      width: 0.3em;
+      height: 0.3em;
       border-top: var(--np-rule-width) solid currentColor;
     }
   }
   .prev .arrow::before {
     left: 0;
     border-left: var(--np-rule-width) solid currentColor;
-    transform: translateY(-50%) translateX(0.08em) rotate(-45deg);
+    transform: translateY(-50%) translateX(0.05em) rotate(-45deg);
     transform-origin: center;
   }
   .next .arrow::before {
     right: 0;
     border-right: var(--np-rule-width) solid currentColor;
-    transform: translateY(-50%) translateX(-0.08em) rotate(45deg);
+    transform: translateY(-50%) translateX(-0.05em) rotate(45deg);
     transform-origin: center;
   }
 </style>

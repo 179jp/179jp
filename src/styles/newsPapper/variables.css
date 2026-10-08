@@ -44,8 +44,9 @@
   --np-fs-l: 1.4em; /* 記事見出し */
   --np-fs-xl: 1.5em; /* 帯見出し */
   --np-fs-2xl: 1.6em; /* 記事見出し（大） */
-  --np-fs-3xl: 1.75em; /* 写真記事見出し */
   --np-fs-4xl: 2em; /* トップ見出し */
+  /* 写真記事の見出し。写真との間の計算（PhotoStory）にも使う */
+  --np-fs-photo-head: var(--np-fs-m);
   /* 紙面サイズに連動しない固定サイズ（題字まわり） */
   --np-fs-meta: 11px;
   --np-fs-micro: 9px;

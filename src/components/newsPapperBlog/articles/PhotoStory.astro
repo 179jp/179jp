@@ -24,6 +24,13 @@ const photoStart =
 const captionStart = end - CAPTION_COLS;
 const photoRow = [area.row[0], area.row[0] + photoTiers] as const;
 const bodyRow = [photoRow[1], area.row[1]] as const;
+
+// sub がないとき、見出しの 2 列（2em ＋ 行間）と写真との行間に対して、タイトルは 1 行ぶんの幅しかない。
+// 写真を見出し側へ広げて、タイトルとの間を 0.4em に詰める
+const TITLE_GAP = "0.4em";
+const extendRight = story.sub
+  ? undefined
+  : `(2em + 2 * var(--np-line-gap) - var(--np-fs-photo-head) - ${TITLE_GAP})`;
 ---
 
 <Head
@@ -32,6 +39,10 @@ const bodyRow = [photoRow[1], area.row[1]] as const;
   sub={story.sub}
   variant="photo"
 />
-<Photo area={{ col: [photoStart, captionStart], row: photoRow }} photo={story.photo} />
+<Photo
+  area={{ col: [photoStart, captionStart], row: photoRow }}
+  photo={story.photo}
+  extendRight={extendRight}
+/>
 <Caption area={{ col: [captionStart, end], row: photoRow }} text={story.caption} />
 <Body area={{ col: area.col, row: bodyRow }} paragraphs={story.body} />
