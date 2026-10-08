@@ -10,6 +10,11 @@ const {
   image = "/blog-placeholder-1.jpg",
   webFontType,
 } = Astro.props;
+
+let kitId = "eud6zbz";
+if (webFontType === "newsPapperBlog") {
+  kitId = "tgd2ojl";
+}
 ---
 
 <!-- Global Metadata -->
@@ -55,7 +60,12 @@ const {
 </script>
 
 <!-- RSS -->
-<link rel="alternate" type="application/rss+xml" title="179.jp" href="/rss.xml" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title="179.jp"
+  href="/rss.xml"
+/>
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />

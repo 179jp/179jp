@@ -15,3 +15,21 @@
   font-weight: 200;
   font-style: normal;
 }
+
+.f-regular {
+  font-family: kozuka-mincho-pr6n, serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.f-bold {
+  font-family: kozuka-mincho-pr6n, serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.paper {
+  font-family: kozuka-mincho-pr6n, serif;
+  font-weight: 400;
+  font-style: normal;
+}

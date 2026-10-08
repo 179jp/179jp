@@ -13,14 +13,13 @@ interface Props {
 const { area, text, size = "main" } = Astro.props;
 ---
 
-<p class:list={["np-cell", "lead", size]} style={place(area)}>
+<p class:list={["np-cell", "lead", "f-bold", size]} style={place(area)}>
   <Text text={text} />
 </p>
 
 <style>
   .lead {
     margin: 0;
-    font-weight: bold;
     text-align: left;
   }
   .main {

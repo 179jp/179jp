@@ -28,9 +28,15 @@ const {
 ---
 
 <div class:list={["np-cell", "head", variant, `size-${size}`]} style={place(area)}>
-  {kicker && <span class="kicker"><Text text={kicker} /></span>}
-  <h3><Text text={title} /></h3>
-  {sub && <p class="sub"><Text text={sub} /></p>}
+  {
+    kicker && (
+      <span class:list={["kicker", { "f-bold": variant === "default" }]}>
+        <Text text={kicker} />
+      </span>
+    )
+  }
+  <h3 class:list={{ "f-bold": variant !== "boxed" }}><Text text={title} /></h3>
+  {sub && <p class="sub f-bold"><Text text={sub} /></p>}
 </div>
 
 <style>
@@ -41,14 +47,12 @@ const {
     h3 {
       margin: 0;
       font-size: var(--np-fs-l);
-      font-weight: bold;
       line-height: 1;
     }
   }
   .sub {
     margin: 0;
     font-size: var(--np-fs-s);
-    font-weight: bold;
   }
   .kicker {
     font-size: var(--np-fs-xs);
@@ -60,7 +64,6 @@ const {
     .kicker {
       align-self: flex-start;
       padding: 0.3em 0.15em;
-      font-weight: bold;
       border: 1px solid var(--np-color-ink);
     }
     &.size-l h3 {

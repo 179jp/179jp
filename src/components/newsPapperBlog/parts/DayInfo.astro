@@ -22,7 +22,7 @@ const hasActivity =
 <div class="day">
   <section class="block date" aria-label="日付">
     <p class="year">{year}</p>
-    <p class="month-day">
+    <p class="month-day f-bold">
       <span class="num">{month}</span>月<span class="num">{day}</span>日
     </p>
     <p class="weekday">{weekday}</p>
@@ -48,7 +48,7 @@ const hasActivity =
         </p>
         {hasTemp && (
           <p class="temp">
-            <span class="high" aria-label="最高気温">{weather.high ?? "-"}°</span>
+            <span class="high f-bold" aria-label="最高気温">{weather.high ?? "-"}°</span>
             <span class="sep" aria-hidden="true">/</span>
             <span class="low" aria-label="最低気温">{weather.low ?? "-"}°</span>
           </p>
@@ -63,13 +63,13 @@ const hasActivity =
         {activity?.steps !== undefined && (
           <div>
             <dt>歩数</dt>
-            <dd>{activity.steps.toLocaleString("ja-JP")}<small>歩</small></dd>
+            <dd class="f-bold">{activity.steps.toLocaleString("ja-JP")}<small>歩</small></dd>
           </div>
         )}
         {activity?.run !== undefined && (
           <div>
             <dt>ラン</dt>
-            <dd>{activity.run}<small>km</small></dd>
+            <dd class="f-bold">{activity.run}<small>km</small></dd>
           </div>
         )}
       </dl>
@@ -102,7 +102,6 @@ const hasActivity =
   }
   .month-day {
     font-size: var(--np-fs-xs);
-    font-weight: bold;
     line-height: 1;
   }
   .num {
@@ -161,9 +160,6 @@ const hasActivity =
   .temp {
     font-size: var(--np-fs-2xs);
   }
-  .high {
-    font-weight: bold;
-  }
   .low {
     color: var(--np-color-ink-soft);
   }
@@ -184,7 +180,6 @@ const hasActivity =
     dd {
       margin: 0;
       font-size: var(--np-fs-s);
-      font-weight: bold;
     }
     small {
       margin-left: 0.1em;
