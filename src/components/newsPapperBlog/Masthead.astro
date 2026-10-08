@@ -6,7 +6,8 @@ type Props = MastheadData;
 
 const { number, date, title, note, frequency } = Astro.props;
 // 「2026年（令和8年）」の部分。モバイルでは省いて月日だけにする
-const [, year = "", monthDay = date] = date.match(/^(\d+年(?:（[^）]*）)?)(.*)$/) ?? [];
+const [, year = "", monthDay = date] =
+  date.match(/^(\d+年(?:（[^）]*）)?)(.*)$/) ?? [];
 ---
 
 <header class="masthead">
@@ -42,8 +43,8 @@ const [, year = "", monthDay = date] = date.match(/^(\d+年(?:（[^）]*）)?)(.
   .title {
     grid-column: 20 / 38;
     text-align: center;
-    scale: 1.4 0.9;
-    letter-spacing: 0.25em;
+    scale: 1.25 0.8;
+    letter-spacing: 0.3em;
   }
   .masthead .note {
     grid-column: 38 / 52;
