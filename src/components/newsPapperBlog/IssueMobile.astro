@@ -1,0 +1,157 @@
+---
+// モバイルの紙面。紙面（Issue）の記事を、読む順にブロックにして縦に積む
+//   1. 題字＋トップ記事 … 画面幅に収める（入りきらなければ段を増やす）
+//   2. 写真記事         … 画面幅。写真を 3 段ぶんの高さにして縦長に（2:3 くらい）。本文は写真の右端にそろえる
+//   3. 連載コラム（2 段）・記事 2（1 段）・記事 1（1 段）・天声AI語（1 段）
+//      … 段数は紙面と同じ。入りきらない分は列を増やして横スクロール
+//   記事 2 の写真・キャプションは、紙面と同じく天声AI語の後ろ（左）に置く
+import MobileBlock from "./MobileBlock.astro";
+import Logo from "./parts/Logo.astro";
+import DayInfo from "./parts/DayInfo.astro";
+import VRule from "./parts/VRule.astro";
+import Photo from "./parts/Photo.astro";
+import Caption from "./parts/Caption.astro";
+import TopStory from "./articles/TopStory.astro";
+import PhotoStory from "./articles/PhotoStory.astro";
+import SerialColumn from "./articles/SerialColumn.astro";
+import Essay from "./articles/Essay.astro";
+import Article from "./articles/Article.astro";
+import { PAPER } from "./config";
+import { blockSize, linesOf } from "./mobile";
+import type { ArticleData, IssueData } from "./types";
+
+interface Props {
+  issue: IssueData;
+}
+
+const { issue } = Astro.props;
+const [first, second] = issue.articles;
+
+// 列数は各記事コンポーネントの割り付けと合わせる
+const LOGO_COLS = 4;
+const RULE_COLS = 1;
+const LEAD_COLS = 3;
+const SERIAL_HEAD_COLS = 3;
+const ESSAY_HEAD_COLS = 2;
+const ESSAY_PHOTO_COLS = 6;
+const PHOTO_TIERS = 3;
+const SERIAL_TIERS = 2;
+const width = PAPER.mobileLines;
+
+// 題字＋トップ記事。題字欄（日付・天気など）が入るよう 3 段以上にする
+const topLeadCols = LEAD_COLS * (issue.top.sub ? 2 : 1);
+const top = blockSize({
+  lines: linesOf(issue.top.body),
+  fixed: LOGO_COLS + RULE_COLS + topLeadCols,
+  minTiers: 3,
+});
+
+// 写真記事。写真の下に本文を流す（見出しの列は空ける）
+const photoBodyTiers = blockSize({
+  lines: linesOf(issue.photoStory.body),
+  fixed: issue.photoStory.sub ? 3 : 2,
+}).tiers;
+const photoTiers = PHOTO_TIERS + photoBodyTiers;
+
+const serial = blockSize({
+  lines: linesOf(issue.serial.body),
+  fixed: SERIAL_HEAD_COLS,
+  minTiers: SERIAL_TIERS,
+  maxTiers: SERIAL_TIERS,
+});
+
+// 記事は 1 段。写真は天声AI語のブロックへ回す
+const articles = [second, first].map((story) => {
+  const text: ArticleData = { ...story, photo: undefined, caption: undefined };
+  const { cols } = blockSize({
+    lines: linesOf(story.body),
+    fixed: story.sub || story.kicker ? 3 : 2,
+    maxTiers: 1,
+  });
+  return { story: text, cols };
+});
+
+// 天声AI語（1 段）：見出し・本文・記事 2 の写真・キャプション・クレジット（各 1 列）
+const essayPhotoCols =
+  (second.photo ? ESSAY_PHOTO_COLS : 0) + (second.caption ? 1 : 0) + 1;
+const essay = blockSize({
+  lines: linesOf(issue.essay.body),
+  fixed: ESSAY_HEAD_COLS + essayPhotoCols,
+  maxTiers: 1,
+});
+const creditStart = essay.cols;
+const captionStart = second.caption ? creditStart - 1 : creditStart;
+const photoStart = second.photo
+  ? captionStart - ESSAY_PHOTO_COLS
+  : captionStart;
+
+const span = (cols: number, tiers: number) => ({
+  col: [1, cols + 1] as const,
+  row: [1, tiers + 1] as const,
+});
+const ROW1 = [1, 2] as const;
+---
+
+<MobileBlock cols={top.cols} tiers={top.tiers}>
+  <Logo area={{ col: [1, 5], row: [1, top.tiers + 1] }} brand={issue.brand}>
+    <DayInfo
+      date={issue.date}
+      weather={issue.weather}
+      activity={issue.activity}
+    />
+  </Logo>
+  <VRule area={{ col: [5, 6], row: [1, top.tiers + 1] }} />
+  <TopStory
+    area={{ col: [6, top.cols + 1], row: [1, top.tiers + 1] }}
+    story={issue.top}
+  />
+</MobileBlock>
+
+<MobileBlock cols={width} tiers={photoTiers}>
+  <PhotoStory
+    area={span(width, photoTiers)}
+    story={issue.photoStory}
+    photoTiers={PHOTO_TIERS}
+    alignBody
+  />
+</MobileBlock>
+
+<MobileBlock cols={serial.cols} tiers={SERIAL_TIERS}>
+  <SerialColumn area={span(serial.cols, SERIAL_TIERS)} story={issue.serial} />
+</MobileBlock>
+
+{
+  articles.map(({ story, cols }) => (
+    <MobileBlock cols={cols} tiers={1}>
+      <Article area={span(cols, 1)} story={story} />
+    </MobileBlock>
+  ))
+}
+
+<MobileBlock cols={essay.cols} tiers={1}>
+  <Essay
+    area={{ col: [1, photoStart], row: ROW1 }}
+    story={issue.essay}
+    showCredit={false}
+  />
+  {
+    second.photo && (
+      <Photo
+        area={{ col: [photoStart, captionStart], row: ROW1 }}
+        photo={second.photo}
+      />
+    )
+  }
+  {
+    second.caption && (
+      <Caption
+        area={{ col: [captionStart, creditStart], row: ROW1 }}
+        text={second.caption}
+      />
+    )
+  }
+  <Caption
+    area={{ col: [creditStart, essay.cols + 1], row: ROW1 }}
+    text={issue.essay.credit}
+  />
+</MobileBlock>

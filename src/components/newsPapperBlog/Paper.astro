@@ -1,7 +1,8 @@
 ---
-// 紙面の外枠。題字欄・枠・グリッド・ガイドを用意し、記事は slot に並べる
+// 紙面の外枠。題字欄・枠・グリッド・ガイドを用意し、記事は slot に並べる。
+// slot="mobile" があれば、モバイルではグリッドの代わりにそちらを出す
 import Masthead from "./Masthead.astro";
-import Guide from "./Guide.astro";
+import Grid from "./Grid.astro";
 import GuideToggle from "./GuideToggle.astro";
 import Footer from "./Footer.astro";
 import type { IssueLink } from "./issues";
@@ -17,18 +18,25 @@ interface Props {
 }
 
 const { masthead, draft = false, prev, next } = Astro.props;
+const hasMobile = Astro.slots.has("mobile");
 ---
 
-<div class="paper">
+<div class:list={["paper", { "has-mobile": hasMobile }]}>
   <Masthead {...masthead} />
   <GuideToggle />
   {draft && <p class="draft">DRAFT</p>}
   <div class="frame" data-np-frame>
-    <div class="grid">
-      <Guide />
+    <Grid>
       <slot />
-    </div>
+    </Grid>
   </div>
+  {
+    hasMobile && (
+      <div class="mobile">
+        <slot name="mobile" />
+      </div>
+    )
+  }
   <Footer prev={prev} next={next} />
 </div>
 
@@ -98,23 +106,30 @@ const { masthead, draft = false, prev, next } = Astro.props;
     }
   }
 
-  .grid {
-    position: relative;
-    font-size: var(--np-font-size);
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: 1em;
-    grid-template-rows: repeat(var(--np-tiers), var(--np-tier-height));
-    gap: var(--np-tier-gap) var(--np-line-gap);
-    /* 行の上下に付く half-leading 分、両端を空けて本文の行位置に合わせる */
-    padding-inline: var(--np-half-leading);
-    /* 右から列を並べる */
-    direction: rtl;
+  /* ---- モバイル ----
+     左右の余白・罫なしで画面幅いっぱい（最大 600px）に使い、--np-m-lines 行が収まる文字サイズにする。
+     題字欄・フッターも同じ幅にそろえ、文字の位置はブロックの内側の余白（--np-m-padding）に合わせる */
+  .mobile {
+    display: none;
   }
-
-  /* 縦組みで置く部品の共通設定 */
-  .grid :global(.np-cell) {
-    direction: ltr;
-    writing-mode: vertical-rl;
+  @media (max-width: 768px) {
+    .has-mobile {
+      --np-m-width: min(100cqw, 600px);
+      --np-m-padding: 8px;
+      /* ブロックの左右の余白と、本文が行末側へはみ出す分（数 px）を引いた幅 */
+      --np-font-size: calc(
+        (var(--np-m-width) - 2 * var(--np-m-padding) - 4px) /
+          (var(--np-m-lines) * var(--np-lh))
+      );
+    }
+    .has-mobile .frame {
+      display: none;
+    }
+    .has-mobile .mobile {
+      display: block;
+      width: var(--np-m-width);
+      margin: 0 auto;
+      border-block: var(--np-rule);
+    }
   }
 </style>

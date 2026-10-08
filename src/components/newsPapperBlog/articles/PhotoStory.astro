@@ -11,13 +11,15 @@ interface Props {
   story: PhotoStoryData;
   /** 写真に使う段数。残りの段が本文になる */
   photoTiers?: number;
+  /** 本文の右端を写真の右端にそろえる（見出しの下には本文を入れない） */
+  alignBody?: boolean;
 }
 
 // 見出しの列数。sub がなければ見出しだけの 2 列にして写真に回す
 const HEAD_COLS = { withSub: 3, titleOnly: 2 };
 const CAPTION_COLS = 1;
 
-const { area, story, photoTiers = 2 } = Astro.props;
+const { area, story, photoTiers = 2, alignBody = false } = Astro.props;
 const [start, end] = area.col;
 const photoStart =
   start + (story.sub ? HEAD_COLS.withSub : HEAD_COLS.titleOnly);
@@ -31,6 +33,13 @@ const TITLE_GAP = "0.4em";
 const extendRight = story.sub
   ? undefined
   : `(2em + 2 * var(--np-line-gap) - var(--np-fs-photo-head) - ${TITLE_GAP})`;
+
+// 本文を写真にそろえるとき。写真を見出し側へ広げた分（約 1 列）は、本文も 1 列右から始める
+const bodyStart = !alignBody
+  ? start
+  : extendRight
+    ? photoStart - 1
+    : photoStart;
 ---
 
 <Head
@@ -45,4 +54,4 @@ const extendRight = story.sub
   extendRight={extendRight}
 />
 <Caption area={{ col: [captionStart, end], row: photoRow }} text={story.caption} />
-<Body area={{ col: area.col, row: bodyRow }} paragraphs={story.body} />
+<Body area={{ col: [bodyStart, end], row: bodyRow }} paragraphs={story.body} />

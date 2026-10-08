@@ -9,6 +9,7 @@
 //   記事 2 の写真・キャプションは 4 段目の左端に残し、文章だけ 3 段目に置く。
 //   天声AI語のクレジットは本文ではなく、写真・キャプションの後ろ（左端の列）に置く
 import Paper from "./Paper.astro";
+import IssueMobile from "./IssueMobile.astro";
 import Logo from "./parts/Logo.astro";
 import DayInfo from "./parts/DayInfo.astro";
 import VRule from "./parts/VRule.astro";
@@ -91,4 +92,7 @@ const photoStart = second.photo ? captionStart - PHOTO_COLS : captionStart;
     area={{ col: [creditStart, BOTTOM_END], row: [4, 5] }}
     text={issue.essay.credit}
   />
+
+  <!-- モバイル -->
+  <IssueMobile slot="mobile" issue={issue} />
 </Paper>

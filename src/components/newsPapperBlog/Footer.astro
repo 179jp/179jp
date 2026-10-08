@@ -81,6 +81,13 @@ const md = (date: Date) => `${date.getUTCMonth() + 1}/${date.getUTCDate()}`;
     justify-self: end;
   }
 
+  @media (max-width: 768px) {
+    :global(.has-mobile) .footer {
+      width: var(--np-m-width);
+      padding-inline: var(--np-m-padding);
+    }
+  }
+
   /* 棒の長い矢印。棒は 2 行（グリッド 2 つ）ぶん */
   .arrow {
     position: relative;

@@ -1,0 +1,39 @@
+---
+// モバイルの 1 ブロック。cols 列 × tiers 段のグリッドに記事を並べる。
+// 画面幅に入りきらない分は横スクロール（右端から始まる）
+import Grid from "./Grid.astro";
+
+interface Props {
+  cols: number;
+  tiers: number;
+}
+
+const { cols, tiers } = Astro.props;
+---
+
+<section class="block" data-np-frame>
+  <Grid tiers={tiers} lines={cols}>
+    <slot />
+  </Grid>
+</section>
+
+<style>
+  .block {
+    padding: 1em var(--np-m-padding);
+    overflow-x: auto;
+    overflow-y: hidden;
+    /* 右端から見せる */
+    direction: rtl;
+  }
+  .block + .block {
+    border-top: var(--np-rule);
+  }
+  /* 列の幅ぶんだけの大きさにして、横スクロールの範囲とガイドを列に合わせる */
+  .block > :global(.grid) {
+    width: max-content;
+  }
+  /* 行番号は欄外に出るので、モバイルでは出さない */
+  .block :global(.guide span) {
+    display: none;
+  }
+</style>

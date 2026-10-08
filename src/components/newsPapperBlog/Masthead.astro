@@ -5,11 +5,13 @@ import type { MastheadData } from "./types";
 type Props = MastheadData;
 
 const { number, date, title, note, frequency } = Astro.props;
+// 「2026年（令和8年）」の部分。モバイルでは省いて月日だけにする
+const [, year = "", monthDay = date] = date.match(/^(\d+年(?:（[^）]*）)?)(.*)$/) ?? [];
 ---
 
 <header class="masthead">
   <p class="number">{number}</p>
-  <p class="date">{date}</p>
+  <p class="date"><span class="year">{year}</span>{monthDay}</p>
   <p class="title">{title}</p>
   <p class="note">{note}</p>
   <p class="frequency">{frequency}</p>
@@ -40,6 +42,8 @@ const { number, date, title, note, frequency } = Astro.props;
   .title {
     grid-column: 20 / 38;
     text-align: center;
+    scale: 1.4 0.9;
+    letter-spacing: 0.25em;
   }
   .masthead .note {
     grid-column: 38 / 52;
@@ -48,5 +52,26 @@ const { number, date, title, note, frequency } = Astro.props;
   .frequency {
     grid-column: 52 / 56;
     text-align: right;
+  }
+
+  /* モバイル（紙面にモバイル版があるとき）：日付・題字・注記の 3 つに絞り、紙面の幅にそろえる */
+  @media (max-width: 768px) {
+    :global(.has-mobile) .masthead {
+      width: var(--np-m-width);
+      padding-inline: var(--np-m-padding);
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0.5em;
+    }
+    :global(.has-mobile) .masthead p {
+      grid-column: auto;
+    }
+    :global(.has-mobile) .masthead .number,
+    :global(.has-mobile) .masthead .frequency,
+    :global(.has-mobile) .masthead .year {
+      display: none;
+    }
+    :global(.has-mobile) .masthead .note {
+      text-align: right;
+    }
   }
 </style>

@@ -1,0 +1,41 @@
+---
+// 紙面のグリッド（1 列 = 1 行、右から並べる）とガイド。記事は slot に並べる
+import Guide from "./Guide.astro";
+import { PAPER } from "./config";
+
+interface Props {
+  /** 段数 */
+  tiers?: number;
+  /** 行数（ガイドを引く列の数） */
+  lines?: number;
+}
+
+const { tiers = PAPER.tiers, lines = PAPER.lines } = Astro.props;
+---
+
+<div class="grid" style={`--grid-tiers: ${tiers};`}>
+  <Guide lines={lines} />
+  <slot />
+</div>
+
+<style>
+  .grid {
+    position: relative;
+    font-size: var(--np-font-size);
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1em;
+    grid-template-rows: repeat(var(--grid-tiers), var(--np-tier-height));
+    gap: var(--np-tier-gap) var(--np-line-gap);
+    /* 行の上下に付く half-leading 分、両端を空けて本文の行位置に合わせる */
+    padding-inline: var(--np-half-leading);
+    /* 右から列を並べる */
+    direction: rtl;
+  }
+
+  /* 縦組みで置く部品の共通設定 */
+  .grid :global(.np-cell) {
+    direction: ltr;
+    writing-mode: vertical-rl;
+  }
+</style>

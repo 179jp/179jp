@@ -1,11 +1,18 @@
 ---
 // 組版用のガイド。グリッドに重ねて、行と段の位置を見せる
 import { PAPER } from "./config";
+
+interface Props {
+  /** ガイドを引く行（列）の数 */
+  lines?: number;
+}
+
+const { lines = PAPER.lines } = Astro.props;
 ---
 
 <div class="guide" aria-hidden="true">
   {
-    Array.from({ length: PAPER.lines }, (_, i) => (
+    Array.from({ length: lines }, (_, i) => (
       <div class="line">
         <span>{i + 1}</span>
       </div>
