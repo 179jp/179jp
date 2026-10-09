@@ -16,7 +16,12 @@ const { year, month, day, weekday } = formatDate(date);
 const term = solarTermOf(date);
 const hasTemp = weather?.high !== undefined || weather?.low !== undefined;
 const hasActivity =
-  activity?.steps !== undefined || activity?.run !== undefined;
+  activity?.steps !== undefined ||
+  activity?.run !== undefined ||
+  activity?.memos !== undefined;
+// output は、メモの数からリンク（参照元）の付いたメモを引いた数
+const output =
+  activity?.memos !== undefined ? activity.memos - (activity.linkedMemos ?? 0) : undefined;
 ---
 
 <div class="day">
@@ -70,6 +75,18 @@ const hasActivity =
           <div>
             <dt>ラン</dt>
             <dd class="f-bold">{activity.run}<small>km</small></dd>
+          </div>
+        )}
+        {activity?.memos !== undefined && (
+          <div>
+            <dt>メモ</dt>
+            <dd class="f-bold">{activity.memos}<small>件</small></dd>
+          </div>
+        )}
+        {output !== undefined && (
+          <div class="output">
+            <dt>（output</dt>
+            <dd class="f-bold">{output}<small>件）</small></dd>
           </div>
         )}
       </dl>
@@ -185,6 +202,17 @@ const hasActivity =
       margin-left: 0.1em;
       font-size: 0.8em;
       font-weight: normal;
+    }
+    /* メモの内訳なので、一段小さく薄く。かっこは半角ぶんの幅で組み（halt）、ほかの行と左右の端をそろえる */
+    .output {
+      font-feature-settings: "halt";
+      dt {
+        font-size: var(--np-fs-2xs);
+      }
+      dd {
+        font-size: var(--np-fs-xs);
+        color: var(--np-color-ink-soft);
+      }
     }
   }
 </style>

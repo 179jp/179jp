@@ -7,11 +7,14 @@ import type { Area, SerialData } from "../types";
 interface Props {
   area: Area;
   story: SerialData;
+  /** エディター用。YAML での記事の場所（例 "articles.0"）。渡したときだけ data-edit を付ける */
+  field?: string;
 }
 
 const HEAD_COLS = 3;
 
-const { area, story } = Astro.props;
+const { area, story, field } = Astro.props;
+const edit = (key: string) => (field ? `${field}.${key}` : undefined);
 const [start, end] = area.col;
 const bodyStart = start + HEAD_COLS;
 ---
@@ -21,5 +24,6 @@ const bodyStart = start + HEAD_COLS;
   title={story.title}
   kicker={story.kicker}
   variant="band"
+  field={field}
 />
-<Body area={{ col: [bodyStart, end], row: area.row }} paragraphs={story.body} />
+<Body area={{ col: [bodyStart, end], row: area.row }} paragraphs={story.body} edit={edit("body")} />

@@ -6,6 +6,9 @@
 //   3      記事 2      | （本文）     |           |
 //   4      天声AI語＋記事 2 の写真 | 記事 1       |
 //
+//   notes がある号（10/7 から）は、4 段目右の記事 1 の代わりに、見出しなしの本文 2 本を縦罫で分けて置く
+//   （27 列 = 13 列 + 罫 1 列 + 13 列）。articles は記事 2 の 1 本だけになる
+//
 //   記事 2 の写真・キャプションは 4 段目の左端に残し、文章だけ 3 段目に置く。
 //   天声AI語のクレジットは本文ではなく、写真・キャプションの後ろ（左端の列）に置く
 import Paper from "./Paper.astro";
@@ -21,6 +24,7 @@ import Essay from "./articles/Essay.astro";
 import Article from "./articles/Article.astro";
 import Photo from "./parts/Photo.astro";
 import Caption from "./parts/Caption.astro";
+import Body from "./parts/Body.astro";
 import type { IssueData } from "./types";
 import type { IssueLink } from "./issues";
 
@@ -29,10 +33,17 @@ interface Props {
   /** 前の日・次の日の号 */
   prev?: IssueLink;
   next?: IssueLink;
+  /** エディター（179-editer）から出すときだけ true。編集できる部品に data-edit（YAML での場所）を付ける */
+  editable?: boolean;
 }
 
-const { issue, prev, next } = Astro.props;
-const [first, second] = issue.articles;
+const { issue, prev, next, editable = false } = Astro.props;
+const field = (path: string) => (editable ? path : undefined);
+const { notes } = issue;
+// 記事 2（3 段目左）は articles の最後。notes がない号だけ、articles[0] が記事 1（4 段目右）
+const secondIndex = issue.articles.length - 1;
+const second = issue.articles[secondIndex];
+const first = notes ? undefined : issue.articles[0];
 
 // 4 段目左：天声AI語の後ろに、記事 2 の写真（6 列）・キャプション（1 列）・天声AI語のクレジット（1 列）
 const PHOTO_COLS = 6;
@@ -52,31 +63,58 @@ const photoStart = second.photo ? captionStart - PHOTO_COLS : captionStart;
     />
   </Logo>
   <VRule area={{ col: [5, 6], row: [1, 4] }} />
-  <TopStory area={{ col: [6, 19], row: [1, 4] }} story={issue.top} />
+  <TopStory area={{ col: [6, 19], row: [1, 4] }} story={issue.top} field={field("top")} />
   <VRule area={{ col: [19, 20], row: [1, 4] }} />
-  <PhotoStory area={{ col: [20, 35], row: [1, 4] }} story={issue.photoStory} />
+  <PhotoStory
+    area={{ col: [20, 35], row: [1, 4] }}
+    story={issue.photoStory}
+    field={field("photoStory")}
+  />
   <VRule area={{ col: [35, 36], row: [1, 4] }} />
-  <SerialColumn area={{ col: [36, 55], row: [1, 3] }} story={issue.serial} />
+  <SerialColumn
+    area={{ col: [36, 55], row: [1, 3] }}
+    story={issue.serial}
+    field={field("serial")}
+  />
   <HRule area={{ col: [36, 55], row: [3, 4] }} />
   <Article
     area={{ col: [36, 55], row: [3, 4] }}
     story={{ ...second, photo: undefined, caption: undefined }}
+    field={field(`articles.${secondIndex}`)}
   />
 
   <!-- 4 段目 -->
   <HRule area={{ col: [1, 55], row: [4, 5] }} />
-  <Article area={{ col: [1, 28], row: [4, 5] }} story={first} />
+  {
+    notes ? (
+      <>
+        <Body area={{ col: [1, 14], row: [4, 5] }} paragraphs={notes[0].body} edit={field("notes.0.body")} />
+        <VRule area={{ col: [14, 15], row: [4, 5] }} />
+        <Body area={{ col: [15, 28], row: [4, 5] }} paragraphs={notes[1].body} edit={field("notes.1.body")} />
+      </>
+    ) : (
+      first && (
+        <Article
+          area={{ col: [1, 28], row: [4, 5] }}
+          story={first}
+          field={field("articles.0")}
+        />
+      )
+    )
+  }
   <VRule area={{ col: [28, 29], row: [4, 5] }} />
   <Essay
     area={{ col: [29, photoStart], row: [4, 5] }}
     story={issue.essay}
     showCredit={false}
+    field={field("essay")}
   />
   {
     second.photo && (
       <Photo
         area={{ col: [photoStart, captionStart], row: [4, 5] }}
         photo={second.photo}
+        edit={field(`articles.${secondIndex}.photo`)}
       />
     )
   }
@@ -85,12 +123,14 @@ const photoStart = second.photo ? captionStart - PHOTO_COLS : captionStart;
       <Caption
         area={{ col: [captionStart, creditStart], row: [4, 5] }}
         text={second.caption}
+        edit={field(`articles.${secondIndex}.caption`)}
       />
     )
   }
   <Caption
     area={{ col: [creditStart, BOTTOM_END], row: [4, 5] }}
     text={issue.essay.credit}
+    edit={field("essay.credit")}
   />
 
   <!-- モバイル -->

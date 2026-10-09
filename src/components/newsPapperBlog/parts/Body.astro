@@ -7,15 +7,18 @@ import { place, tiersOf } from "../utils";
 interface Props {
   area: Area;
   paragraphs: RichText[];
+  /** エディター用。YAML での場所（例 "top.body"） */
+  edit?: string;
 }
 
-const { area, paragraphs } = Astro.props;
+const { area, paragraphs, edit } = Astro.props;
 ---
 
 <div
   class="np-cell body"
   style={`${place(area)} --tiers: ${tiersOf(area)};`}
   data-np-body
+  data-edit={edit}
 >
   {
     paragraphs.map((p) => (

@@ -11,6 +11,7 @@ import DayInfo from "./parts/DayInfo.astro";
 import VRule from "./parts/VRule.astro";
 import Photo from "./parts/Photo.astro";
 import Caption from "./parts/Caption.astro";
+import Body from "./parts/Body.astro";
 import TopStory from "./articles/TopStory.astro";
 import PhotoStory from "./articles/PhotoStory.astro";
 import SerialColumn from "./articles/SerialColumn.astro";
@@ -25,7 +26,9 @@ interface Props {
 }
 
 const { issue } = Astro.props;
-const [first, second] = issue.articles;
+const { notes } = issue;
+const second = issue.articles[issue.articles.length - 1];
+const first = notes ? undefined : issue.articles[0];
 
 // 列数は各記事コンポーネントの割り付けと合わせる
 const LOGO_COLS = 4;
@@ -49,7 +52,7 @@ const top = blockSize({
 // 写真記事。写真の下に本文を流す（見出しの列は空ける）
 const photoBodyTiers = blockSize({
   lines: linesOf(issue.photoStory.body),
-  fixed: issue.photoStory.sub ? 3 : 2,
+  fixed: issue.photoStory.sub ? 3 : issue.photoStory.title !== undefined ? 2 : 0,
 }).tiers;
 const photoTiers = PHOTO_TIERS + photoBodyTiers;
 
@@ -61,7 +64,7 @@ const serial = blockSize({
 });
 
 // 記事は 1 段。写真は天声AI語のブロックへ回す
-const articles = [second, first].map((story) => {
+const articles = [second, first].filter((story) => story !== undefined).map((story) => {
   const text: ArticleData = { ...story, photo: undefined, caption: undefined };
   const { cols } = blockSize({
     lines: linesOf(story.body),
@@ -70,6 +73,11 @@ const articles = [second, first].map((story) => {
   });
   return { story: text, cols };
 });
+
+// 見出しなしの本文 2 本（1 段）。紙面と同じく横に並べ、あいだに縦罫。入りきらない分は列を増やす
+const noteCols = notes?.map(
+  (note) => blockSize({ lines: linesOf(note.body), fixed: 0, maxTiers: 1 }).cols,
+);
 
 // 天声AI語（1 段）：見出し・本文・記事 2 の写真・キャプション・クレジット（各 1 列）
 const essayPhotoCols =
@@ -126,6 +134,19 @@ const ROW1 = [1, 2] as const;
       <Article area={span(cols, 1)} story={story} />
     </MobileBlock>
   ))
+}
+
+{
+  notes && noteCols && (
+    <MobileBlock cols={noteCols[0] + RULE_COLS + noteCols[1]} tiers={1}>
+      <Body area={{ col: [1, noteCols[0] + 1], row: ROW1 }} paragraphs={notes[0].body} />
+      <VRule area={{ col: [noteCols[0] + 1, noteCols[0] + 2], row: ROW1 }} />
+      <Body
+        area={{ col: [noteCols[0] + 2, noteCols[0] + 2 + noteCols[1]], row: ROW1 }}
+        paragraphs={notes[1].body}
+      />
+    </MobileBlock>
+  )
 }
 
 <MobileBlock cols={essay.cols} tiers={1}>

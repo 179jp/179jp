@@ -12,8 +12,8 @@ const html = toHtml;
 const paragraphs = (body: RichText[]) =>
   body.map((p) => `<p>${html(p)}</p>`).join("");
 
-const section = (title: RichText, body: RichText[], sub?: RichText) =>
-  `<h2>${html(title)}</h2>` +
+const section = (title: RichText | undefined, body: RichText[], sub?: RichText) =>
+  (title ? `<h2>${html(title)}</h2>` : "") +
   (sub ? `<p><strong>${html(sub)}</strong></p>` : "") +
   paragraphs(body);
 
@@ -33,6 +33,8 @@ const dayLine = (issue: IssueData) => {
     const a = [
       activity.steps !== undefined && `${activity.steps.toLocaleString("ja-JP")}歩`,
       activity.run !== undefined && `ラン ${activity.run}km`,
+      activity.memos !== undefined &&
+        `メモ ${activity.memos}件（output ${activity.memos - (activity.linkedMemos ?? 0)}件）`,
     ].filter(Boolean);
     if (a.length) parts.push(a.join("・"));
   }
@@ -56,5 +58,6 @@ export const issueHtml = (issue: IssueData) =>
     section(issue.photoStory.title, issue.photoStory.body, issue.photoStory.sub),
     section(issue.serial.title, issue.serial.body, issue.serial.kicker),
     section(issue.essay.title, [...issue.essay.body, issue.essay.credit]),
+    ...(issue.notes ?? []).map((note) => paragraphs(note.body)),
     ...issue.articles.map((a) => section(a.title, a.body, a.sub ?? a.kicker)),
   ].join("");

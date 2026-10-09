@@ -12,7 +12,7 @@ import { z } from "astro/zod";
 const richText = z.string().trim();
 const paragraphs = z.array(richText).min(1);
 
-export const illustrationNames = ["wooden-box", "osmanthus", "k-chair"] as const;
+export const illustrationNames = ["wooden-box", "osmanthus", "k-chair", "coffee-filter"] as const;
 
 const photo = z.union([
   z.object({ alt: z.string(), src: z.string() }),
@@ -41,9 +41,9 @@ const topStory = z.object({
   body: paragraphs,
 });
 
-/** 写真記事：見出し＋写真＋キャプション＋本文 */
+/** 写真記事：見出し＋写真＋キャプション＋本文。title の項目を書かなければ見出しなし（写真を見出しの列まで広げる）。title: "" は空の見出し */
 const photoStory = z.object({
-  title: richText,
+  title: richText.optional(),
   sub: richText.optional(),
   photo,
   caption: richText,
@@ -75,6 +75,11 @@ const article = z.object({
   caption: richText.optional(),
 });
 
+/** 見出しなしの本文（4 段目右に 2 本並べる。10/7 号から） */
+const note = z.object({
+  body: paragraphs,
+});
+
 export const skies = [
   "sunny",
   "partly-cloudy",
@@ -101,6 +106,10 @@ const activity = z.object({
   steps: z.number().int().optional(),
   /** ランニング距離（km） */
   run: z.number().optional(),
+  /** その日の void のメモの数 */
+  memos: z.number().int().nonnegative().optional(),
+  /** そのうち、リンク（参照元）の付いたメモの数。output = memos - linkedMemos */
+  linkedMemos: z.number().int().nonnegative().optional(),
 });
 
 export const issueSchema = z.object({
@@ -116,8 +125,24 @@ export const issueSchema = z.object({
   photoStory,
   serial,
   essay,
-  /** 最下段の記事 2 本（読む順＝右から） */
-  articles: z.tuple([article, article]),
+  /** 4 段目右の、見出しなしの本文 2 本（読む順＝右から）。あるときは articles は 1 本（3 段目左の記事）だけ */
+  notes: z.tuple([note, note]).optional(),
+  /**
+   * 記事。notes がない号（10/6 まで）は 2 本：[4 段目右の記事, 3 段目左の記事]。
+   * notes がある号は 1 本：[3 段目左の記事]。3 段目左の記事の写真・キャプションは 4 段目左に置く
+   */
+  articles: z.union([z.tuple([article, article]), z.tuple([article])]),
+}).superRefine((issue, ctx) => {
+  const expected = issue.notes ? 1 : 2;
+  if (issue.articles.length !== expected) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["articles"],
+      message: issue.notes
+        ? "notes があるときは、articles は 1 本（3 段目左の記事）だけにします"
+        : "notes がないときは、articles は 2 本にします",
+    });
+  }
 });
 
 export type IssueData = z.infer<typeof issueSchema>;
@@ -129,6 +154,7 @@ export type PhotoStoryData = z.infer<typeof photoStory>;
 export type SerialData = z.infer<typeof serial>;
 export type EssayData = z.infer<typeof essay>;
 export type ArticleData = z.infer<typeof article>;
+export type NoteData = z.infer<typeof note>;
 export type WeatherData = z.infer<typeof weather>;
 export type ActivityData = z.infer<typeof activity>;
 export type Sky = (typeof skies)[number];

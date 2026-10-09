@@ -8,12 +8,15 @@ interface Props {
   area: Area;
   text: RichText;
   size?: "main" | "sub";
+  /** エディター用。YAML での場所（例 "top.lead"） */
+  edit?: string;
 }
 
-const { area, text, size = "main" } = Astro.props;
+const { area, text, size = "main", edit } = Astro.props;
 ---
 
-<p class:list={["np-cell", "lead", "f-bold", size]} style={place(area)}>
+<p class:list={["np-cell", "lead", "f-bold", size]} style={place(area)}
+  data-edit={edit}>
   <Text text={text} />
 </p>
 

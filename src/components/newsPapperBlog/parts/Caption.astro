@@ -7,12 +7,15 @@ import { place } from "../utils";
 interface Props {
   area: Area;
   text: RichText;
+  /** エディター用。YAML での場所（例 "top.lead"） */
+  edit?: string;
 }
 
-const { area, text } = Astro.props;
+const { area, text, edit } = Astro.props;
 ---
 
-<p class="np-cell caption" style={place(area)}>
+<p class="np-cell caption" style={place(area)}
+  data-edit={edit}>
   <Text text={text} />
 </p>
 

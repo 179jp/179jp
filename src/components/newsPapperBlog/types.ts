@@ -7,6 +7,7 @@ export type {
   IllustrationName,
   IssueData,
   MastheadData,
+  NoteData,
   PhotoData,
   PhotoStoryData,
   SerialData,

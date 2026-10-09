@@ -12,13 +12,16 @@ interface Props {
   story: ArticleData;
   /** 写真に使う列数 */
   photoCols?: number;
+  /** エディター用。YAML での記事の場所（例 "articles.0"）。渡したときだけ data-edit を付ける */
+  field?: string;
 }
 
 // 見出しの列数。sub か kicker があれば 2 列目に置き、なければ見出しだけの 2 列にして本文に回す
 const HEAD_COLS = { withSub: 3, titleOnly: 2 };
 const CAPTION_COLS = 1;
 
-const { area, story, photoCols = 8 } = Astro.props;
+const { area, story, photoCols = 8, field } = Astro.props;
+const edit = (key: string) => (field ? `${field}.${key}` : undefined);
 const [start, end] = area.col;
 const headCols =
   story.sub || story.kicker ? HEAD_COLS.withSub : HEAD_COLS.titleOnly;
@@ -33,18 +36,20 @@ const photoStart = story.photo ? captionStart - photoCols : captionStart;
   sub={story.sub}
   kicker={story.kicker}
   size={story.titleSize}
+  field={field}
 />
-<Body area={{ col: [bodyStart, photoStart], row: area.row }} paragraphs={story.body} />
+<Body area={{ col: [bodyStart, photoStart], row: area.row }} paragraphs={story.body} edit={edit("body")} />
 {
   story.photo && (
     <Photo
       area={{ col: [photoStart, captionStart], row: area.row }}
       photo={story.photo}
+      edit={edit("photo")}
     />
   )
 }
 {
   story.caption && (
-    <Caption area={{ col: [captionStart, end], row: area.row }} text={story.caption} />
+    <Caption area={{ col: [captionStart, end], row: area.row }} text={story.caption} edit={edit("caption")} />
   )
 }

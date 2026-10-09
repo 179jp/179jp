@@ -1,0 +1,112 @@
+---
+// 空き箱の横に残った、最後の一枚のコーヒーフィルターのイラスト
+interface Props {
+  label: string;
+}
+
+const { label } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 120 186"
+  preserveAspectRatio="xMidYMid slice"
+  role="img"
+  aria-label={label}
+>
+  <defs>
+    <pattern
+      id="np-f-dot-s"
+      width="5"
+      height="5"
+      patternUnits="userSpaceOnUse"
+    >
+      <circle cx="2.5" cy="2.5" r="0.9" fill="currentColor"></circle>
+    </pattern>
+    <pattern
+      id="np-f-dot-f"
+      width="3"
+      height="3"
+      patternUnits="userSpaceOnUse"
+    >
+      <circle cx="1.5" cy="1.5" r="0.55" fill="currentColor"></circle>
+    </pattern>
+    <pattern
+      id="np-f-dot-m"
+      width="4"
+      height="4"
+      patternUnits="userSpaceOnUse"
+    >
+      <rect width="4" height="4" class="bg"></rect>
+      <circle cx="2" cy="2" r="1.2" fill="currentColor"></circle>
+    </pattern>
+    <pattern
+      id="np-f-dot-l"
+      width="4"
+      height="4"
+      patternUnits="userSpaceOnUse"
+    >
+      <rect width="4" height="4" class="bg"></rect>
+      <circle cx="2" cy="2" r="1.6" fill="currentColor"></circle>
+    </pattern>
+  </defs>
+
+  <!-- 壁・天板・天板の小口 -->
+  <rect width="120" height="186" class="bg"></rect>
+  <rect width="120" height="118" fill="url(#np-f-dot-s)"></rect>
+  <rect y="118" width="120" height="44" fill="url(#np-f-dot-f)"></rect>
+  <rect y="162" width="120" height="24" fill="url(#np-f-dot-l)"></rect>
+  <g stroke="currentColor" stroke-width="1.2">
+    <line x1="0" y1="118" x2="120" y2="118"></line>
+    <line x1="0" y1="162" x2="120" y2="162"></line>
+  </g>
+
+  <g stroke="currentColor" stroke-width="1.3" stroke-linejoin="round">
+    <!-- 空き箱。開いた口の中は墨ベタで、空っぽ -->
+    <polygon points="14,124 52,124 66,114 28,114" fill="url(#np-f-dot-m)"
+      stroke="none"></polygon>
+    <polygon points="20,70 58,70 64,52 26,52" class="bg"></polygon>
+    <polygon points="10,80 48,80 58,70 20,70" fill="currentColor"></polygon>
+    <polygon points="10,80 48,80 48,126 10,126" fill="url(#np-f-dot-m)"
+    ></polygon>
+    <polygon points="48,80 58,70 58,116 48,126" fill="url(#np-f-dot-l)"
+    ></polygon>
+    <rect x="16" y="92" width="26" height="16" class="bg"></rect>
+    <path
+      d="M20,98 H38 M20,103 H32"
+      stroke-width="0.9"
+      stroke-linecap="round"></path>
+
+    <!-- 最後の一枚の影 -->
+    <polygon points="80,151 99,151 120,137 103,135" fill="url(#np-f-dot-l)"
+      stroke="none"></polygon>
+
+    <!-- 最後の一枚 -->
+    <g transform="translate(88 150) rotate(-5) scale(0.8) translate(-82 -150)">
+      <polygon points="58,74 106,74 94,150 70,150" class="bg"></polygon>
+      <!-- 底と横の圧着の目 -->
+      <path d="M70.8,144 H90 L101,74" stroke-width="0.9" fill="none"></path>
+      <path
+        d="M73,144 V150 M76,144 V150 M79,144 V150 M82,144 V150 M85,144 V150 M88,144 V150 M91,144 V150"
+        stroke-width="0.7"></path>
+      <path
+        d="M100.2,79 L105.2,79 M99.6,83 L104.6,83 M99.0,87 L103.9,87 M98.3,91 L103.3,91 M97.7,95 L102.7,95 M97.1,99 L102.1,99 M96.4,103 L101.4,103 M95.8,107 L100.8,107 M95.2,111 L100.2,111 M94.6,115 L99.5,115 M93.9,119 L98.9,119 M93.3,123 L98.3,123 M92.7,127 L97.6,127 M92.0,131 L97.0,131 M91.4,135 L96.4,135 M90.8,139 L95.7,139 M90.2,143 L95.1,143"
+        stroke-width="0.7"></path>
+      <path
+        d="M82,78 V140"
+        stroke-width="0.6"
+        stroke-dasharray="1.5 2.5"></path>
+    </g>
+  </g>
+</svg>
+
+<style>
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: var(--np-color-ink);
+  }
+  .bg {
+    fill: var(--np-color-photo);
+  }
+</style>

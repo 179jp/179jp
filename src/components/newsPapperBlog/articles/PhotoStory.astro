@@ -1,5 +1,6 @@
 ---
-// 写真記事。上の段に 見出し（3 列、sub がなければ 2 列）・写真・キャプション（1 列）、下の段に本文
+// 写真記事。上の段に 見出し（3 列、sub がなければ 2 列）・写真・キャプション（1 列）、下の段に本文。
+// 見出し（title の項目も sub も）がなければ、見出しの列を写真に回す。title: "" は空の見出しとして列を残す
 import Head from "../parts/Head.astro";
 import Photo from "../parts/Photo.astro";
 import Caption from "../parts/Caption.astro";
@@ -13,16 +14,20 @@ interface Props {
   photoTiers?: number;
   /** 本文の右端を写真の右端にそろえる（見出しの下には本文を入れない） */
   alignBody?: boolean;
+  /** エディター用。YAML での記事の場所（例 "articles.0"）。渡したときだけ data-edit を付ける */
+  field?: string;
 }
 
 // 見出しの列数。sub がなければ見出しだけの 2 列にして写真に回す
 const HEAD_COLS = { withSub: 3, titleOnly: 2 };
 const CAPTION_COLS = 1;
 
-const { area, story, photoTiers = 2, alignBody = false } = Astro.props;
+const { area, story, photoTiers = 2, alignBody = false, field } = Astro.props;
+const edit = (key: string) => (field ? `${field}.${key}` : undefined);
 const [start, end] = area.col;
-const photoStart =
-  start + (story.sub ? HEAD_COLS.withSub : HEAD_COLS.titleOnly);
+const hasHead = story.title !== undefined || Boolean(story.sub);
+const headCols = !hasHead ? 0 : story.sub ? HEAD_COLS.withSub : HEAD_COLS.titleOnly;
+const photoStart = start + headCols;
 const captionStart = end - CAPTION_COLS;
 const photoRow = [area.row[0], area.row[0] + photoTiers] as const;
 const bodyRow = [photoRow[1], area.row[1]] as const;
@@ -30,9 +35,10 @@ const bodyRow = [photoRow[1], area.row[1]] as const;
 // sub がないとき、見出しの 2 列（2em ＋ 行間）と写真との行間に対して、タイトルは 1 行ぶんの幅しかない。
 // 写真を見出し側へ広げて、タイトルとの間を 0.4em に詰める
 const TITLE_GAP = "0.4em";
-const extendRight = story.sub
-  ? undefined
-  : `(2em + 2 * var(--np-line-gap) - var(--np-fs-photo-head) - ${TITLE_GAP})`;
+const extendRight =
+  hasHead && !story.sub
+    ? `(2em + 2 * var(--np-line-gap) - var(--np-fs-photo-head) - ${TITLE_GAP})`
+    : undefined;
 
 // 本文を写真にそろえるとき。写真を見出し側へ広げた分（約 1 列）は、本文も 1 列右から始める
 const bodyStart = !alignBody
@@ -42,16 +48,22 @@ const bodyStart = !alignBody
     : photoStart;
 ---
 
-<Head
-  area={{ col: [start, photoStart], row: photoRow }}
-  title={story.title}
-  sub={story.sub}
-  variant="photo"
-/>
+{
+  hasHead && (
+    <Head
+      area={{ col: [start, photoStart], row: photoRow }}
+      title={story.title ?? ""}
+      sub={story.sub}
+      variant="photo"
+      field={field}
+    />
+  )
+}
 <Photo
   area={{ col: [photoStart, captionStart], row: photoRow }}
   photo={story.photo}
   extendRight={extendRight}
+  edit={edit("photo")}
 />
-<Caption area={{ col: [captionStart, end], row: photoRow }} text={story.caption} />
-<Body area={{ col: [bodyStart, end], row: bodyRow }} paragraphs={story.body} />
+<Caption area={{ col: [captionStart, end], row: photoRow }} text={story.caption} edit={edit("caption")} />
+<Body area={{ col: [bodyStart, end], row: bodyRow }} paragraphs={story.body} edit={edit("body")} />
