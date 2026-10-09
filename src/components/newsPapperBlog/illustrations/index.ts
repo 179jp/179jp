@@ -3,6 +3,7 @@ import WoodenBox from "./WoodenBox.astro";
 import Osmanthus from "./Osmanthus.astro";
 import KChair from "./KChair.astro";
 import CoffeeFilter from "./CoffeeFilter.astro";
+import TaggedKey from "./TaggedKey.astro";
 
 // PhotoData.illustration の名前 → イラストのコンポーネント
 export const illustrations = {
@@ -10,4 +11,5 @@ export const illustrations = {
   osmanthus: Osmanthus,
   "k-chair": KChair,
   "coffee-filter": CoffeeFilter,
+  "tagged-key": TaggedKey,
 } satisfies Record<IllustrationName, unknown>;

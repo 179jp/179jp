@@ -12,7 +12,7 @@ import { z } from "astro/zod";
 const richText = z.string().trim();
 const paragraphs = z.array(richText).min(1);
 
-export const illustrationNames = ["wooden-box", "osmanthus", "k-chair", "coffee-filter"] as const;
+export const illustrationNames = ["wooden-box", "osmanthus", "k-chair", "coffee-filter", "tagged-key"] as const;
 
 const photo = z.union([
   z.object({ alt: z.string(), src: z.string() }),
