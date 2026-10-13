@@ -3,6 +3,7 @@ import { formatDate, solarTermOf } from "./calendar";
 import { weatherLabel } from "./weather";
 import { escapeHtml as escape, toHtml, toPlainText } from "./richText";
 import type { IssueData, RichText } from "./types";
+import { isSplitSerial } from "./head";
 
 /** RichText から記法を外したテキスト。改行は全角スペースに */
 export const plain = (text: RichText) => toPlainText(text);
@@ -56,7 +57,9 @@ export const issueHtml = (issue: IssueData) =>
     `<p>${escape(dayLine(issue))}</p>`,
     section(issue.top.lead, issue.top.body, issue.top.sub),
     section(issue.photoStory.title, issue.photoStory.body, issue.photoStory.sub),
-    section(issue.serial.title, issue.serial.body, issue.serial.kicker),
+    ...(isSplitSerial(issue.serial)
+      ? issue.serial.map((note) => paragraphs(note.body))
+      : [section(issue.serial.title, issue.serial.body, issue.serial.kicker)]),
     section(issue.essay.title, [...issue.essay.body, issue.essay.credit]),
     ...(issue.notes ?? []).map((note) => paragraphs(note.body)),
     ...issue.articles.map((a) => section(a.title, a.body, a.sub ?? a.kicker)),

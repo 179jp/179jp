@@ -12,7 +12,7 @@ import { z } from "astro/zod";
 const richText = z.string().trim();
 const paragraphs = z.array(richText).min(1);
 
-export const illustrationNames = ["wooden-box", "osmanthus", "k-chair", "coffee-filter", "tagged-key"] as const;
+export const illustrationNames = ["wooden-box", "osmanthus", "k-chair", "coffee-filter", "tagged-key", "bracket-in-frame"] as const;
 
 const photo = z.union([
   z.object({ alt: z.string(), src: z.string() }),
@@ -51,15 +51,23 @@ const photoStory = z.object({
 });
 
 /** 連載コラム：白抜きの帯見出し＋本文 */
-const serial = z.object({
-  kicker: richText,
-  title: richText,
+/** 見出しなしの本文（4 段目右に 2 本並べる。連載コラムを上下 2 本にするときにも使う） */
+const note = z.object({
   body: paragraphs,
 });
 
+/** 連載コラム（1 本）。見出し（kicker・title）は省ける */
+const serialSingle = z.object({
+  kicker: richText.optional(),
+  title: richText.optional(),
+  body: paragraphs,
+});
+/** 連載コラムの欄は、1 本の記事か、見出しなしの本文を上下に 2 本（読む順＝上から） */
+const serial = z.union([serialSingle, z.tuple([note, note])]);
+
 /** 囲み見出しのエッセイ（天声AI語） */
 const essay = z.object({
-  title: richText,
+  title: richText.optional(),
   body: paragraphs,
   credit: richText,
 });
@@ -67,17 +75,12 @@ const essay = z.object({
 /** 1 段の記事。写真は任意 */
 const article = z.object({
   kicker: richText.optional(),
-  title: richText,
+  title: richText.optional(),
   sub: richText.optional(),
   titleSize: z.enum(["m", "l"]).optional(),
   body: paragraphs,
   photo: photo.optional(),
   caption: richText.optional(),
-});
-
-/** 見出しなしの本文（4 段目右に 2 本並べる。10/7 号から） */
-const note = z.object({
-  body: paragraphs,
 });
 
 export const skies = [
@@ -151,7 +154,7 @@ export type BrandData = z.infer<typeof brand>;
 export type PhotoData = z.infer<typeof photo>;
 export type TopStoryData = z.infer<typeof topStory>;
 export type PhotoStoryData = z.infer<typeof photoStory>;
-export type SerialData = z.infer<typeof serial>;
+export type SerialData = z.infer<typeof serialSingle>;
 export type EssayData = z.infer<typeof essay>;
 export type ArticleData = z.infer<typeof article>;
 export type NoteData = z.infer<typeof note>;

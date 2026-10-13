@@ -9,6 +9,7 @@ import MobileBlock from "./MobileBlock.astro";
 import Logo from "./parts/Logo.astro";
 import DayInfo from "./parts/DayInfo.astro";
 import VRule from "./parts/VRule.astro";
+import HRule from "./parts/HRule.astro";
 import Photo from "./parts/Photo.astro";
 import Caption from "./parts/Caption.astro";
 import Body from "./parts/Body.astro";
@@ -20,6 +21,7 @@ import Article from "./articles/Article.astro";
 import { PAPER } from "./config";
 import { blockSize, linesOf } from "./mobile";
 import type { ArticleData, IssueData } from "./types";
+import { hasHead, isSplitSerial } from "./head";
 
 interface Props {
   issue: IssueData;
@@ -52,23 +54,34 @@ const top = blockSize({
 // 写真記事。写真の下に本文を流す（見出しの列は空ける）
 const photoBodyTiers = blockSize({
   lines: linesOf(issue.photoStory.body),
-  fixed: issue.photoStory.sub ? 3 : issue.photoStory.title !== undefined ? 2 : 0,
+  fixed: issue.photoStory.sub ? 3 : hasHead(issue.photoStory) ? 2 : 0,
 }).tiers;
 const photoTiers = PHOTO_TIERS + photoBodyTiers;
 
-const serial = blockSize({
-  lines: linesOf(issue.serial.body),
-  fixed: SERIAL_HEAD_COLS,
-  minTiers: SERIAL_TIERS,
-  maxTiers: SERIAL_TIERS,
-});
+// 連載コラム（2 段）。上下 2 本の形なら、1 本ずつ 1 段に入れる（列数は長いほうに合わせる）
+const serialNotes = isSplitSerial(issue.serial) ? issue.serial : undefined;
+const serialSingle = isSplitSerial(issue.serial) ? undefined : issue.serial;
+const serial = serialNotes
+  ? {
+      cols: Math.max(
+        ...serialNotes.map(
+          (note) => blockSize({ lines: linesOf(note.body), fixed: 0, maxTiers: 1 }).cols,
+        ),
+      ),
+    }
+  : blockSize({
+      lines: linesOf(serialSingle!.body),
+      fixed: hasHead(serialSingle!) ? SERIAL_HEAD_COLS : 0,
+      minTiers: SERIAL_TIERS,
+      maxTiers: SERIAL_TIERS,
+    });
 
 // 記事は 1 段。写真は天声AI語のブロックへ回す
 const articles = [second, first].filter((story) => story !== undefined).map((story) => {
   const text: ArticleData = { ...story, photo: undefined, caption: undefined };
   const { cols } = blockSize({
     lines: linesOf(story.body),
-    fixed: story.sub || story.kicker ? 3 : 2,
+    fixed: !hasHead(story) ? 0 : story.sub || story.kicker ? 3 : 2,
     maxTiers: 1,
   });
   return { story: text, cols };
@@ -84,7 +97,7 @@ const essayPhotoCols =
   (second.photo ? ESSAY_PHOTO_COLS : 0) + (second.caption ? 1 : 0) + 1;
 const essay = blockSize({
   lines: linesOf(issue.essay.body),
-  fixed: ESSAY_HEAD_COLS + essayPhotoCols,
+  fixed: (hasHead(issue.essay) ? ESSAY_HEAD_COLS : 0) + essayPhotoCols,
   maxTiers: 1,
 });
 const creditStart = essay.cols;
@@ -125,7 +138,17 @@ const ROW1 = [1, 2] as const;
 </MobileBlock>
 
 <MobileBlock cols={serial.cols} tiers={SERIAL_TIERS}>
-  <SerialColumn area={span(serial.cols, SERIAL_TIERS)} story={issue.serial} />
+  {
+    serialNotes ? (
+      <>
+        <Body area={{ col: [1, serial.cols + 1], row: [1, 2] }} paragraphs={serialNotes[0].body} />
+        <HRule area={{ col: [1, serial.cols + 1], row: [2, 3] }} />
+        <Body area={{ col: [1, serial.cols + 1], row: [2, 3] }} paragraphs={serialNotes[1].body} />
+      </>
+    ) : (
+      <SerialColumn area={span(serial.cols, SERIAL_TIERS)} story={serialSingle!} />
+    )
+  }
 </MobileBlock>
 
 {

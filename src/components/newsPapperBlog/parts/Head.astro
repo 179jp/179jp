@@ -10,7 +10,8 @@ import { place } from "../utils";
 
 interface Props {
   area: Area;
-  title: RichText;
+  /** 省くと見出し（h3）を置かない。kicker だけの帯などに */
+  title?: RichText;
   sub?: RichText;
   kicker?: RichText;
   variant?: "default" | "photo" | "band" | "boxed";
@@ -39,7 +40,11 @@ const edit = (key: string) => (field ? `${field}.${key}` : undefined);
       </span>
     )
   }
-  <h3 class:list={{ "f-bold": variant !== "boxed" }} data-edit={edit("title")}><Text text={title} /></h3>
+  {
+    title !== undefined && (
+      <h3 class:list={{ "f-bold": variant !== "boxed" }} data-edit={edit("title")}><Text text={title} /></h3>
+    )
+  }
   {sub && <p class="sub f-bold" data-edit={edit("sub")}><Text text={sub} /></p>}
 </div>
 
