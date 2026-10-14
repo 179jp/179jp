@@ -6,6 +6,7 @@ import CoffeeFilter from "./CoffeeFilter.astro";
 import TaggedKey from "./TaggedKey.astro";
 import BracketInFrame from "./BracketInFrame.astro";
 import BlankDiary from "./BlankDiary.astro";
+import TwoMochiBoxes from "./TwoMochiBoxes.astro";
 
 // PhotoData.illustration の名前 → イラストのコンポーネント
 export const illustrations = {
@@ -16,4 +17,5 @@ export const illustrations = {
   "tagged-key": TaggedKey,
   "bracket-in-frame": BracketInFrame,
   "blank-diary": BlankDiary,
+  "two-mochi-boxes": TwoMochiBoxes,
 } satisfies Record<IllustrationName, unknown>;

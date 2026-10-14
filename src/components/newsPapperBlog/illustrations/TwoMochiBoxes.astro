@@ -1,0 +1,118 @@
+---
+// 机の上に少しずらして並んだ、包み紙とひものかかった平たい餅の箱二つのイラスト
+interface Props {
+  label: string;
+}
+
+const { label } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 120 186"
+  preserveAspectRatio="xMidYMid slice"
+  role="img"
+  aria-label={label}
+>
+  <defs>
+    <pattern
+      id="np-two-mochi-boxes-dot-s"
+      width="5"
+      height="5"
+      patternUnits="userSpaceOnUse"
+    >
+      <circle cx="2.5" cy="2.5" r="0.9" fill="currentColor"></circle>
+    </pattern>
+    <pattern
+      id="np-two-mochi-boxes-dot-f"
+      width="3"
+      height="3"
+      patternUnits="userSpaceOnUse"
+    >
+      <rect width="3" height="3" class="bg"></rect>
+      <circle cx="1.5" cy="1.5" r="0.6" fill="currentColor"></circle>
+    </pattern>
+    <pattern
+      id="np-two-mochi-boxes-dot-l"
+      width="4"
+      height="4"
+      patternUnits="userSpaceOnUse"
+    >
+      <rect width="4" height="4" class="bg"></rect>
+      <circle cx="2" cy="2" r="1.6" fill="currentColor"></circle>
+    </pattern>
+    <!-- 粗い網点＋斜めの線（下の箱の包み紙） -->
+    <pattern
+      id="np-two-mochi-boxes-hatch"
+      width="6"
+      height="6"
+      patternUnits="userSpaceOnUse"
+    >
+      <rect width="6" height="6" class="bg"></rect>
+      <path d="M0,6 L6,0" stroke="currentColor" stroke-width="0.8"></path>
+      <circle cx="1.5" cy="1.5" r="1.1" fill="currentColor"></circle>
+    </pattern>
+  </defs>
+
+  <!-- 机の天板 -->
+  <rect width="120" height="186" class="bg"></rect>
+  <rect width="120" height="186" fill="url(#np-two-mochi-boxes-dot-s)"></rect>
+
+  <!-- 上の箱（細かい網点の包み紙） -->
+  <g
+    transform="translate(4,46) rotate(-8) scale(1.15)"
+    stroke="currentColor"
+    stroke-width="1.1"
+    stroke-linejoin="round"
+  >
+    <polygon points="3,36 74,36 88,10 92,13 78,41 4,41" fill="url(#np-two-mochi-boxes-dot-l)"
+      stroke="none"></polygon>
+    <polygon points="0,26 72,26 86,0 14,0" fill="url(#np-two-mochi-boxes-dot-f)"
+    ></polygon>
+    <polygon points="0,26 72,26 72,36 0,36" fill="url(#np-two-mochi-boxes-dot-f)"
+    ></polygon>
+    <polygon points="72,26 86,0 86,10 72,36" fill="currentColor"></polygon>
+    <!-- ひも -->
+    <g fill="none" stroke-linecap="round">
+      <path d="M7,13 H79 V23 M36,26 L50,0 M36,26 V36" stroke-width="3"></path>
+      <path d="M7,13 H79 V23 M36,26 L50,0 M36,26 V36" class="str" stroke-width="1.3"
+      ></path>
+    </g>
+  </g>
+
+  <!-- 下の箱（粗い網点と斜線の包み紙）。少し右にずらす -->
+  <g
+    transform="translate(12,112) rotate(-8) scale(1.15)"
+    stroke="currentColor"
+    stroke-width="1.1"
+    stroke-linejoin="round"
+  >
+    <polygon points="3,36 74,36 88,10 92,13 78,41 4,41" fill="url(#np-two-mochi-boxes-dot-l)"
+      stroke="none"></polygon>
+    <polygon points="0,26 72,26 86,0 14,0" fill="url(#np-two-mochi-boxes-hatch)"
+    ></polygon>
+    <polygon points="0,26 72,26 72,36 0,36" fill="url(#np-two-mochi-boxes-hatch)"
+    ></polygon>
+    <polygon points="72,26 86,0 86,10 72,36" fill="currentColor"></polygon>
+    <!-- ひも -->
+    <g fill="none" stroke-linecap="round">
+      <path d="M7,13 H79 V23 M36,26 L50,0 M36,26 V36" stroke-width="3"></path>
+      <path d="M7,13 H79 V23 M36,26 L50,0 M36,26 V36" class="str" stroke-width="1.3"
+      ></path>
+    </g>
+  </g>
+</svg>
+
+<style>
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: var(--np-color-ink);
+  }
+  .bg {
+    fill: var(--np-color-photo);
+  }
+  .str {
+    stroke: var(--np-color-photo);
+  }
+</style>
