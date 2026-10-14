@@ -1,6 +1,7 @@
 ---
 // 写真記事。上の段に 見出し（3 列、sub がなければ 2 列）・写真・キャプション（1 列）、下の段に本文。
 // 見出し（title の項目も sub も）がなければ、見出しの列を写真に回す。title: "" は空の見出しとして列を残す
+// layout: large は本文なし。写真を欄の高さいっぱいに広げ、キャプションを写真の下に横書きで置く（2 行まで）
 import Head from "../parts/Head.astro";
 import Photo from "../parts/Photo.astro";
 import Caption from "../parts/Caption.astro";
@@ -22,6 +23,8 @@ interface Props {
 // 見出しの列数。sub がなければ見出しだけの 2 列にして写真に回す
 const HEAD_COLS = { withSub: 3, titleOnly: 2 };
 const CAPTION_COLS = 1;
+/** large のとき、写真の下に空けるキャプションの高さ（xs の文字で 2 行＋写真との間） */
+const CAPTION_BELOW = "calc(var(--np-fs-xs) * 1.5 * 2 + 0.5em)";
 
 const { area, story, photoTiers = 2, alignBody = false, field } = Astro.props;
 const edit = (key: string) => (field ? `${field}.${key}` : undefined);
@@ -29,8 +32,9 @@ const [start, end] = area.col;
 const hasHead = hasHeadOf(story);
 const headCols = !hasHead ? 0 : story.sub ? HEAD_COLS.withSub : HEAD_COLS.titleOnly;
 const photoStart = start + headCols;
-const captionStart = end - CAPTION_COLS;
-const photoRow = [area.row[0], area.row[0] + photoTiers] as const;
+const large = story.layout === "large";
+const captionStart = large ? end : end - CAPTION_COLS;
+const photoRow = large ? area.row : ([area.row[0], area.row[0] + photoTiers] as const);
 const bodyRow = [photoRow[1], area.row[1]] as const;
 
 // sub がないとき、見出しの 2 列（2em ＋ 行間）と写真との行間に対して、タイトルは 1 行ぶんの幅しかない。
@@ -64,7 +68,21 @@ const bodyStart = !alignBody
   area={{ col: [photoStart, captionStart], row: photoRow }}
   photo={story.photo}
   extendRight={extendRight}
+  reserveBottom={large ? CAPTION_BELOW : undefined}
   edit={edit("photo")}
 />
-<Caption area={{ col: [captionStart, end], row: photoRow }} text={story.caption} edit={edit("caption")} />
-<Body area={{ col: [bodyStart, end], row: bodyRow }} paragraphs={story.body} edit={edit("body")} />
+{
+  large ? (
+    <Caption
+      area={{ col: [photoStart, end], row: photoRow }}
+      text={story.caption}
+      variant="below"
+      edit={edit("caption")}
+    />
+  ) : (
+    <>
+      <Caption area={{ col: [captionStart, end], row: photoRow }} text={story.caption} edit={edit("caption")} />
+      <Body area={{ col: [bodyStart, end], row: bodyRow }} paragraphs={story.body ?? []} edit={edit("body")} />
+    </>
+  )
+}

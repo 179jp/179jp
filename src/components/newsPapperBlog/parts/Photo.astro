@@ -9,11 +9,13 @@ interface Props {
   photo: PhotoData;
   /** 右（見出し側）へ広げる量。例 "0.8em"。見出しとの間を詰めたいときに使う */
   extendRight?: string;
+  /** 下を空ける量。例 "3em"。写真の下にキャプションを置くときに使う */
+  reserveBottom?: string;
   /** エディター用。YAML での場所（例 "photoStory.photo"） */
   edit?: string;
 }
 
-const { area, photo, extendRight, edit } = Astro.props;
+const { area, photo, extendRight, reserveBottom, edit } = Astro.props;
 const Illustration =
   "illustration" in photo ? illustrations[photo.illustration] : null;
 ---
@@ -21,7 +23,11 @@ const Illustration =
 <figure
   class="photo"
   data-edit={edit}
-  style={place(area) + (extendRight ? ` margin-right: calc(${extendRight} * -1);` : "")}
+  style={
+    place(area) +
+    (extendRight ? ` margin-right: calc(${extendRight} * -1);` : "") +
+    (reserveBottom ? ` align-self: start; height: calc(100% - ${reserveBottom});` : "")
+  }
 >
   {
     Illustration ? (

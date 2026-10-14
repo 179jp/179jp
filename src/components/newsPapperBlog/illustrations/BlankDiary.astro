@@ -1,0 +1,128 @@
+---
+// 机の上に開いて置かれた、何も書かれていない日記帳（見開き）のイラスト
+interface Props {
+  label: string;
+}
+
+const { label } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 120 186"
+  preserveAspectRatio="xMidYMid slice"
+  role="img"
+  aria-label={label}
+>
+  <defs>
+    <pattern
+      id="np-blank-diary-dot-f"
+      width="3"
+      height="3"
+      patternUnits="userSpaceOnUse"
+    >
+      <circle cx="1.5" cy="1.5" r="0.55" fill="currentColor"></circle>
+    </pattern>
+    <pattern
+      id="np-blank-diary-dot-m"
+      width="4"
+      height="4"
+      patternUnits="userSpaceOnUse"
+    >
+      <rect width="4" height="4" class="bg"></rect>
+      <circle cx="2" cy="2" r="1.2" fill="currentColor"></circle>
+    </pattern>
+    <pattern
+      id="np-blank-diary-dot-l"
+      width="4"
+      height="4"
+      patternUnits="userSpaceOnUse"
+    >
+      <rect width="4" height="4" class="bg"></rect>
+      <circle cx="2" cy="2" r="1.6" fill="currentColor"></circle>
+    </pattern>
+  </defs>
+
+  <!-- 机の天板（網点と木目） -->
+  <rect width="120" height="186" class="bg"></rect>
+  <rect width="120" height="186" fill="url(#np-blank-diary-dot-f)"></rect>
+  <g fill="none" stroke="currentColor" stroke-width="0.7">
+    <path d="M0,20 Q36,14 68,22 T120,18"></path>
+    <path d="M0,170 Q34,164 66,172 T120,166"></path>
+  </g>
+
+  <!-- 日記帳の見開き。少し斜めに置く -->
+  <g
+    transform="translate(61,88) rotate(-10) scale(0.88)"
+    stroke="currentColor"
+    stroke-linejoin="round"
+  >
+    <!-- 影と表紙 -->
+    <rect
+      x="-55"
+      y="-38"
+      width="116"
+      height="86"
+      fill="url(#np-blank-diary-dot-l)"
+      stroke="none"></rect>
+    <rect
+      x="-59"
+      y="-44"
+      width="118"
+      height="88"
+      rx="2"
+      fill="currentColor"
+      stroke-width="1.2"></rect>
+    <!-- 左右のページ。のどに向かって少しふくらむ -->
+    <path
+      d="M0,-38 Q-24,-43 -55,-40 V40 Q-24,37 0,42 Z"
+      class="bg"
+      stroke-width="1.1"></path>
+    <path
+      d="M0,-38 Q24,-43 55,-40 V40 Q24,37 0,42 Z"
+      class="bg"
+      stroke-width="1.1"></path>
+    <!-- のどの陰 -->
+    <path
+      d="M-7,-39 Q-3,-38.4 0,-38 V42 Q-3,41 -7,40.4 Z"
+      fill="url(#np-blank-diary-dot-f)"
+      stroke="none"></path>
+    <path
+      d="M7,-39 Q3,-38.4 0,-38 V42 Q3,41 7,40.4 Z"
+      fill="url(#np-blank-diary-dot-f)"
+      stroke="none"></path>
+    <path d="M0,-38 V42" stroke-width="1.1"></path>
+
+    <!-- 日付欄（空）。短い下線と、その下の太い罫 -->
+    <g stroke-width="1.1">
+      <path d="M-49,-24 H-6 M6,-24 H49"></path>
+      <path d="M-49,-30 H-34 M6,-30 H21"></path>
+    </g>
+    <!-- 罫線（何も書かれていない） -->
+    <g stroke-width="0.6">
+      <path
+        d="M-49,-16 H-6 M-49,-9 H-6 M-49,-2 H-6 M-49,5 H-6 M-49,12 H-6 M-49,19 H-6 M-49,26 H-6 M-49,33 H-6"
+      ></path>
+      <path
+        d="M6,-16 H49 M6,-9 H49 M6,-2 H49 M6,5 H49 M6,12 H49 M6,19 H49 M6,26 H49 M6,33 H49"
+      ></path>
+    </g>
+
+    <!-- しおりのひも。のどから下へ垂れる -->
+    <path
+      d="M-1,-30 Q-4,10 2,42 Q6,58 2,74 L5.5,71 L8,76 Q12,58 7,41 Q2,10 2,-30 Z"
+      fill="url(#np-blank-diary-dot-m)"
+      stroke-width="1"></path>
+  </g>
+</svg>
+
+<style>
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: var(--np-color-ink);
+  }
+  .bg {
+    fill: var(--np-color-photo);
+  }
+</style>

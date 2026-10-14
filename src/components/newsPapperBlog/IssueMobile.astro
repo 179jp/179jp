@@ -52,8 +52,9 @@ const top = blockSize({
 });
 
 // 写真記事。写真の下に本文を流す（見出しの列は空ける）
-const photoBodyTiers = blockSize({
-  lines: linesOf(issue.photoStory.body),
+// layout: large は本文なし（写真の段だけ）
+const photoBodyTiers = issue.photoStory.layout === "large" ? 0 : blockSize({
+  lines: linesOf(issue.photoStory.body ?? []),
   fixed: issue.photoStory.sub ? 3 : hasHead(issue.photoStory) ? 2 : 0,
 }).tiers;
 const photoTiers = PHOTO_TIERS + photoBodyTiers;

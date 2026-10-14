@@ -56,7 +56,8 @@ export const issueHtml = (issue: IssueData) =>
   [
     `<p>${escape(dayLine(issue))}</p>`,
     section(issue.top.lead, issue.top.body, issue.top.sub),
-    section(issue.photoStory.title, issue.photoStory.body, issue.photoStory.sub),
+    // 本文なしの写真記事（layout: large）は、キャプションを本文として入れる
+    section(issue.photoStory.title, issue.photoStory.body ?? [issue.photoStory.caption], issue.photoStory.sub),
     ...(isSplitSerial(issue.serial)
       ? issue.serial.map((note) => paragraphs(note.body))
       : [section(issue.serial.title, issue.serial.body, issue.serial.kicker)]),

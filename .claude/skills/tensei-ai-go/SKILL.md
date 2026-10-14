@@ -66,7 +66,8 @@ Agent ツールで 2 つのエージェントを **同じメッセージで** �
   - 色は `currentColor`（インク）と `.bg`（`fill: var(--np-color-photo)`）の 2 色だけ。濃淡は網点の `<pattern>` で出す
   - pattern の id は、ほかのイラストとぶつからない接頭辞を付ける（例 `np-<名前>-dot-s`）
   - 冒頭に、何の絵かを一行のコメントで書く。要素のまとまりにも短い日本語コメント
-- 登録: `illustrations/index.ts` に import と kebab-case の名前で追加し、`schema.ts` の `illustrationNames` にも同じ名前を足す
+- 登録: `illustrations/index.ts` に import と kebab-case の名前で追加し、`schema.ts` の `illustrationNames` にも同じ名前を足す。**必ずコンポーネントのファイルを書き終えてから** index.ts に登録する（先に import を書くと、179-editer の開発サーバーが読み込みの失敗を覚えたままになり、全部の号がエラーになる）
+- ディレクターは仕上げに、179-editer（http://localhost:5179/YYYY-MM-DD）でもその号が開けるかを確かめる
 - **号の YAML は書き換えない**（ディレクターが入れる）
 - 成果物: ファイル名、kebab-case の名前、alt 文、キャプション案
 

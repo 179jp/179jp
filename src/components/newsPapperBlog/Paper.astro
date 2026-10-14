@@ -50,7 +50,8 @@ const hasMobile = Astro.slots.has("mobile");
             el.scrollWidth > el.clientWidth + 1 ||
             el.scrollHeight > el.clientHeight + 1;
           el.style.outline = over ? "2px solid #e14d17" : "";
-          el.title = over ? "本文が入りきっていません" : "";
+          // data-np-body に文があれば、それを出す（キャプションなど）
+          el.title = over ? el.dataset.npBody || "本文が入りきっていません" : "";
         });
       addEventListener("load", markOverflow);
       addEventListener("resize", markOverflow);

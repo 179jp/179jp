@@ -12,7 +12,7 @@ import { z } from "astro/zod";
 const richText = z.string().trim();
 const paragraphs = z.array(richText).min(1);
 
-export const illustrationNames = ["wooden-box", "osmanthus", "k-chair", "coffee-filter", "tagged-key", "bracket-in-frame"] as const;
+export const illustrationNames = ["wooden-box", "osmanthus", "k-chair", "coffee-filter", "tagged-key", "bracket-in-frame", "blank-diary"] as const;
 
 const photo = z.union([
   z.object({ alt: z.string(), src: z.string() }),
@@ -42,13 +42,22 @@ const topStory = z.object({
 });
 
 /** 写真記事：見出し＋写真＋キャプション＋本文。title の項目を書かなければ見出しなし（写真を見出しの列まで広げる）。title: "" は空の見出し */
-const photoStory = z.object({
-  title: richText.optional(),
-  sub: richText.optional(),
-  photo,
-  caption: richText,
-  body: paragraphs,
-});
+const photoStory = z
+  .object({
+    title: richText.optional(),
+    sub: richText.optional(),
+    /** large：本文なしで写真を大きく、キャプションを写真の下に横書き（2 行まで）。省くといつもの形 */
+    layout: z.enum(["large"]).optional(),
+    photo,
+    caption: richText,
+    /** 本文。layout: large のときは書かない */
+    body: paragraphs.optional(),
+  })
+  .superRefine((story, ctx) => {
+    if (story.layout !== "large" && !story.body) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["body"], message: "本文（body）を書いてください" });
+    }
+  });
 
 /** 連載コラム：白抜きの帯見出し＋本文 */
 /** 見出しなしの本文（4 段目右に 2 本並べる。連載コラムを上下 2 本にするときにも使う） */

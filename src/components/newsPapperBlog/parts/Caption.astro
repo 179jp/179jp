@@ -1,5 +1,5 @@
 ---
-// 写真のキャプション。段の下端にそろえる
+// 写真のキャプション。段の下端にそろえる。below は写真の下に横書きで置く（2 行まで。超えたら本文と同じく赤枠）
 import Text from "./Text.astro";
 import type { Area, RichText } from "../types";
 import { place } from "../utils";
@@ -7,15 +7,16 @@ import { place } from "../utils";
 interface Props {
   area: Area;
   text: RichText;
+  variant?: "side" | "below";
   /** エディター用。YAML での場所（例 "top.lead"） */
   edit?: string;
 }
 
-const { area, text, edit } = Astro.props;
+const { area, text, variant = "side", edit } = Astro.props;
 ---
 
-<p class="np-cell caption" style={place(area)}
-  data-edit={edit}>
+<p class:list={["np-cell", "caption", variant]} style={place(area)}
+  data-edit={edit} data-np-body={variant === "below" ? "キャプションが 2 行に入りきっていません" : undefined}>
   <Text text={text} />
 </p>
 
@@ -27,5 +28,16 @@ const { area, text, edit } = Astro.props;
     font-size: var(--np-fs-xs);
     line-height: 1;
     color: var(--np-color-ink-soft);
+  }
+  /* 写真の下に横書き。高さは 2 行ぶん（PhotoStory の CAPTION_BELOW と合わせる） */
+  /* Grid の .np-cell（縦書き）より強くする */
+  .caption.below {
+    justify-self: stretch;
+    direction: ltr;
+    writing-mode: horizontal-tb;
+    height: calc(2 * 1.5em);
+    overflow: hidden;
+    line-height: 1.5;
+    text-align: start;
   }
 </style>
